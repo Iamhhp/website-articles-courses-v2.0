@@ -138,6 +138,20 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+
+    .date {
+      display: flex;
+      flex-flow: row-reverse nowrap;
+
+      .time {
+        width: 60px;
+        text-align: left;
+      }
+
+      .day {
+        padding-right: 4px;
+      }
+    }
   }
 
   .sec-l {
