@@ -1,5 +1,5 @@
 @media screen and (max-width: 900px) {
-  .container-header {
+  .row-header {
     .sec-r ul {
       display: none !important;
     }
@@ -11,6 +11,11 @@
 }
 
 .container-header {
+  position: sticky;
+  top: 0px;
+}
+
+.row-header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -82,7 +87,7 @@
 
     ul li:hover > a::after {
       width: 100%;
-      transition-delay: 0.2s;
+      transition-delay: 0.3s;
       background-color: orangered;
     }
 
@@ -117,6 +122,12 @@
       position: relative;
     }
 
+    ul li.drop-down-menu a.main-menu {
+      position: relative;
+      z-index: 1;
+      background-color: #00a9ff;
+    }
+
     ul li.drop-down-menu a.main-menu .icon {
       margin-right: 5px;
       transition: all 0.5s;
@@ -133,10 +144,12 @@
       position: absolute;
       top: 0px;
       left: 0px;
-      z-index: -1;
+      z-index: 0;
+      opacity: 0;
 
       border: 1px solid black;
       border-radius: 3px;
+
       transition: all 0.5s;
       transition-delay: 0.2s;
       background-color: #00a9ff;
@@ -151,6 +164,7 @@
 
     ul li.drop-down-menu:hover .sub-menu {
       top: 55px;
+      opacity: 1;
 
       a:hover {
         color: orangered;
@@ -170,6 +184,7 @@
     padding: 7px 2px;
 
     position: absolute;
+    top: 8px;
     left: 50%;
     transform: translateX(-50%);
 
