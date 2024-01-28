@@ -33,9 +33,7 @@ const Header = () => {
   const itemsHeaderMenu = (
     <ul>
       <li>
-        <NavLink to='/Home' className='active'>
-          خانه
-        </NavLink>
+        <NavLink to='/Home'>خانه</NavLink>
       </li>
 
       <li>
