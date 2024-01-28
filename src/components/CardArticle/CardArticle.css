@@ -1,0 +1,95 @@
+.card-article {
+  width: 270px;
+
+  border: 1px solid #00a9ff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 1px #00a9ff;
+  overflow: hidden;
+  margin: 0px 20px 20px 0px;
+
+  transition: all 0.3s;
+  img {
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  .title {
+    font-family: 'Lalezar', sans-serif, serif;
+    font-size: 20px;
+
+    padding: 10px 5px 0px 0px;
+  }
+
+  .desc {
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    text-align: justify;
+
+    padding: 0px 10px;
+  }
+
+  .btn-continue {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+
+    padding: 5px;
+    margin: 7px 5px;
+
+    font-family: 'Lalezar', sans-serif, serif;
+    text-decoration: none;
+    color: black;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-continue::after {
+    content: '';
+    display: inline-block;
+    width: 200%;
+    height: 100%;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+  }
+
+  .btn-continue:hover::after {
+    animation: colorFul 1s linear 0s infinite normal;
+    background: repeating-linear-gradient(to right, blue, red, green, #00ffff, blue 50%);
+  }
+
+  .footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: 'Lalezar', sans-serif, serif;
+
+    border-top: 1px solid black;
+    padding: 10px 5px;
+
+    .reading-time {
+      font-family: 'Yekan', sans-serif, serif;
+      font-weight: 700;
+
+      .icon {
+        font-size: 20px;
+        margin-right: 2px;
+      }
+    }
+  }
+}
+
+.card-article:hover {
+  transform: translateY(-10px);
+}
+
+@keyframes colorFul {
+  to {
+    transform: translateX(-50%);
+  }
+}
