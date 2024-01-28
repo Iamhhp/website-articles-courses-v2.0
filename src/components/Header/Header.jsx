@@ -3,10 +3,14 @@ import { Col, Row, Container } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
 import { SlBasket } from 'react-icons/sl';
 import { FaChevronUp } from 'react-icons/fa';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import persianDate from 'persian-date';
 
 const Header = () => {
+  useEffect(() => {
+    console.log('Header reRender!');
+  });
+
   const elementDate = useRef(null);
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -27,7 +31,7 @@ const Header = () => {
   return (
     <Container fluid>
       <Row className='container-header'>
-        <Col className='sec-r'>
+        <Col className='sec-r col-auto'>
           <ul>
             <li>
               <NavLink to='/Home' className='active'>
@@ -56,7 +60,7 @@ const Header = () => {
           </ul>
         </Col>
 
-        <Col className='sec-m'>
+        <Col className='sec-m col-auto'>
           <div className='lbl-website'>وب سایت سایت آموزشی پژوهشی</div>
           <div className='date' ref={elementDate}>
             <div className='day'>شنبه</div>
@@ -64,7 +68,7 @@ const Header = () => {
           </div>
         </Col>
 
-        <Col className='sec-l'>
+        <Col className='sec-l col-auto'>
           <button className='btn-login'>ورود</button>
           <button className='btn-basket'>
             <SlBasket className='icon' />
@@ -74,4 +78,4 @@ const Header = () => {
     </Container>
   );
 };
-export default Header;
+export default memo(Header);
