@@ -8,6 +8,11 @@
   }
 
   .sec-l {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
     .title-hero {
       font-family: 'Lalezar', sans-serif, serif;
       font-size: 35px;
@@ -41,8 +46,6 @@
 
     .btn-start-learn {
       width: fit-content;
-      margin: auto;
-
       font-family: 'Lalezar', sans-serif, serif;
       font-size: 40px;
       color: white;
