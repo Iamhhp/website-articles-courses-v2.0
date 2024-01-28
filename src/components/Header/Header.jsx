@@ -66,8 +66,8 @@ const Header = () => {
     <>
       {isShowMenu && <OffCanVas title={'منو اصلی'} itemsMenu={itemsHeaderMenu} stateShowMenu={{ isShowMenu, setIsShowMenu }} />}
 
-      <Container fluid>
-        <Row className='container-header'>
+      <Container fluid className='container-header'>
+        <Row className='row-header'>
           <Col className='sec-r col-auto'>
             {itemsHeaderMenu} <AiOutlineMenuFold className='icon-OffCanVas' onClick={iconOffMenuClickHandler} />
           </Col>
