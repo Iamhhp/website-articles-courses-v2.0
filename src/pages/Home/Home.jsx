@@ -17,6 +17,7 @@ const Home = () => {
   return (
     <>
       <Hero />
+
       <Container className='container-home'>
         <Swiper
           slidesPerView={1}
@@ -92,6 +93,13 @@ const Home = () => {
           )}
         </Swiper>
       </Container>
+
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'>
+        <path
+          fill='#00a9ff'
+          d='M0 32l26.7 42.7C53.3 117 107 203 160 218.7c53.3 16.3 107-37.7 160-48 53.3-10.7 107 21.3 160 42.6 53.3 21.7 107 31.7 160 16C693.3 213 747 171 800 144c53.3-27 107-37 160-26.7 53.3 10.7 107 42.7 160 48 53.3 5.7 107-16.3 160 5.4 53.3 21.3 107 85.3 133 117.3l27 32H0z'
+        ></path>
+      </svg>
     </>
   );
 };
