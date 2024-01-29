@@ -1,4 +1,18 @@
-.container-home {
-  margin: 0px;
-  padding: 0px;
+.container-slider {
+  display: flex !important;
+  flex-flow: column-reverse nowrap;
+}
+
+.header-new-articles {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 5px;
+
+  .title {
+    font-family: 'Lalezar', sans-serif, serif;
+    font-size: 30px;
+  }
 }

@@ -1,0 +1,29 @@
+.container-no-response {
+  display: flex;
+  min-height: 75vh;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 35px;
+    text-align: center;
+  }
+
+  .icon {
+    margin-left: 5px;
+  }
+
+  .desc {
+    font-family: sans-serif, serif;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    color: gray;
+  }
+}
