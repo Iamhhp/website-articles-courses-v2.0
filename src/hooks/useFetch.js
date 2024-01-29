@@ -10,11 +10,12 @@ const useFetch = (url) => {
         if (response.status === 200) {
           response.json().then((json) => {
             setData([...json]);
+            setIsPending(false);
           });
         } else {
           setData({ responseStatus: `${response.statusText} ${response.status}` });
+          setIsPending(false);
         }
-        setIsPending(false);
       })
       .catch((err) => {
         setData({ responseStatus: 'Failed to Receive Data!' });
