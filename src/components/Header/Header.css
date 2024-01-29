@@ -13,7 +13,7 @@
 .container-header {
   position: sticky;
   top: 0px;
-  z-index: 1;
+  z-index: 2;
 }
 
 .row-header {
@@ -59,6 +59,7 @@
       padding: 5px 15px;
 
       position: relative;
+      transition: all 0.5s;
     }
 
     ul li:hover > a {
@@ -131,11 +132,12 @@
 
     ul li.drop-down-menu a.main-menu .icon {
       margin-right: 5px;
-      transition: all 0.5s;
+      transition: all 0.3s;
     }
 
     ul li.drop-down-menu:hover a.main-menu .icon {
       transform: rotate(180deg);
+      color: orangered;
     }
 
     ul li.drop-down-menu .sub-menu {
