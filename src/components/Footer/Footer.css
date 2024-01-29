@@ -1,0 +1,34 @@
+.container-footer {
+  margin: 0px;
+  background-color: #00a9ff;
+
+  .sec-r {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    h4 {
+      font-family: 'Yekan', sans-serif, serif;
+      font-size: 18px;
+      font-weight: 700;
+
+      margin: 0px;
+    }
+
+    p {
+      font-family: 'Yekan', sans-serif, serif;
+      font-size: 15px;
+      font-weight: 700;
+
+      margin: 0px;
+    }
+  }
+
+  .sec-l {
+    img {
+      display: block;
+      margin-right: auto;
+      padding: 10px;
+    }
+  }
+}
