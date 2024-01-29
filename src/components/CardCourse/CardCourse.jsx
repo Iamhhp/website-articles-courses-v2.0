@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { GiDuration } from 'react-icons/gi';
 import { FaChalkboardTeacher, FaRegQuestionCircle } from 'react-icons/fa';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
 
 const CardCourse = ({ id, studentCount, image, title, description, teacher, duration, off, mainPrice }) => {
@@ -53,4 +53,4 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
     </div>
   );
 };
-export default CardCourse;
+export default memo(CardCourse);
