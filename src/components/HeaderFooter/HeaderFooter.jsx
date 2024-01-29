@@ -5,11 +5,13 @@ import Footer from '../Footer/Footer';
 
 const HeaderFooter = () => {
   return (
-    <div className='container-headerFooter'>
+    <>
       <Header />
-      <Outlet />
-      {/* <Footer /> */}
-    </div>
+      <div className='container-headerFooter'>
+        <Outlet />
+      </div>
+      <Footer />
+    </>
   );
 };
 export default HeaderFooter;
