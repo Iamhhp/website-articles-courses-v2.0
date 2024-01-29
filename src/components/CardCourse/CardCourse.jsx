@@ -11,14 +11,11 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
     console.log('CardCourse reRender!');
   });
 
-  const formattingPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
-
   return (
     <div className='card-course'>
       <div className='image'>
         <img src={image} alt='' />
+
         <div className='student-count'>
           {studentCount}
           <div className='q-mark'>
@@ -26,9 +23,13 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
           </div>
           <PiStudentFill className='icon-student' />
         </div>
+
+        {off && <div className='lbl-off'>{off}%</div>}
       </div>
 
-      <div className='title'>{title}</div>
+      <div className='title'>
+        {title}-{id}
+      </div>
       <div className='desc'>{description}</div>
 
       <div className='details-course'>
@@ -45,12 +46,31 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
 
       <div className='footer'>
         <Link className='btn-buy'>ثبت نام</Link>
-        <div className='price'>
-          {off ? formattingPrice((off / 100) * mainPrice) : formattingPrice(mainPrice)}
-          <RiMoneyDollarCircleFill className='icon' />
-        </div>
+        <RendingPrice {...{ off, mainPrice }} />
       </div>
     </div>
   );
 };
 export default memo(CardCourse);
+
+const RendingPrice = ({ off, mainPrice }) => {
+  const formattingPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  return (
+    <div className='price'>
+      {off ? (
+        <div className='off-price'>
+          <div className='off'>{formattingPrice((off / 100) * mainPrice)}</div>
+          <div className='main'>{formattingPrice(mainPrice)}</div>
+        </div>
+      ) : (
+        <>
+          <div className='main-price'>{formattingPrice(mainPrice)}</div>
+        </>
+      )}
+      <RiMoneyDollarCircleFill className='icon' />
+    </div>
+  );
+};
