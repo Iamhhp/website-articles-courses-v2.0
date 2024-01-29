@@ -64,7 +64,7 @@ const Home = () => {
           className='container-slider'
         >
           <div className='header-new-articles'>
-            <div className='title'>جدیدترین مقالات</div>
+            <div className='title'>جدیدترین دوره ها</div>
 
             <div className='btn-swiper'>
               <BtnSwiper />
