@@ -39,7 +39,9 @@ const Home = () => {
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
           ) : dataArticle.responseStatus ? (
-            <NoResponse responseState={dataArticle.responseState} />
+            <SwiperSlide>
+              <NoResponse responseState={dataArticle.responseState} />
+            </SwiperSlide>
           ) : (
             dataArticle
               .filter((article, i) => i >= dataArticle.length - 6)
@@ -74,7 +76,9 @@ const Home = () => {
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
           ) : dataCourse.responseStatus ? (
-            <NoResponse responseState={dataCourse.responseState} />
+            <SwiperSlide>
+              <NoResponse responseState={dataCourse.responseState} />
+            </SwiperSlide>
           ) : (
             dataCourse
               .filter((course, i) => i >= dataCourse.length - 6)
