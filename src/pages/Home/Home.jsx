@@ -1,14 +1,14 @@
 import './Home.css';
-import { Container } from 'react-bootstrap';
-import Hero from '../../components/Hero/Hero';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 import useFetch from '../../hooks/useFetch';
+import Hero from '../../components/Hero/Hero';
 import CardArticle from '../../components/CardArticle/CardArticle';
 import CardCourse from '../../components/CardCourse/CardCourse';
+import NoResponse from '../NoResponse/NoResponse';
+import { Container } from 'react-bootstrap';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import BtnSwiper from '../../components/BtnSwiper/BtnSwiper';
-import NoResponse from '../NoResponse/NoResponse';
 
 const Home = () => {
   const [dataArticle, isPendingArticle] = useFetch('https://dbserver.liara.run/articles');

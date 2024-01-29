@@ -1,6 +1,11 @@
 .container-slider {
   display: flex !important;
   flex-flow: column-reverse nowrap;
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .header-new-articles {
