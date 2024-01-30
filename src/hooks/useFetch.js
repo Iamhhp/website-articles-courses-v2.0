@@ -9,7 +9,7 @@ const useFetch = (url) => {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((json) => {
-            setData([...json]);
+            setData(json);
             setIsPending(false);
           });
         } else {

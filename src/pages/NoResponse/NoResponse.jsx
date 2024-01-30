@@ -9,7 +9,7 @@ const NoResponse = ({ responseState }) => {
         <VscDebugDisconnect className='icon' />
         اطلاعاتی دریافت نشد!
       </div>
-      <div className='desc'>{responseState}</div>
+      <div className='description'>{responseState}</div>
     </Container>
   );
 };
