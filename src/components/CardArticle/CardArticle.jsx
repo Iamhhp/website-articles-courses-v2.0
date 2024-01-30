@@ -10,8 +10,10 @@ const CardArticle = ({ id, image, title, description, writer, readingTime }) => 
       <div className='title'>
         {title}-{id}
       </div>
-      <div className='desc'>{description}. </div>
-      <Link className='btn-continue'>ادامه مقاله</Link>
+      <div className='desc'>{description}. </div>{' '}
+      <Link to={`/Article/${id}`} className='btn-continue'>
+        ادامه مقاله
+      </Link>
       <div className='footer'>
         <div className='writer'>نویسنده : {writer}</div>
         <div className='reading-time'>
