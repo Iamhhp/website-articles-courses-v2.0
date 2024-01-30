@@ -1,0 +1,63 @@
+.container-hero {
+  padding-top: 20px;
+  background-color: #00a9ff;
+
+  .sec-r img {
+    width: 100%;
+    margin: 20px 0px;
+  }
+
+  .sec-l {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    .title-hero {
+      font-family: 'Lalezar', sans-serif, serif;
+      font-size: 35px;
+      text-align: center;
+      color: white;
+
+      padding-bottom: 30px;
+    }
+
+    .container-heroBox {
+      width: 150px;
+      height: 80px;
+
+      font-family: 'Lalezar', sans-serif, serif;
+      font-size: 18px;
+      text-align: center;
+
+      padding: 15px 0px;
+      margin: 0px auto 40px;
+      border-radius: 86% 14% 20% 80% / 18% 20% 80% 82%;
+      background-color: white;
+
+      .title {
+        padding-left: 10px;
+        .icon {
+          font-size: 25px;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .btn-start-learn {
+      width: fit-content;
+      font-family: 'Lalezar', sans-serif, serif;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+
+      .icon {
+        transform: scale(-1);
+      }
+    }
+
+    .btn-start-learn:hover {
+      color: orangered;
+    }
+  }
+}

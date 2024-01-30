@@ -1,0 +1,251 @@
+@media screen and (max-width: 900px) {
+  .row-header {
+    .sec-r ul {
+      display: none !important;
+    }
+
+    .sec-r .icon-OffCanVas {
+      display: inline-block !important;
+    }
+  }
+}
+
+.container-header {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+}
+
+.row-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  font-family: 'Lalezar', sans-serif, serif;
+  font-size: 18px;
+  color: white;
+
+  padding: 5px 0px;
+  border-bottom: 1px solid white;
+  background-color: #00a9ff;
+
+  position: relative;
+
+  .sec-r {
+    .icon-OffCanVas {
+      display: none;
+      font-size: 30px;
+      margin-top: 3px;
+    }
+
+    ul {
+      display: flex;
+      height: 100%;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    ul li {
+      list-style-type: none;
+    }
+
+    ul li > a {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      padding: 5px 15px;
+
+      position: relative;
+      transition: all 0.5s;
+    }
+
+    ul li:hover > a {
+      color: orangered;
+    }
+
+    /* pseudo-element-after => underLine-01 */
+    ul li > a::after {
+      content: '';
+      display: inline-block;
+      width: 0px;
+      height: 2px;
+
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      transition: all 0.5s ease-in-out;
+      background-color: orangered;
+    }
+
+    ul li > a.active::after {
+      width: 100%;
+      background-color: white;
+    }
+
+    ul li:hover > a::after {
+      width: 100%;
+      transition-delay: 0.3s;
+      background-color: orangered;
+    }
+
+    /* pseudo-element-before => underLine-02 */
+    ul li > a::before {
+      content: '';
+      display: inline-block;
+      width: 0px;
+      height: 2px;
+
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      transition: all 0.5s ease-in-out;
+      background-color: orangered;
+    }
+
+    ul li > a.active::before {
+      width: 100%;
+      background-color: white;
+    }
+
+    ul li:hover > a::before {
+      width: 100%;
+      background-color: orangered;
+    }
+
+    /* DropDown Menu /////////////////////////////////////////////////////////////////////////////////// */
+    ul li.drop-down-menu {
+      position: relative;
+    }
+
+    ul li.drop-down-menu a.main-menu {
+      position: relative;
+      z-index: 1;
+      background-color: #00a9ff;
+    }
+
+    ul li.drop-down-menu a.main-menu .icon {
+      margin-right: 5px;
+      transition: all 0.3s;
+    }
+
+    ul li.drop-down-menu:hover a.main-menu .icon {
+      transform: rotate(180deg);
+      color: orangered;
+    }
+
+    ul li.drop-down-menu .sub-menu {
+      width: 100%;
+      padding: 5px;
+
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 0;
+      opacity: 0;
+
+      border: 1px solid black;
+      border-radius: 3px;
+
+      transition: all 0.5s;
+      transition-delay: 0.2s;
+      background-color: #00a9ff;
+    }
+
+    ul li.drop-down-menu .sub-menu a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      color: white;
+    }
+
+    ul li.drop-down-menu:hover .sub-menu {
+      top: 55px;
+      opacity: 1;
+
+      a:hover {
+        color: orangered;
+      }
+    }
+    /* End Drop Down Menu /////////////////////////////////////////////////////////////////////////// */
+  }
+
+  .sec-m {
+    display: flex;
+    width: fit-content;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 15px;
+    padding: 7px 2px;
+
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #00a9ff;
+
+    box-shadow: 0px 0px 3px 1px white;
+
+    .date {
+      display: flex;
+      flex-flow: row-reverse nowrap;
+
+      .time {
+        width: 45px;
+        text-align: left;
+      }
+
+      .day {
+        padding-right: 4px;
+      }
+    }
+  }
+
+  .sec-l {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    direction: ltr;
+
+    button {
+      all: unset;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin-right: 10px;
+      cursor: pointer;
+
+      transition: all 0.3s;
+    }
+
+    .btn-login {
+      color: green;
+    }
+
+    .btn-login:hover {
+      color: white;
+      background-color: green;
+    }
+
+    .btn-basket {
+      color: orangered;
+    }
+
+    .btn-basket:hover {
+      color: white;
+      background-color: orangered;
+    }
+  }
+}

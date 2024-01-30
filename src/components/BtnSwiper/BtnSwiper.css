@@ -1,0 +1,34 @@
+.container-btns-swiper {
+  display: flex;
+  width: fit-content;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    all: unset;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #00a9ff;
+    border-radius: 50%;
+    margin-right: 2px;
+    overflow: hidden;
+
+    .icon {
+      font-size: 35px;
+      color: white;
+      background-color: #00a9ff;
+    }
+  }
+
+  button:hover {
+    .icon {
+      color: #00a9ff;
+      background-color: white;
+    }
+  }
+}

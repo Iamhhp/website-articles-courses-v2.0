@@ -1,0 +1,23 @@
+.container-slider {
+  display: flex !important;
+  flex-flow: column-reverse nowrap;
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.header-new-articles {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 5px;
+
+  .title {
+    font-family: 'Lalezar', sans-serif, serif;
+    font-size: 30px;
+  }
+}

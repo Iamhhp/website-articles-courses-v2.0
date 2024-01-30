@@ -1,0 +1,268 @@
+.card-course {
+  width: 270px;
+
+  border: 1px solid #00a9ff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px 1px #00a9ff;
+
+  margin: 0px 20px 20px 0px;
+  transition: all 0.5s;
+
+  .image {
+    position: relative;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .student-count {
+      display: flex;
+      width: fit-content;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      font-family: 'Yekan', sans-serif, serif;
+      font-weight: 700;
+      font-size: 15px;
+
+      padding: 0px 3px;
+      border-radius: 0px 5px 5px 0px;
+
+      position: absolute;
+      top: 15px;
+      left: 0px;
+
+      background-color: orangered;
+
+      .icon-student {
+        margin-right: 4px;
+      }
+
+      .q-mark {
+        position: absolute;
+        top: -4px;
+        right: -22px;
+        font-size: 18px;
+
+        .icon {
+          cursor: pointer;
+
+          overflow: hidden;
+          border-radius: 50%;
+          animation: blink 1s 0s infinite none;
+          animation-timing-function: steps(0, 100);
+        }
+      }
+
+      .q-mark::after {
+        display: inline-block;
+        content: 'تعداد دانشجوها';
+        width: max-content;
+
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 10px;
+
+        padding: 10px 5px 2px;
+        border-radius: 5px;
+        background-color: orangered;
+        clip-path: polygon(40% 25%, 50% 0, 60% 25%, 100% 25%, 100% 100%, 0 100%, 0 25%);
+
+        transition: all 0.5s;
+        transform: translateX(-80px);
+        opacity: 0;
+      }
+
+      .q-mark:hover::after {
+        opacity: 1;
+        transform: translate(-50%, 0px);
+      }
+    }
+
+    .lbl-off {
+      width: 70px;
+      height: 70px;
+      text-align: center;
+      line-height: 70px;
+      padding: 5px 0px 0px 5px;
+
+      position: absolute;
+      top: -20px;
+      right: -20px;
+
+      clip-path: polygon(
+        30.5% 11.37%,
+        50.65% 27.39%,
+        71.47% 11.37%,
+        69.27% 33.69%,
+        89.67% 33.69%,
+        80.9% 51.07%,
+        100% 64.13%,
+        80.9% 67.85%,
+        87.16% 100%,
+        64.33% 75.54%,
+        47.75% 100%,
+        42.63% 79.07%,
+        19.1% 100%,
+        30.5% 67.85%,
+        0% 67.85%,
+        15.98% 55.22%,
+        25.32% 47.62%,
+        4.96% 31.98%,
+        30.9% 31.18%,
+        30.9% 31.18%
+      );
+
+      background-color: red;
+    }
+  }
+
+  .title {
+    font-family: 'Lalezar', sans-serif, serif;
+    font-size: 20px;
+    padding: 10px 5px 0px 0px;
+  }
+
+  .desc {
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    text-align: justify;
+
+    padding: 5px 10px 0px;
+  }
+
+  .details-course {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0px;
+
+    .teacher {
+      font-family: 'Lalezar', sans-serif, serif;
+      padding: 10px 5px 0px 0px;
+
+      .icon {
+        font-size: 25px;
+        margin-left: 2px;
+      }
+    }
+
+    .duration {
+      font-family: 'Yekan', sans-serif, serif;
+      font-weight: 700;
+      font-size: 19px;
+
+      .icon {
+        font-size: 25px;
+        margin: 0px 3px;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 5px;
+    padding: 5px;
+    border-top: 1px solid black;
+
+    .btn-buy {
+      font-family: 'Lalezar', sans-serif, serif;
+      text-decoration: none;
+      color: black;
+
+      padding: 5px 20px;
+      border: 1px solid black;
+      border-radius: 5px;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-buy::after {
+      content: '';
+      width: 200%;
+      height: 100%;
+
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: -1;
+    }
+
+    .btn-buy:hover::after {
+      animation: colorFul 1s linear 0s infinite normal;
+      background: repeating-linear-gradient(to right, red, blue, green, #00ffff, red 50%);
+    }
+
+    .price {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      font-family: 'Yekan', sans-serif, serif;
+      font-weight: 700;
+      font-size: 18px;
+
+      .off-price {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        font-family: inherit;
+        padding: 0px 3px;
+
+        .main {
+          font-family: inherit;
+          font-size: 12px;
+          text-decoration: line-through solid black;
+        }
+
+        .off {
+          font-family: inherit;
+        }
+      }
+
+      .main-price {
+        font-family: inherit;
+      }
+
+      .icon {
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+.card-course:hover {
+  transform: translateY(-10px);
+}
+
+@keyframes colorFul {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes blink {
+  50% {
+    color: orangered;
+    background-color: black;
+  }
+
+  100% {
+    color: inherit;
+    background-color: orangered;
+  }
+}
