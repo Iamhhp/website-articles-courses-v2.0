@@ -1,0 +1,77 @@
+.container-edit-create {
+  padding: 20px 0px;
+  form {
+    display: flex;
+    width: 60%;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    margin: auto;
+
+    .container-input {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+
+      input {
+        width: 95%;
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+
+        padding: 5px;
+        margin-bottom: 7px;
+        outline: none;
+        border: 2px solid black;
+        border-radius: 3px;
+        box-shadow: 0px 0px 3px 1px black;
+      }
+
+      textarea {
+        width: 95%;
+        min-height: 80px;
+        resize: vertical;
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+
+        padding: 2px 5px;
+        outline: none;
+        border: 2px solid black;
+        border-radius: 3px;
+        box-shadow: 0px 0px 3px 1px black;
+      }
+
+      .icon {
+        font-size: 30px;
+        margin-right: 2px;
+        cursor: pointer;
+        transition: all 0.5s;
+      }
+
+      .icon:active {
+        transform: rotate(720deg);
+      }
+    }
+
+    button {
+      all: unset;
+      width: 95%;
+      box-sizing: border-box;
+      text-align: center;
+
+      padding: 7px 0px;
+      margin-top: 20px;
+      border: 2px solid black;
+      border-radius: 3px;
+      box-shadow: 0px 0px 3px 1px black;
+    }
+
+    button:hover {
+      color: white;
+      background-color: black;
+      box-shadow: 0px 0px 10px 1px black;
+    }
+  }
+}
