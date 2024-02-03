@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import NoResponse from '../NoResponse/NoResponse';
 import { useEffect } from 'react';
+import Loading from '../../components/Loading/Loading';
 
 const Article = () => {
   useEffect(() => {
@@ -109,7 +110,7 @@ const Article = () => {
     <Container className='container-article'>
       <Row>
         {isPending ? (
-          <h1>در حال بارگذاری...</h1>
+          <Loading />
         ) : responseStatus ? (
           <NoResponse responseState={responseStatus} />
         ) : (
