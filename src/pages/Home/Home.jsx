@@ -60,7 +60,7 @@ const Home = () => {
           slidesPerView={1}
           spaceBetween={100}
           breakpoints={{ 768: { slidesPerView: 1 }, 992: { slidesPerView: 2 }, 1200: { slidesPerView: 3 }, 1400: { slidesPerView: 4 } }}
-          autoplay={{ disableOnInteraction: false, pauseOnMouseEnter: true, delay: 2000 }}
+          autoplay={{ disableOnInteraction: false, pauseOnMouseEnter: true, delay: 2500 }}
           modules={[Autoplay]}
           className='container-slider'
         >
