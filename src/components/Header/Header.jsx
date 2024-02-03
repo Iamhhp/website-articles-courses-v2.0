@@ -47,7 +47,7 @@ const Header = () => {
         </NavLink>
 
         <div className={'sub-menu'}>
-          <Link to={''}>ایجاد مقاله</Link>
+          <Link to={'/Article/Create/0'}>ایجاد مقاله</Link>
         </div>
       </li>
 
