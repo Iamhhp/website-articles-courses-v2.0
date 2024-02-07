@@ -4,9 +4,9 @@ import useFetch from '../../hooks/useFetch';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import NoResponse from '../NoResponse/NoResponse';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading/Loading';
+import NoResponse from '../../components/NoResponse/NoResponse';
 
 const Article = () => {
   useEffect(() => {

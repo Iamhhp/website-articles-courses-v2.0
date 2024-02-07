@@ -8,7 +8,7 @@ import CardArticle from '../../components/CardArticle/CardArticle';
 import ReactPaginate from 'react-paginate';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 import Loading from '../../components/Loading/Loading';
-import NoResponse from '../NoResponse/NoResponse';
+import NoResponse from '../../components/NoResponse/NoResponse';
 
 const Articles = () => {
   useEffect(() => {
