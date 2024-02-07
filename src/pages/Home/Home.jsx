@@ -15,6 +15,10 @@ const Home = () => {
   const [dataArticle, isPendingArticle] = useFetch('https://dbserver.liara.run/articles');
   const [dataCourse, isPendingCourse] = useFetch('https://dbserver.liara.run/courses');
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <>
       <Hero />

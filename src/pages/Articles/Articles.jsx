@@ -13,6 +13,7 @@ import NoResponse from '../NoResponse/NoResponse';
 const Articles = () => {
   useEffect(() => {
     console.log('Page Articles reRender!');
+    window.scrollTo(0, 0);
   });
 
   const containerCardArticles = useRef(null);
