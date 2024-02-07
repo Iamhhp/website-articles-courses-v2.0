@@ -11,6 +11,7 @@ import NoResponse from '../../components/NoResponse/NoResponse';
 const Article = () => {
   useEffect(() => {
     console.log('show Article reRender!');
+    window.scrollTo(0, 0);
   });
 
   const { idArticle } = useParams();
