@@ -14,7 +14,12 @@ const Article = () => {
   });
 
   const { idArticle } = useParams();
-  const [{ id, image, title, writer, category, readingTime, responseStatus }, isPending] = useFetch(`https://dbserver.liara.run/articles/${idArticle}`);
+  const [
+    {
+      response: { id, image, title, writer, category, readingTime, responseStatus },
+    },
+    isPending,
+  ] = useFetch(`https://dbserver.liara.run/articles/${idArticle}`);
   const navigate = useNavigate();
 
   const clickHandlerBtnDel = () => {
