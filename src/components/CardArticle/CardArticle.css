@@ -1,5 +1,6 @@
 .card-article {
   width: 270px;
+  flex-shrink: 0;
 
   border: 1px solid #00a9ff;
   border-radius: 15px;
