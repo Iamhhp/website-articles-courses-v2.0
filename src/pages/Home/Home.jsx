@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import BtnSwiper from '../../components/BtnSwiper/BtnSwiper';
+import { useEffect } from 'react';
 
 const Home = () => {
   const [dataArticle, isPendingArticle] = useFetch('https://dbserver.liara.run/articles');
@@ -39,13 +40,13 @@ const Home = () => {
             <SwiperSlide>
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
-          ) : dataArticle.responseStatus ? (
+          ) : dataArticle.responseStatus !== 'receivedData!' ? (
             <SwiperSlide>
-              <NoResponse responseState={dataArticle.responseState} />
+              <NoResponse responseState={dataArticle.responseStatus} />
             </SwiperSlide>
           ) : (
-            dataArticle
-              .filter((article, i) => i >= dataArticle.length - 6)
+            dataArticle.response
+              .filter((article, i) => i >= dataArticle.response.length - 6)
               .map((article) => {
                 return (
                   <SwiperSlide key={article.id}>
@@ -76,13 +77,13 @@ const Home = () => {
             <SwiperSlide>
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
-          ) : dataCourse.responseStatus ? (
+          ) : dataCourse.responseStatus !== 'receivedData!' ? (
             <SwiperSlide>
-              <NoResponse responseState={dataCourse.responseState} />
+              <NoResponse responseState={dataCourse.responseStatus} />
             </SwiperSlide>
           ) : (
-            dataCourse
-              .filter((course, i) => i >= dataCourse.length - 6)
+            dataCourse.response
+              .filter((course, i) => i >= dataCourse.response.length - 6)
               .map((course) => {
                 return (
                   <SwiperSlide key={course.id}>
