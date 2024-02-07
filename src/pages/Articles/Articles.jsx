@@ -7,6 +7,8 @@ import useArticlesReducer, { ACTION_TYPE } from '../../hooks/useArticlesReducer'
 import CardArticle from '../../components/CardArticle/CardArticle';
 import ReactPaginate from 'react-paginate';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
+import Loading from '../../components/Loading/Loading';
+import NoResponse from '../NoResponse/NoResponse';
 
 const Articles = () => {
   useEffect(() => {
@@ -18,7 +20,11 @@ const Articles = () => {
   const [dataFetchArticles, isPending] = useFetch('https://dbserver.liara.run/articles');
   const { stateDataArticles, changeStateDataArticles } = useArticlesReducer();
   useEffect(() => {
-    changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles]);
+    if (dataFetchArticles.responseStatus === 'receivedData!') {
+      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
+    } else {
+      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, []);
+    }
   }, [dataFetchArticles]);
 
   // Search Options Accordion ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +34,7 @@ const Articles = () => {
     const optionSearch = boxSearch.children[1];
 
     const dataArticles = { search: [] };
-    dataArticles.search = dataFetchArticles.filter((article) => article[optionSearch.value].includes(inputSearch.value));
+    dataArticles.search = dataFetchArticles.response.filter((article) => article[optionSearch.value].includes(inputSearch.value));
 
     optionSorting.current = 'newest';
     optionsFiltering.current = { writers: [], categories: [] };
@@ -266,16 +272,24 @@ const Articles = () => {
             </div>
           </Col>
 
-          <Col className='col-12 col-sm-8 col-md-9 col-lg-10'>
+          <Col className='col-12 col-sm-8 col-md-9 col-lg-10' style={{ overflow: 'hidden' }}>
             <div className='container-cardArticle' ref={containerCardArticles}>
               <Row className='row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3'>
-                {stateDataArticles.pagination.map((article) => {
-                  return (
-                    <Col key={article.id}>
-                      <CardArticle {...article} />
-                    </Col>
-                  );
-                })}
+                {isPending ? (
+                  <Loading />
+                ) : dataFetchArticles.responseStatus !== 'receivedData!' ? (
+                  <NoResponse responseState={dataFetchArticles.responseStatus} />
+                ) : !stateDataArticles.pagination.length ? (
+                  <b>موردی یافت نشد!</b>
+                ) : (
+                  stateDataArticles.pagination.map((article) => {
+                    return (
+                      <Col key={article.id}>
+                        <CardArticle {...article} />
+                      </Col>
+                    );
+                  })
+                )}
               </Row>
 
               {reloadPaginate && (
