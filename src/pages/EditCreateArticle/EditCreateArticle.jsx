@@ -29,12 +29,12 @@ const EditCreateArticle = () => {
   // Replacing data in inputs //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     if (editCreate === 'Edit') {
-      form.current.elements[0].value = dataArticle.image;
-      form.current.elements[1].value = dataArticle.title;
-      form.current.elements[2].value = dataArticle.description;
-      form.current.elements[3].value = dataArticle.writer;
-      form.current.elements[4].value = dataArticle.category;
-      form.current.elements[5].value = dataArticle.readingTime;
+      form.current.elements[0].value = dataArticle.response.image;
+      form.current.elements[1].value = dataArticle.response.title;
+      form.current.elements[2].value = dataArticle.response.description;
+      form.current.elements[3].value = dataArticle.response.writer;
+      form.current.elements[4].value = dataArticle.response.category;
+      form.current.elements[5].value = dataArticle.response.readingTime;
     }
   }, [isPending]);
 
@@ -150,6 +150,9 @@ const EditCreateArticle = () => {
       });
   };
 
+  const reloadHandler = (id) => {
+    form.current.elements[id].value = dataArticle.response[id];
+  };
   // Create Article ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const createArticleHandler = () => {
     fetch('https://dbserver.liara.run/articles', {
@@ -210,10 +213,6 @@ const EditCreateArticle = () => {
           }
         });
       });
-  };
-
-  const reloadHandler = (id) => {
-    form.current.elements[id].value = dataArticle[id];
   };
 
   return (
