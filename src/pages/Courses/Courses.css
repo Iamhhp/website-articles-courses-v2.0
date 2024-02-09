@@ -1,0 +1,139 @@
+.courses {
+  padding: 0px;
+
+  .header-fluid {
+    position: sticky;
+    top: 50px;
+    left: 0px;
+    z-index: 1;
+
+    padding: 15px 0px 10px;
+    border-bottom: 1px solid #00a9ff;
+    box-shadow: 0px 0px 3px 1px #00a9ff;
+    background-color: white;
+
+    .header {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 35px;
+      }
+
+      .search-box {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+
+        input[id='input-search'] {
+          font-family: 'Yekan', sans-serif, serif;
+          font-weight: 700;
+          font-size: 18px;
+
+          padding: 3px;
+          margin-left: 3px;
+
+          outline: none;
+          border: 2px solid black;
+          border-radius: 3px;
+        }
+
+        select {
+          font-family: 'Lalezar', sans-serif, serif;
+          font-weight: 700;
+          font-size: 17px;
+
+          cursor: pointer;
+          padding: 3px;
+          margin-left: 3px;
+          border: 2px solid black;
+          border-radius: 3px;
+        }
+
+        .btn-search {
+          all: unset;
+          cursor: pointer;
+          padding: 5px 10px;
+          border: 2px solid black;
+          border-radius: 3px;
+        }
+
+        .btn-search:hover {
+          color: white;
+          background-color: black;
+        }
+      }
+    }
+  }
+
+  .container-accordions {
+    position: sticky;
+    top: 152px;
+
+    padding-bottom: 20px;
+  }
+
+  .items-accordion {
+    li {
+      label {
+        font-size: 14px;
+        margin-right: 3px;
+        cursor: pointer;
+        padding-bottom: 2px;
+      }
+
+      input {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .container-cardCourses {
+    margin-top: 25px;
+
+    transition: all 0.2s ease-in-out;
+  }
+
+  .container-cardCourses-hide {
+    transform: translateX(-1100px);
+  }
+
+  .container-paginate {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    direction: ltr;
+
+    .btn-num,
+    .btn-next,
+    .btn-previous {
+      margin: 0px 5px;
+      padding: 0px 5px;
+      list-style-type: none;
+
+      a {
+        font-family: 'Yekan', sans-serif, serif;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+        color: #00a9ff;
+      }
+    }
+
+    .btn-active {
+      padding-bottom: 10px;
+      border-bottom: 2px solid #00a9ff;
+    }
+
+    .btn-next,
+    .btn-previous {
+      .icon {
+        font-size: 40px;
+      }
+    }
+  }
+}
