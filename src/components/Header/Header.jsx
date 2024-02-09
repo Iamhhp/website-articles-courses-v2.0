@@ -33,15 +33,19 @@ const Header = () => {
   const itemsHeaderMenu = (
     <ul>
       <li>
-        <NavLink to='/Home'>خانه</NavLink>
+        <NavLink tabIndex='-1' to='/Home'>
+          خانه
+        </NavLink>
       </li>
 
       <li>
-        <NavLink to='/Courses'>دوره ها</NavLink>
+        <NavLink tabIndex='-1' to='/Courses'>
+          دوره ها
+        </NavLink>
       </li>
 
       <li className='drop-down-menu'>
-        <NavLink to='/Articles' className='main-menu'>
+        <NavLink tabIndex='-1' to='/Articles' className='main-menu'>
           مقالات
           <FaChevronUp className='icon' />
         </NavLink>
@@ -52,7 +56,9 @@ const Header = () => {
       </li>
 
       <li>
-        <NavLink to='/About-us'>درباره ما</NavLink>
+        <NavLink tabIndex='-1' to='/About-us'>
+          درباره ما
+        </NavLink>
       </li>
     </ul>
   );
