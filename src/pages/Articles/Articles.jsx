@@ -12,46 +12,51 @@ import NoResponse from '../../components/NoResponse/NoResponse';
 
 const Articles = () => {
   useEffect(() => {
-    console.log('Page Articles reRender!');
     window.scrollTo(0, 0);
   });
 
-  const containerCardArticles = useRef(null);
-  const [reloadAccordion, setReloadAccordion] = useState(true);
   const [dataFetchArticles, isPending] = useFetch('https://dbserver.liara.run/articles');
   const { stateDataArticles, changeStateDataArticles } = useArticlesReducer();
+
+  const containerCardArticles = useRef(null);
+  const [reloadAccordion, setReloadAccordion] = useState(false);
+  const [reloadPaginate, setReloadPaginate] = useState(false);
+
+  const optionSorting = useRef('newest');
+  const optionsFiltering = useRef({ writers: [], categories: [] });
+
   useEffect(() => {
-    if (dataFetchArticles.responseStatus === 'receivedData!') {
+    if (dataFetchArticles.responseStatus === 'dataReceived!') {
       changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
-    } else {
+    } else if (!isPending) {
+      // isPending => false => Data not receive!
+      console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
       changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, []);
     }
   }, [dataFetchArticles]);
 
   // Search Options Accordion ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const searchingDataArticles = (e) => {
-    const boxSearch = e.target.parentElement;
-    const inputSearch = boxSearch.children[0];
-    const optionSearch = boxSearch.children[1];
-
     const dataArticles = { search: [] };
-    dataArticles.search = dataFetchArticles.response.filter((article) => article[optionSearch.value].includes(inputSearch.value));
+    const inputSearch = e.target.parentElement.children[0].value;
+    const optionSearch = e.target.parentElement.children[1].value;
+    dataArticles.search = dataFetchArticles.response.filter((article) => article[optionSearch].includes(inputSearch));
 
     optionSorting.current = 'newest';
     optionsFiltering.current = { writers: [], categories: [] };
-    setReloadAccordion(false);
+    setReloadAccordion(() => true);
     changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataArticles.search]);
   };
+
   useEffect(() => {
-    setReloadAccordion(true);
+    setReloadAccordion(() => false);
   }, [reloadAccordion]);
 
+  // Filtering Data Articles ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     filteringDataArticles();
   }, [stateDataArticles.search]);
 
-  // Filtering Data Articles ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const optionsFiltering = useRef({ writers: [], categories: [] });
   const filteringDataArticles = () => {
     const dataArticles = { filtering: [] };
     if (optionsFiltering.current.writers.length) {
@@ -67,17 +72,11 @@ const Articles = () => {
     changeStateDataArticles(ACTION_TYPE.DATA_FILTER, [...dataArticles.filtering]);
   };
 
+  // Sorting Data Articles /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     sortingDataArticles();
   }, [stateDataArticles.filter]);
 
-  // Sorting Data Articles /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const changeHandlerOptionsSorting = (e) => {
-    optionSorting.current = e.target.id;
-    sortingDataArticles();
-  };
-
-  const optionSorting = useRef('newest');
   const sortingDataArticles = () => {
     const dataArticles = { sorting: [] };
     switch (optionSorting.current) {
@@ -111,32 +110,31 @@ const Articles = () => {
         break;
     }
 
+    setReloadPaginate(() => true);
     changeStateDataArticles(ACTION_TYPE.DATA_SORT, [...dataArticles.sorting]);
   };
 
+  // Paginate Data Articles /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     setReloadPaginate(() => false);
-    paginationDataArticles({ selected: 0 });
-  }, [stateDataArticles.sort]);
-
-  // Paginate Data Articles ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const [reloadPaginate, setReloadPaginate] = useState(true);
-  useEffect(() => {
-    setReloadPaginate(true);
   }, [reloadPaginate]);
 
-  const paginationDataArticles = ({ selected: pageNum }) => {
+  useEffect(() => {
+    changeHandlerPagination({ selected: 0 });
+  }, [stateDataArticles.sort]);
+
+  const changeHandlerPagination = ({ selected: pageNum }) => {
     const dataArticles = { pagination: [] };
     dataArticles.pagination = stateDataArticles.sort.filter((article, i) => i >= pageNum * 6 && i < (pageNum + 1) * 6);
 
-    containerCardArticles.current.classList.add('container-cardArticle-hide');
+    containerCardArticles.current.classList.add('container-cardArticles-hide');
     window.setTimeout(() => {
       changeStateDataArticles(ACTION_TYPE.DATA_PAGINATION, [...dataArticles.pagination]);
     }, 200);
   };
 
   useEffect(() => {
-    containerCardArticles.current.classList.remove('container-cardArticle-hide');
+    containerCardArticles.current.classList.remove('container-cardArticles-hide');
   }, [stateDataArticles.pagination]);
 
   // Items Accordions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,8 +180,8 @@ const Articles = () => {
       <ul className='items-accordion'>
         {optionsWriter.map((writer, i) => {
           return (
-            <li>
-              <input type='checkbox' id={`writer-${i}`} onChange={changeHandlerOptionsWriter} />
+            <li key={i}>
+              <input type='checkbox' id={`writer-${i}`} onChange={changeHandlerOptionsWriter} tabIndex='-1' />
               <label htmlFor={`writer-${i}`}>{writer}</label>
             </li>
           );
@@ -195,8 +193,8 @@ const Articles = () => {
       <ul className='items-accordion'>
         {optionsCategory.map((category, i) => {
           return (
-            <li>
-              <input type='checkbox' id={`category-${i}`} onChange={changeHandlerOptionsCategory} />
+            <li key={i}>
+              <input type='checkbox' id={`category-${i}`} onChange={changeHandlerOptionsCategory} tabIndex='-1' />
               <label htmlFor={`category-${i}`}>{category}</label>
             </li>
           );
@@ -211,23 +209,28 @@ const Articles = () => {
   }, [stateDataArticles.search]);
 
   // Items Accordion Sorting ///////////////////////////
+  const changeHandlerOptionsSorting = (e) => {
+    optionSorting.current = e.target.id;
+    sortingDataArticles();
+  };
+
   const itemsAccordionSort = useMemo(() => {
     return (
       <ul className='items-accordion'>
         <li>
-          <input type='radio' name='sorting' id='newest' onChange={changeHandlerOptionsSorting} defaultChecked />
+          <input type='radio' name='sorting' id='newest' onChange={changeHandlerOptionsSorting} defaultChecked tabIndex='-1' />
           <label htmlFor='newest'>جدیدترین</label>
         </li>
         <li>
-          <input type='radio' name='sorting' id='oldest' onChange={changeHandlerOptionsSorting} />
+          <input type='radio' name='sorting' id='oldest' onChange={changeHandlerOptionsSorting} tabIndex='-1' />
           <label htmlFor='oldest'>قدیمی ترین</label>
         </li>
         <li>
-          <input type='radio' name='sorting' id='longest' onChange={changeHandlerOptionsSorting} />
+          <input type='radio' name='sorting' id='longest' onChange={changeHandlerOptionsSorting} tabIndex='-1' />
           <label htmlFor='longest'>طولانی ترین</label>
         </li>
         <li>
-          <input type='radio' name='sorting' id='shortest' onChange={changeHandlerOptionsSorting} />
+          <input type='radio' name='sorting' id='shortest' onChange={changeHandlerOptionsSorting} tabIndex='-1' />
           <label htmlFor='shortest'>کوتاه ترین</label>
         </li>
       </ul>
@@ -278,7 +281,7 @@ const Articles = () => {
               <Row className='row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3'>
                 {isPending ? (
                   <Loading />
-                ) : dataFetchArticles.responseStatus !== 'receivedData!' ? (
+                ) : dataFetchArticles.responseStatus !== 'dataReceived!' ? (
                   <NoResponse responseState={dataFetchArticles.responseStatus} />
                 ) : !stateDataArticles.pagination.length ? (
                   <b>موردی یافت نشد!</b>
@@ -293,7 +296,7 @@ const Articles = () => {
                 )}
               </Row>
 
-              {reloadPaginate && (
+              {!reloadPaginate && (
                 <ReactPaginate
                   renderOnZeroPageCount={null}
                   pageCount={stateDataArticles.sort.length <= 6 ? 0 : Math.ceil(stateDataArticles.sort.length / 6)}
@@ -305,7 +308,7 @@ const Articles = () => {
                   breakClassName='btn-num'
                   pageClassName='btn-num'
                   activeClassName='btn-active'
-                  onPageChange={paginationDataArticles}
+                  onPageChange={changeHandlerPagination}
                 />
               )}
             </div>
