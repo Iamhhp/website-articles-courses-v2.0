@@ -52,8 +52,7 @@
 
           overflow: hidden;
           border-radius: 50%;
-          animation: blink 1s 0s infinite none;
-          animation-timing-function: steps(0, 100);
+          color: orangered;
         }
       }
 
@@ -253,17 +252,5 @@
 @keyframes colorFul {
   to {
     transform: translateX(-50%);
-  }
-}
-
-@keyframes blink {
-  50% {
-    color: orangered;
-    background-color: black;
-  }
-
-  100% {
-    color: inherit;
-    background-color: orangered;
   }
 }
