@@ -28,7 +28,7 @@ const Accordion = ({ title, children, reloadAccordion }) => {
         <FaChevronDown className='icon' />
       </div>
 
-      <div className='items'>{reloadAccordion && children}</div>
+      <div className='items'>{!reloadAccordion && children}</div>
     </div>
   );
 };
