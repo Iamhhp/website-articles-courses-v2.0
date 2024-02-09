@@ -17,7 +17,8 @@ const Article = () => {
   const { idArticle } = useParams();
   const [
     {
-      response: { id, image, title, writer, category, readingTime, responseStatus },
+      responseStatus,
+      response: { id, image, title, writer, category, readingTime },
     },
     isPending,
   ] = useFetch(`https://dbserver.liara.run/articles/${idArticle}`);
@@ -117,7 +118,7 @@ const Article = () => {
       <Row>
         {isPending ? (
           <Loading />
-        ) : responseStatus ? (
+        ) : responseStatus !== 'dataReceived!' ? (
           <NoResponse responseState={responseStatus} />
         ) : (
           <>
