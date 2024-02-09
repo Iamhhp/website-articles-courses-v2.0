@@ -1,8 +1,7 @@
-.articles {
+.courses {
   padding: 0px;
 
   .header-fluid {
-    width: 100%;
     position: sticky;
     top: 50px;
     left: 0px;
@@ -14,7 +13,6 @@
     background-color: white;
 
     .header {
-      width: 100%;
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
@@ -71,12 +69,20 @@
     }
   }
 
+  .container-accordions {
+    position: sticky;
+    top: 152px;
+
+    padding-bottom: 20px;
+  }
+
   .items-accordion {
     li {
       label {
-        width: 97%;
+        font-size: 14px;
         margin-right: 3px;
         cursor: pointer;
+        padding-bottom: 2px;
       }
 
       input {
@@ -85,25 +91,14 @@
     }
   }
 
-  .container-cardArticle {
+  .container-cardCourses {
     margin-top: 25px;
+
     transition: all 0.2s ease-in-out;
-
-    .col {
-      display: flex;
-      justify-content: center;
-    }
   }
 
-  .container-cardArticles-hide {
+  .container-cardCourses-hide {
     transform: translateX(-1100px);
-  }
-
-  .container-accordions {
-    position: sticky;
-    top: 152px;
-
-    padding-bottom: 20px;
   }
 
   .container-paginate {

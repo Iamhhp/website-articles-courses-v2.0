@@ -7,6 +7,7 @@ import { LuRefreshCw } from 'react-icons/lu';
 import useFetch from '../../hooks/useFetch';
 import Swal from 'sweetalert2';
 import Loading from '../../components/Loading/Loading';
+import NoResponse from '../../components/NoResponse/NoResponse';
 
 const EditCreateArticle = () => {
   const { editCreate, idArticle } = useParams();
@@ -218,7 +219,8 @@ const EditCreateArticle = () => {
   return (
     <Container className='container-edit-create'>
       {isPending && <Loading className='position-loading' />}
-      <form ref={form}>
+      {editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && <NoResponse responseState={dataArticle.responseStatus} />}
+      <form ref={form} style={{ display: editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && 'none' }}>
         <label htmlFor='image'>عکس</label>
         <div className='container-input'>
           <input

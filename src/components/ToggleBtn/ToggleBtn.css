@@ -1,0 +1,57 @@
+.toggle-btn {
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  .slider {
+    width: 40px;
+    height: 20px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #ccc;
+  }
+
+  /* Toggle btn is Active */
+  input[type='checkbox']:checked + .slider {
+    background-color: #00a9ff;
+  }
+
+  .slider::after {
+    content: 'OFF';
+    font-family: sans-serif, serif;
+    font-weight: bold;
+    font-size: 8px;
+
+    transition: all 0.2s ease-in-out;
+  }
+
+  input[type='checkbox']:checked + .slider::after {
+    content: 'ON';
+    transform: translateX(+20px);
+  }
+
+  .slider::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+
+    transition: all 0.2s ease-in-out;
+  }
+
+  input[type='checkbox']:checked + .slider::before {
+    transform: translateX(-20px);
+  }
+}

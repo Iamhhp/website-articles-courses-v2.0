@@ -44,7 +44,7 @@ const Home = () => {
             <SwiperSlide>
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
-          ) : dataArticle.responseStatus !== 'receivedData!' ? (
+          ) : dataArticle.responseStatus !== 'dataReceived!' ? (
             <SwiperSlide>
               <NoResponse responseState={dataArticle.responseStatus} />
             </SwiperSlide>
@@ -81,7 +81,7 @@ const Home = () => {
             <SwiperSlide>
               <h3>درحال بارگذاری...</h3>
             </SwiperSlide>
-          ) : dataCourse.responseStatus !== 'receivedData!' ? (
+          ) : dataCourse.responseStatus !== 'dataReceived!' ? (
             <SwiperSlide>
               <NoResponse responseState={dataCourse.responseStatus} />
             </SwiperSlide>
