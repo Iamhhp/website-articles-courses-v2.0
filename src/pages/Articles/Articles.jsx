@@ -26,13 +26,7 @@ const Articles = () => {
   const optionsFiltering = useRef({ writers: [], categories: [] });
 
   useEffect(() => {
-    if (dataFetchArticles.responseStatus === 'dataReceived!') {
-      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
-    } else if (!isPending) {
-      // isPending => false => Data not receive!
-      console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, []);
-    }
+    changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
   }, [dataFetchArticles]);
 
   // Search Options Accordion ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
