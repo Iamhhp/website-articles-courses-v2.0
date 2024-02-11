@@ -20,11 +20,7 @@ const Articles = () => {
   const [dataFetchArticles, isPending] = useFetch('https://dbserver.liara.run/articles');
   const { stateDataArticles, changeStateDataArticles } = useArticlesReducer();
   useEffect(() => {
-    if (dataFetchArticles.responseStatus === 'receivedData!') {
-      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
-    } else {
-      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, []);
-    }
+    changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
   }, [dataFetchArticles]);
 
   // Search Options Accordion ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
