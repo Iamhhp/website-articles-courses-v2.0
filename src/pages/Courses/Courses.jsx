@@ -27,11 +27,7 @@ const Courses = () => {
   const optionsFiltering = useRef({ teachers: [], categories: [], stateCourse: [] });
 
   useEffect(() => {
-    if (dataFetchCourse.responseStatus === 'dataReceived!') {
-      changeStateDataCourses(ACTION_TYPE.DATA_SEARCH, dataFetchCourse.response);
-    } else {
-      changeStateDataCourses(ACTION_TYPE.DATA_SEARCH, []);
-    }
+    changeStateDataCourses(ACTION_TYPE.DATA_SEARCH, [...dataFetchCourse.response]);
   }, [dataFetchCourse]);
 
   // Filtering Data Courses //////////////////////////////////////////////////////////////////////////////////////////////////////////////
