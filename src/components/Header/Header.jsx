@@ -21,7 +21,7 @@ const Header = () => {
       const elementTime = elementDate.current.children[1];
 
       elementDay.innerText = date.format('dddd');
-      elementTime.innerText = date.format('HH:MM:ss');
+      elementTime.innerText = date.format('HH:mm:ss');
     }, 1000);
 
     // Function Cleanup
