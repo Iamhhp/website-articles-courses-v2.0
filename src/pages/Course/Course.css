@@ -1,0 +1,294 @@
+.container-course {
+  .title-header {
+    font-size: 35px;
+    padding: 10px;
+  }
+
+  .details-course {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: rgb(248, 249, 250);
+
+    position: sticky;
+    top: 80px;
+
+    .title {
+      font-size: 20px;
+      padding-bottom: 5px;
+    }
+
+    .intro-teacher {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+
+      padding: 5px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      background-color: white;
+
+      .img-profile-teacher {
+        width: 70px;
+        border: 2px dashed gray;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .details-teacher {
+        margin-right: 5px;
+
+        .desc-teacher {
+          font-family: 'Yekan', sans-serif, serif;
+          font-weight: 700;
+          font-size: 14px;
+          color: gray;
+        }
+      }
+    }
+
+    .footer {
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid gray;
+      border-radius: 5px;
+
+      .description {
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 14px;
+        text-align: justify;
+
+        padding: 7px;
+        border: 1px dashed gray;
+        border-radius: 5px;
+        background-color: white;
+      }
+
+      .count-student {
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 16px;
+
+        padding: 7px;
+        margin-top: 7px;
+        border: 1px dashed gray;
+        border-radius: 5px;
+        background-color: white;
+
+        .icon {
+          font-size: 25px;
+        }
+      }
+
+      .progress-course {
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 16px;
+
+        padding: 7px;
+        margin-top: 7px;
+        border: 1px dashed gray;
+        border-radius: 5px;
+        background-color: white;
+
+        .icon {
+          font-size: 25px;
+          transform: scaleX(-1);
+        }
+
+        .progress-bar {
+          width: 100%;
+          height: 10px;
+
+          margin-top: 10px;
+          border: 1px solid black;
+          border-radius: 5px;
+
+          position: relative;
+          overflow: hidden;
+
+          .fill {
+            content: '';
+            display: inline-block;
+            height: 100%;
+
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #1fbd50;
+          }
+
+          .fill::after {
+            content: '';
+            display: block;
+            width: 200%;
+            height: 100%;
+
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            animation: colorProgress 3s linear 0s infinite forwards;
+            background: repeating-linear-gradient(45deg, transparent, transparent 5%, rgba(255, 255, 255, 0.2) 5%, rgba(255, 255, 255, 0.2) 10%);
+          }
+        }
+      }
+    }
+
+    .btn-login {
+      all: unset;
+      width: 100%;
+      box-sizing: border-box;
+
+      cursor: pointer;
+      text-align: center;
+
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #1fbd50;
+      border-radius: 3px;
+      box-shadow: 0px 0px 3px 1px black;
+      background-color: #1fbd50;
+    }
+
+    .btn-login:hover {
+      box-shadow: 0px 0px 5px 1px black;
+    }
+  }
+
+  .info-course {
+    .img-course {
+      overflow: hidden;
+      border-radius: 5px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .chapter-course {
+      padding: 0px 15px 15px;
+      margin-top: 20px;
+      border: 1px solid grey;
+      border-radius: 5px;
+      background-color: rgb(248, 249, 250);
+
+      .accordion-title {
+        padding: 5px;
+
+        .desc {
+          font-family: 'Yekan', sans-serif, serif;
+          font-weight: 700;
+          color: gray;
+
+          margin: 0px;
+        }
+      }
+
+      .accordion {
+        background-color: white;
+
+        .item-accordion {
+          padding: 5px;
+          a {
+            font-family: 'Yekan', sans-serif, serif;
+            font-weight: 700;
+            text-decoration: none;
+          }
+
+          .icon-item {
+            font-size: 25px;
+            color: rgb(13, 110, 253);
+          }
+        }
+      }
+    }
+  }
+
+  .sec-comments {
+    margin: 20px 0px;
+    padding-bottom: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: rgb(248, 249, 250);
+
+    .container-comments {
+      .header {
+        border-bottom: 1px solid gray;
+
+        .title {
+          width: fit-content;
+          font-size: 20px;
+          margin: 0px 5px;
+          padding: 5px;
+          border-bottom: 2px solid black;
+
+          .icon {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+
+    .box-comment {
+      padding: 10px;
+      margin: 40px 10px 0px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      box-shadow: 0px 0px 3px 1px gray;
+      background-color: white;
+
+      .title {
+        font-size: 20px;
+      }
+
+      .input-comment {
+        width: 100%;
+        height: 100px;
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+
+        resize: none;
+        outline: none;
+        padding: 2px 5px;
+        border: 2px solid black;
+        border-radius: 3px;
+      }
+
+      .send-comment {
+        all: unset;
+        display: block;
+
+        cursor: pointer;
+        margin-right: auto;
+        padding: 5px 15px;
+        border: 1px solid black;
+        border-radius: 3px;
+        box-shadow: 0px 0px 3px 1px black;
+      }
+
+      .send-comment:hover {
+        color: white;
+        background-color: black;
+        box-shadow: 0px 0px 5px 1px black;
+      }
+    }
+  }
+}
+
+@keyframes colorProgress {
+  to {
+    transform: translateX(-50%);
+  }
+}

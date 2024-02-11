@@ -6,6 +6,7 @@ import Article from './pages/Article/Article';
 import EditCreateArticle from './pages/EditCreateArticle/EditCreateArticle';
 import Articles from './pages/Articles/Articles';
 import Courses from './pages/Courses/Courses';
+import Course from './pages/Course/Course';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path='Article/:editCreate/:idArticle' element={<EditCreateArticle />} />
           <Route path='/Articles' element={<Articles />} />
           <Route path='/Courses' element={<Courses />} />
+          <Route path='/Course/:idCourse' element={<Course />} />
         </Route>
       </Routes>
     </BrowserRouter>
