@@ -51,7 +51,9 @@ const Header = () => {
         </NavLink>
 
         <div className={'sub-menu'}>
-          <Link to={'/Article/Create/0'}>ایجاد مقاله</Link>
+          <Link tabIndex='-1' to={'/Article/Create/0'}>
+            ایجاد مقاله
+          </Link>
         </div>
       </li>
 
@@ -87,7 +89,9 @@ const Header = () => {
           </Col>
 
           <Col className='sec-l col-auto'>
-            <button className='btn-login'>ورود</button>
+            <Link to={'/Login'} className='btn-login'>
+              ورود
+            </Link>
             <button className='btn-basket'>
               <SlBasket className='icon' />
             </button>
