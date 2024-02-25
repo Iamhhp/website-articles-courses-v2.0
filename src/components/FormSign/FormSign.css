@@ -1,0 +1,176 @@
+.form-sign {
+  width: 100%;
+  height: 405px; /* height equal height form Login for animation */
+
+  display: flex;
+  flex-flow: column nowrap;
+  flex-shrink: 0;
+  padding: 12px;
+
+  transform: translateX(100%);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  .title {
+    font-size: 25px;
+    text-align: center;
+    padding: 15px 0px 15px;
+  }
+
+  .lbl-fName {
+    font-size: 18px;
+    padding-top: 45px;
+  }
+
+  .lbl-lName,
+  .lbl-username,
+  .lbl-pass {
+    width: fit-content;
+    font-size: 16px;
+    padding-top: 5px;
+  }
+
+  input[class^='input'] {
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+
+    padding: 5px;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+
+  input[class^='input']:focus {
+    border: 1px solid #0073e6;
+    box-shadow: 1px 1px 1px 0px #0073e6;
+  }
+
+  .lbl-email {
+    margin-top: -10px;
+    font-size: 16px;
+  }
+
+  .check-username {
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: left;
+    color: rgb(11, 225, 40);
+  }
+
+  .score-pass {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    direction: ltr;
+
+    align-self: flex-end;
+    padding: 5px 0px;
+
+    div[class^='score'] {
+      width: 20px;
+      height: 10px;
+      border: 0.5px solid black;
+      margin-right: 5px;
+    }
+  }
+
+  .lbl-rpt-pass {
+    width: fit-content;
+    font-size: 16px;
+  }
+
+  .lbl-rpt-pass-shake {
+    color: red;
+    animation: shake 0.2s linear 0s 1 forwards;
+  }
+
+  .input-rpt-pass-shake {
+    border: 1px solid red;
+    box-shadow: 1px 1px 1px 0px red;
+  }
+
+  .footer-rpt-pass {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      display: flex;
+      align-items: center;
+      direction: ltr;
+
+      font-family: 'Yekan', sans-serif, serif;
+      font-size: 14px;
+      font-weight: bolder;
+      padding: 2px 0px;
+
+      input[type='checkbox'] {
+        margin-left: 3px;
+      }
+    }
+
+    .confirm-pass {
+      font-family: 'Yekan', sans-serif, serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: red;
+    }
+  }
+
+  .btn-sign {
+    all: unset;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    cursor: pointer;
+
+    padding: 5px;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+
+    .btn-loading {
+      width: 30px;
+      height: 30px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 50%;
+      border: 2px solid black;
+      border-color: black transparent;
+
+      animation: effectLoading 0.8s linear 0s infinite normal;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 24px;
+        height: 24px;
+
+        border-radius: 50%;
+        border: 2px solid red;
+        border-color: transparent red;
+
+        animation: effectLoading 0.4s ease-in-out 0s infinite reverse;
+      }
+    }
+  }
+
+  .btn-sign:hover {
+    background-color: #0073e6;
+    color: white;
+  }
+}
+
+.form-sign-show {
+  height: 630px;
+  transform: translate(0);
+}
