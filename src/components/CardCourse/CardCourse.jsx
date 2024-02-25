@@ -46,7 +46,7 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
 
       <div className='footer'>
         <Link to={`/Course/${id}`} className='btn-buy'>
-          ثبت نام
+          ادامه دوره
         </Link>
         <RendingPrice {...{ off, mainPrice }} />
       </div>
