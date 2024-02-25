@@ -15,14 +15,16 @@ const Header = () => {
 
   const elementDate = useRef(null);
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      const date = new persianDate(new Date());
-      const elementDay = elementDate.current.children[0];
-      const elementTime = elementDate.current.children[1];
+    const elementDay = elementDate.current.children[0];
+    const elementTime = elementDate.current.children[1];
 
+    const updateTime = () => {
+      const date = new persianDate(new Date());
       elementDay.innerText = date.format('dddd');
       elementTime.innerText = date.format('HH:mm:ss');
-    }, 1000);
+    };
+
+    const timer = window.setInterval(updateTime, 1000);
 
     // Function Cleanup
     return () => {
