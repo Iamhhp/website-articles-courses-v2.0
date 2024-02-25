@@ -1,10 +1,13 @@
 import './FormLogin.css';
 import { useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
+import { useChangeUserDataContext } from '../../context/UserDataContext';
+import { ACTION_TYPE } from '../../context/useUserDataReducer';
 
 const FormLogin = ({ setIsShowForgetPass }) => {
   const formLogin = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const changeUserData = useChangeUserDataContext();
 
   useEffect(() => {
     window.setTimeout(() => {
@@ -42,6 +45,8 @@ const FormLogin = ({ setIsShowForgetPass }) => {
                 if (CBRememberMe.checked) {
                   window.localStorage.setItem('userData', JSON.stringify(userData[0]));
                 }
+
+                changeUserData(ACTION_TYPE.PUT_ALL, userData[0]);
 
                 showDialog('success', 'شما وارد شدید!');
               } else {
