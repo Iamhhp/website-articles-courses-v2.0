@@ -1,12 +1,10 @@
-import './Login.css';
+import './LoginSign.css';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FormLogin from '../../components/FormLogin/FormLogin';
 import FormSign from '../../components/FormSign/FromSign';
 import FromForgetPass from '../../components/FormForgetPass/FromForgetPass';
 
-const Login = () => {
-  const navigte = useNavigate();
+const LoginSign = () => {
   const [isShowFormLogin, setIsShowFormLogin] = useState(true);
   const [isShowForgetPass, setIsShowForgetPass] = useState(false);
 
@@ -38,4 +36,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default LoginSign;

@@ -7,7 +7,8 @@ import EditCreateArticle from './pages/EditCreateArticle/EditCreateArticle';
 import Articles from './pages/Articles/Articles';
 import Courses from './pages/Courses/Courses';
 import Course from './pages/Course/Course';
-import Login from './pages/Login/Login';
+import LoginSign from './pages/LoginSign/LoginSign';
+import Account from './pages/Account/Account';
 
 const App = () => {
   return (
@@ -20,7 +21,8 @@ const App = () => {
           <Route path='/Articles' element={<Articles />} />
           <Route path='/Courses' element={<Courses />} />
           <Route path='/Course/:idCourse' element={<Course />} />
-          <Route path='/Login' element={<Login />} />
+          <Route path='/Login-Sign' element={<LoginSign />} />
+          <Route path='/Account' element={<Account />} />
         </Route>
 
         <Route path='*' element={<h1>Not Found!</h1>} />

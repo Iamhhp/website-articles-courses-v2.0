@@ -3,9 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
 import { useChangeUserDataContext } from '../../context/UserDataContext';
 import { ACTION_TYPE } from '../../context/useUserDataReducer';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const FormLogin = ({ setIsShowForgetPass }) => {
   const formLogin = useRef(null);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const changeUserData = useChangeUserDataContext();
 
@@ -47,8 +50,14 @@ const FormLogin = ({ setIsShowForgetPass }) => {
                 }
 
                 changeUserData(ACTION_TYPE.PUT_ALL, userData[0]);
-
-                showDialog('success', 'شما وارد شدید!');
+                changeUserData(ACTION_TYPE.IS_LOGIN, true);
+                Swal.fire({
+                  icon: 'success',
+                  text: 'ورود با موفقیت انجام شد!',
+                  showConfirmButton: true,
+                }).then(() => {
+                  navigate('/Home');
+                });
               } else {
                 showDialog('error', 'رمز عبور وارد شده اشتباه می باشد!');
               }

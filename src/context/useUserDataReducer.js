@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 
 export const ACTION_TYPE = {
-  CNG_STATE_LOGIN: 0,
+  IS_LOGIN: 0,
   CNG_USERNAME: 1,
   CNG_PASS: 2,
   CNG_FNAME: 3,
@@ -26,7 +26,7 @@ const useUserDataReducer = () => {
   const userDataReducer = (state, action) => {
     console.log(action);
     switch (action.type) {
-      case ACTION_TYPE.CNG_STATE_LOGIN:
+      case ACTION_TYPE.IS_LOGIN:
         return { ...state, isLogin: action.payLoad };
       case ACTION_TYPE.CNG_USERNAME:
         return { ...state, username: action.payLoad };
