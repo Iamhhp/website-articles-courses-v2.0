@@ -111,10 +111,10 @@ const FormSign = ({ setIsShowFormLogin }) => {
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Inputs
   const changeHandlerPassword = (e) => {
     const colorBoxScore = ['red', 'yellow', 'yellow', 'green', 'green'];
-    const boxesScore = [...e.target.nextElementSibling.children];
+    const boxesScore = [...e.target.nextElementSibling.children[1].children];
     const inputPass = e.target.value;
     const checkPass = zxcvbn(inputPass);
-    let scorePass = checkPass.score;
+    const scorePass = checkPass.score;
 
     if (inputPass.length) {
       for (let l = 0; l <= 4; l++) {
@@ -134,7 +134,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
   const focusHandlerRptPass = (e) => {
     const inputRptPass = e.target;
     const lblRptPass = inputRptPass.previousElementSibling;
-    const lblConfirmPass = inputRptPass.nextElementSibling.children[1];
+    const lblConfirmPass = inputRptPass.nextElementSibling;
 
     lblRptPass.classList.remove('lbl-rpt-pass-shake');
     lblConfirmPass.style.visibility = 'hidden';
@@ -144,8 +144,8 @@ const FormSign = ({ setIsShowFormLogin }) => {
     const inputRptPass = e.target;
     inputRptPass.value = inputRptPass.value.trim();
 
-    const inputPass = inputRptPass.parentElement.elements[4];
-    const lblConfirmPass = inputRptPass.nextElementSibling.children[1];
+    const inputPass = inputRptPass.parentElement.elements[5];
+    const lblConfirmPass = inputRptPass.nextElementSibling;
     const lblRptPass = inputRptPass.previousElementSibling;
 
     if (inputRptPass.value && inputRptPass.value !== inputPass.value) {
@@ -166,7 +166,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
   const changeHandlerShowPass = (e) => {
     const isChecked = e.target.checked;
     const inputPass = formSign.current.elements[4];
-    const inputRptPass = formSign.current.elements[5];
+    const inputRptPass = formSign.current.elements[6];
 
     if (isChecked) {
       inputPass.type = 'text';
@@ -303,12 +303,20 @@ const FormSign = ({ setIsShowFormLogin }) => {
         onChange={changeHandlerPassword}
         onKeyDown={keyDownHandlerInputsCheckLangPersian}
       />
-      <div className='score-pass'>
-        <div className='score-01' />
-        <div className='score-02' />
-        <div className='score-03' />
-        <div className='score-04' />
-        <div className='score-05' />
+
+      <div className='footer-pass'>
+        <label className='show-pass-sign'>
+          نمایش پسورد
+          <input type='checkbox' name='show-pass-sign' id='show-pass-sign' onChange={changeHandlerShowPass} />
+        </label>
+
+        <div className='score-pass'>
+          <div className='score-01' />
+          <div className='score-02' />
+          <div className='score-03' />
+          <div className='score-04' />
+          <div className='score-05' />
+        </div>
       </div>
 
       <label className='lbl-rpt-pass'>تکرار پسورد</label>
@@ -324,16 +332,9 @@ const FormSign = ({ setIsShowFormLogin }) => {
         onPaste={pasteHandlerInputsPass}
         onKeyDown={keyDownHandlerInputsCheckLangPersian}
       />
-      <div className='footer-rpt-pass'>
-        <label htmlFor='show-pass-sign'>
-          نمایش پسورد
-          <input type='checkbox' name='show-pass-sign' id='show-pass-sign' onChange={changeHandlerShowPass} />
-        </label>
-
-        <span className='confirm-pass' style={{ visibility: 'hidden' }}>
-          عدم تطابق پسورد
-        </span>
-      </div>
+      <span className='confirm-pass' style={{ visibility: 'hidden' }}>
+        عدم تطابق پسورد
+      </span>
 
       <button type='button' className='btn-sign' onClick={clickHandlerSignUp}>
         {isLoading ? <div className='btn-loading' /> : 'ثبت نام'}

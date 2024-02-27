@@ -47,12 +47,12 @@
     justify-content: space-between;
     align-items: center;
 
-    label {
+    label.show-pass-login {
       display: flex;
       align-items: center;
 
       font-family: 'Yekan', sans-serif, serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       text-decoration: none;
 
@@ -63,7 +63,7 @@
 
     .forget-pass {
       font-family: 'Yekan', sans-serif, serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       text-decoration: none;
       color: #0073e6;

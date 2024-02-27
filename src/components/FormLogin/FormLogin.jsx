@@ -131,7 +131,7 @@ const FormLogin = ({ setIsShowForgetPass }) => {
         onKeyDown={keyDownHandlerInputPassword}
       />
       <div className='forget-show-pass'>
-        <label htmlFor='show-pass-login'>
+        <label className='show-pass-login'>
           <input type='checkbox' name='show-pass-login' id='show-pass-login' onChange={changeHandlerShowPass} />
           نمایش رمز عبور
         </label>

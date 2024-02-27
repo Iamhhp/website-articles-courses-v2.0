@@ -37,16 +37,11 @@
     outline: none;
     border: 1px solid black;
     border-radius: 3px;
-  }
 
-  input[class^='input']:focus {
-    border: 1px solid #0073e6;
-    box-shadow: 1px 1px 1px 0px #0073e6;
-  }
-
-  .lbl-email {
-    margin-top: -10px;
-    font-size: 16px;
+    &:focus {
+      border: 1px solid #0073e6;
+      box-shadow: 1px 1px 1px 0px #0073e6;
+    }
   }
 
   .check-username {
@@ -57,46 +52,18 @@
     color: rgb(11, 225, 40);
   }
 
-  .score-pass {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    direction: ltr;
-
-    align-self: flex-end;
-    padding: 5px 0px;
-
-    div[class^='score'] {
-      width: 20px;
-      height: 10px;
-      border: 0.5px solid black;
-      margin-right: 5px;
-    }
-  }
-
-  .lbl-rpt-pass {
-    width: fit-content;
+  .lbl-email {
+    margin-top: -10px;
     font-size: 16px;
   }
 
-  .lbl-rpt-pass-shake {
-    color: red;
-    animation: shake 0.2s linear 0s 1 forwards;
-  }
-
-  .input-rpt-pass-shake {
-    border: 1px solid red;
-    box-shadow: 1px 1px 1px 0px red;
-  }
-
-  .footer-rpt-pass {
+  .footer-pass {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 
-    label {
+    label.show-pass-sign {
       display: flex;
       align-items: center;
       direction: ltr;
@@ -111,12 +78,46 @@
       }
     }
 
-    .confirm-pass {
-      font-family: 'Yekan', sans-serif, serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: red;
+    .score-pass {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      direction: ltr;
+
+      align-self: flex-end;
+      padding: 5px 0px;
+
+      div[class^='score'] {
+        width: 20px;
+        height: 10px;
+        border: 0.5px solid black;
+        margin-right: 5px;
+      }
     }
+  }
+
+  .lbl-rpt-pass {
+    width: fit-content;
+    font-size: 16px;
+  }
+
+  .lbl-rpt-pass-shake {
+    color: red;
+    animation: shake 0.2s linear 0s 1 forwards;
+  }
+
+  .input-rpt-pass-shake {
+    border: 1px solid red !important;
+    box-shadow: 1px 1px 1px 0px red;
+  }
+
+  .confirm-pass {
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: left;
+    color: red;
   }
 
   .btn-sign {
@@ -131,7 +132,7 @@
     cursor: pointer;
 
     padding: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;
 
@@ -171,6 +172,6 @@
 }
 
 .form-sign-show {
-  height: 630px;
+  height: 620px;
   transform: translate(0);
 }
