@@ -15,10 +15,14 @@
   border-radius: 10px;
   box-shadow: 0px 0px 5px 1px #0073e6;
 
-  .container-form-login-sign {
+  .container-form-login-register {
     .btns-switch-login {
       width: 300px;
-      align-self: center;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-around;
+      align-items: center;
+
       border: 1px solid black;
       border-radius: 10px;
 
@@ -29,28 +33,20 @@
       overflow: hidden;
       z-index: 1;
 
-      input[type='radio'] {
-        display: none;
-      }
-
-      label {
-        width: 50%;
-        text-align: center;
+      a.login,
+      a.register {
+        width: 100%;
         color: black;
+        text-align: center;
+        text-decoration: none;
+        padding: 5px 0px;
 
-        cursor: pointer;
-        padding: 5px 15px;
-        transition: all 0.2s;
+        transition: all 0.2s ease-in-out;
       }
 
-      input#login:checked + label {
-        cursor: default;
+      a.active {
         color: white;
-      }
-
-      input#sign:checked + label {
         cursor: default;
-        color: white;
       }
 
       .slider {
@@ -66,12 +62,12 @@
         transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
 
-      input#login:checked ~ .slider {
+      a.login[class~='active'] ~ .slider {
         background-color: red;
         transform: translateX(100%);
       }
 
-      input#sign:checked ~ .slider {
+      a.register[class~='active'] ~ .slider {
         background-color: red;
         transform: translateX(0%);
       }
