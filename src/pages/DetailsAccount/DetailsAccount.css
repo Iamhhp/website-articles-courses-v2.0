@@ -1,0 +1,182 @@
+.container-details-account {
+  padding: 0px 5px 10px;
+  border: 2px solid #0073e6;
+  border-right: none;
+  border-radius: 10px 0px 0px 10px;
+
+  transform: translateX(-105%);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.3);
+
+  .row {
+    margin: 0px;
+    .col {
+      display: flex;
+      flex-flow: column nowrap;
+
+      padding: 0px;
+      margin: 0px;
+      padding-left: 10px;
+
+      label {
+        width: fit-content;
+        font-size: 18px;
+        padding-top: 10px;
+        user-select: none;
+      }
+
+      input[class^='input'] {
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+
+        padding: 5px;
+        outline: none;
+        border: 1px solid black;
+        border-radius: 3px;
+
+        &:focus {
+          border: 1px solid #0073e6;
+          box-shadow: 1px 1px 1px 0px #0073e6;
+        }
+
+        &:disabled {
+          background-color: rgba(128, 128, 128, 0.3);
+        }
+      }
+    }
+  }
+
+  .enable-chng-pass {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    cursor: pointer;
+
+    input[type='checkbox'] {
+      margin-left: 2px;
+    }
+  }
+
+  /* row */
+  .container-pass {
+    padding: 10px 0px 5px;
+    margin: 0px;
+    margin-top: 5px;
+    border-top: 2px dashed gray;
+    border-bottom: 2px dashed gray;
+
+    .col {
+      label {
+        padding: 0px;
+        color: gray;
+      }
+    }
+
+    .container-boxesScore-showPass {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      .show-pass-sign {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+
+        input[type='checkbox'] {
+          margin-left: 3px;
+        }
+      }
+
+      .score-pass {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        direction: ltr;
+
+        align-self: flex-end;
+        padding: 5px 0px;
+
+        div[class^='score'] {
+          width: 20px;
+          height: 10px;
+          border: 0.5px solid gray;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .container-rpt-pass {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-end;
+      align-items: stretch;
+
+      padding-bottom: 10px;
+
+      .confirm-pass {
+        font-family: 'Yekan', sans-serif, serif;
+        font-weight: 700;
+        font-size: 14px;
+        text-align: left;
+        color: red;
+      }
+
+      .lbl-rpt-pass-shake {
+        color: red !important;
+        animation: shake 0.2s linear 0s 1 forwards;
+      }
+
+      .input-rpt-pass-shake {
+        border: 1px solid red !important;
+        box-shadow: 1px 1px 1px 0px red;
+      }
+    }
+  }
+
+  .btn-save-chng-disabled {
+    all: unset;
+    cursor: default;
+    color: rgb(192, 192, 192);
+
+    padding: 5px 15px;
+    margin-top: 15px;
+
+    border-radius: 5px;
+    border-color: gray;
+    background-color: gray;
+    box-shadow: 0px 0px 2px 1px gray;
+
+    /* &:hover {
+      background-color: gray;
+    } */
+  }
+
+  .btn-enabled-Pass-side,
+  .btn-enabled-Name-side {
+    cursor: pointer;
+    color: black;
+
+    border-radius: 5px;
+    border-color: #0073e6;
+    background-color: #0073e6;
+    box-shadow: 0px 0px 2px 1px #0073e6;
+
+    &:hover {
+      color: white;
+      box-shadow: 0px 0px 5px 2px #0073e6;
+    }
+  }
+}
+
+.container-details-account-show {
+  transform: translateX(0%);
+}
