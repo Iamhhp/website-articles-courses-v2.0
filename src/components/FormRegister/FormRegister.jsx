@@ -1,29 +1,50 @@
-import './FormSign.css';
+import './FormRegister.css';
 import { useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
 import axios from 'axios';
 import zxcvbn from 'zxcvbn';
 import Swal from 'sweetalert2';
+import SmallLoading from '../SmallLoading/SmallLoading';
+import { useNavigate } from 'react-router-dom';
+import { useSetNotificationContext } from '../../context/DataContext';
+import { ACTION_TYPE_NOTI, ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 
-const FormSign = ({ setIsShowFormLogin }) => {
+const FormRegister = () => {
+  const formRegister = useRef(null);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const formSign = useRef(null);
+  const cancelAxiosToken01 = useRef(axios.CancelToken.source());
+  const cancelAxiosToken02 = useRef(axios.CancelToken.source());
+  const isRequested = useRef(false);
+  const setNotification = useSetNotificationContext();
 
   useEffect(() => {
     window.setTimeout(() => {
-      formSign.current.classList.add('form-sign-show');
-    }, 100);
+      formRegister.current?.classList.add('form-register-show');
+    }, 10);
+
+    // Function Cleanup
+    return () => {
+      if (isRequested.current) {
+        cancelAxiosToken01.current.cancel('closeFormRegister');
+        cancelAxiosToken02.current.cancel('closeFormRegister');
+      }
+    };
   }, []);
 
-  ////////////////////////////////////////////////////////////////////////////////////// Function Handler Button Sign up
-  const clickHandlerSignUp = () => {
-    const inputsFormSignUp = [...formSign.current.elements].slice(0, -1);
-    const inputFName = inputsFormSignUp[0];
-    const inputLName = inputsFormSignUp[1];
-    const inputUsername = inputsFormSignUp[2];
-    const inputEmail = inputsFormSignUp[3];
-    const inputPass = inputsFormSignUp[4];
-    const inputRptPass = inputsFormSignUp[5];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
+  ////////////////////////////////////////////////////////////////////////////////////// Function Handler Button Register
+  const clickHandlerRegister = () => {
+    const inputsFormRegister = [...formRegister.current.elements].slice(0, -1);
+    const inputFName = inputsFormRegister[0];
+    const inputLName = inputsFormRegister[1];
+    const inputUsername = inputsFormRegister[2];
+    const inputEmail = inputsFormRegister[3];
+    const inputPass = inputsFormRegister[4];
+    const inputRptPass = inputsFormRegister[6];
     const checkPass = zxcvbn(inputPass.value);
 
     if (isLoading) {
@@ -45,7 +66,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
       return;
     }
 
-    const { isEmpty, inputEmpty } = isEmptyInputs(inputsFormSignUp);
+    const { isEmpty, inputEmpty } = isEmptyInputs(inputsFormRegister);
     if (isEmpty) {
       showDialog('error', `لطفا ورودی "${inputEmpty.ariaLabel}" را پرکنید`, inputEmpty);
       return;
@@ -53,63 +74,94 @@ const FormSign = ({ setIsShowFormLogin }) => {
 
     const postDataUser = () => {
       axios
-        .post('https://dbserver.liara.run/users', {
-          username: inputUsername.value,
-          password: inputPass.value,
-          fName: inputFName.value,
-          lName: inputLName.value,
-          email: inputEmail.value,
-          cards: [],
-        })
+        .post(
+          'https://dbserver.liara.run/users',
+          {
+            username: inputUsername.value,
+            password: inputPass.value,
+            fName: inputFName.value,
+            lName: inputLName.value,
+            email: inputEmail.value,
+            selectedCards: [],
+            boughtCards: [],
+          },
+          { cancelToken: cancelAxiosToken02.current.token }
+        )
         .then((response) => {
           setIsLoading(() => false);
+          isRequested.current = false;
+
           if (response.status === 200) {
             Swal.fire({
               icon: 'success',
               text: 'ثبت نام انجام شد.\nاکنون می توانید وارد شوید',
               showConfirmButton: true,
-            }).then(() => {
-              setIsShowFormLogin(() => true);
-            });
+            })
+              .then(() => {
+                navigate('/login-register/login'); // Move to Form Login
+              })
+              .catch((err) => {});
           }
         })
         .catch((err) => {
           setIsLoading(() => false);
-          // showDialog('error', `ثبت نام انجام نشد! \n ${err}`);
-          Swal.fire({
-            icon: 'success',
-            text: 'ثبت نام انجام شد.\nاکنون می توانید وارد شوید',
-            showConfirmButton: true,
-          }).then(() => {
-            setIsShowFormLogin(() => true); // Move to Form Login
-          });
+          isRequested.current = false;
+
+          if (err.massage.includes('500')) {
+            Swal.fire({
+              icon: 'success',
+              text: 'ثبت نام انجام شد. \n اکنون می توانید وارد شوید',
+              showConfirmButton: true,
+            })
+              .then(() => {
+                navigate('/login-register/login'); // Move to Form Login
+              })
+              .catch((err) => {});
+          } else if (axios.isCancel(err)) {
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'ساخت حساب کاربری لغو شد!');
+          } else if (err !== 'closeFormRegister') {
+            showDialog('error', `ثبت نام انجام نشد! \n ${err}`);
+          }
         });
     };
 
     /// Checking username is Exist!
-    fetch(`https://dbserver.liara.run/users?username=${inputUsername.value}`)
+    setIsLoading(() => true);
+    isRequested.current = true;
+    axios
+      .get(`https://dbserver.liara.run/users?username=${inputUsername.value}`, {
+        cancelToken: cancelAxiosToken01.current.token,
+      })
       .then((response) => {
-        console.log(response.status);
         if (response.status === 200) {
-          response.json().then((userData) => {
-            if (userData.length) {
-              showDialog('error', `نام کاربری "${inputUsername.value}" قبلا انتخاب شده یک نام کاربری دیگه انتخاب کنید!`, inputUsername);
-            } else {
-              setIsLoading(() => true);
-              postDataUser();
-            }
-          });
+          const userData = response.data;
+          if (userData.length) {
+            setIsLoading(() => false);
+            isRequested.current = false;
+
+            showDialog('error', `نام کاربری "${inputUsername.value}" قبلا انتخاب شده یک نام کاربری دیگه انتخاب کنید!`, inputUsername);
+          } else {
+            postDataUser();
+          }
         } else {
+          setIsLoading(() => false);
+          isRequested.current = false;
+
           showDialog('error', `خطا در ارتباط با سرور\n${response.statusText}`);
         }
       })
       .catch((err) => {
-        showDialog('error', `خطا در ارتباط با سرور\n${err}`);
+        setIsLoading(() => false);
+        isRequested.current = false;
+
+        if (err.message !== 'closeFormRegister') {
+          showDialog('error', `خطا در ارتباط با سرور\n${err}`);
+        }
       });
   };
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Inputs
-  const changeHandlerPassword = (e) => {
+  const changeHandlerInputPassword = (e) => {
     const colorBoxScore = ['red', 'yellow', 'yellow', 'green', 'green'];
     const boxesScore = [...e.target.nextElementSibling.children[1].children];
     const inputPass = e.target.value;
@@ -136,6 +188,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
     const lblRptPass = inputRptPass.previousElementSibling;
     const lblConfirmPass = inputRptPass.nextElementSibling;
 
+    inputRptPass.classList.remove('input-rpt-pass-shake');
     lblRptPass.classList.remove('lbl-rpt-pass-shake');
     lblConfirmPass.style.visibility = 'hidden';
   };
@@ -144,7 +197,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
     const inputRptPass = e.target;
     inputRptPass.value = inputRptPass.value.trim();
 
-    const inputPass = inputRptPass.parentElement.elements[5];
+    const inputPass = inputRptPass.parentElement.elements[4];
     const lblConfirmPass = inputRptPass.nextElementSibling;
     const lblRptPass = inputRptPass.previousElementSibling;
 
@@ -153,20 +206,20 @@ const FormSign = ({ setIsShowFormLogin }) => {
       lblRptPass.classList.add('lbl-rpt-pass-shake');
       inputRptPass.classList.add('input-rpt-pass-shake');
     } else {
+      lblConfirmPass.style.visibility = 'hidden';
       lblRptPass.classList.remove('lbl-rpt-pass-shake');
       inputRptPass.classList.remove('input-rpt-pass-shake');
-      lblConfirmPass.style.visibility = 'hidden';
     }
   };
 
-  const pasteHandlerInputsPass = (e) => {
+  const pasteCopyHandlerInputsPass = (e) => {
     e.preventDefault();
   };
 
   const changeHandlerShowPass = (e) => {
     const isChecked = e.target.checked;
-    const inputPass = formSign.current.elements[4];
-    const inputRptPass = formSign.current.elements[6];
+    const inputPass = formRegister.current.elements[4];
+    const inputRptPass = formRegister.current.elements[6];
 
     if (isChecked) {
       inputPass.type = 'text';
@@ -201,19 +254,19 @@ const FormSign = ({ setIsShowFormLogin }) => {
     lblCheckingUser.innerText = 'درحال بررسی نام کاربری...';
     lblCheckingUser.style.color = 'blue';
 
-    fetch(`https://dbserver.liara.run/users?username=${inputUsername.value}`)
+    axios
+      .get(`https://dbserver.liara.run/users?username=${inputUsername.value}`)
       .then((response) => {
         if (response.status === 200) {
-          response.json().then((userData) => {
-            lblCheckingUser.style.visibility = 'visible';
-            if (userData.length) {
-              lblCheckingUser.innerText = 'قبلا انتخاب شده است!';
-              lblCheckingUser.style.color = 'red';
-            } else {
-              lblCheckingUser.innerText = 'قابل دسترس!';
-              lblCheckingUser.style.color = '';
-            }
-          });
+          const userData = response.data;
+          lblCheckingUser.style.visibility = 'visible';
+          if (userData.length) {
+            lblCheckingUser.innerText = 'قبلا انتخاب شده است!';
+            lblCheckingUser.style.color = 'red';
+          } else {
+            lblCheckingUser.innerText = 'قابل دسترس!';
+            lblCheckingUser.style.color = '';
+          }
         }
       })
       .catch((err) => {});
@@ -252,7 +305,7 @@ const FormSign = ({ setIsShowFormLogin }) => {
   };
 
   return (
-    <form className='form-sign' ref={formSign}>
+    <form className='form-register' ref={formRegister}>
       <div className='title'>ثبت نام</div>
 
       <label className='lbl-fName'>نام</label>
@@ -300,14 +353,16 @@ const FormSign = ({ setIsShowFormLogin }) => {
         aria-label='پسورد'
         placeholder='پسورد خود را وارد کنید'
         onBlur={blurHandlerInputs}
-        onChange={changeHandlerPassword}
+        onChange={changeHandlerInputPassword}
         onKeyDown={keyDownHandlerInputsCheckLangPersian}
+        onCopy={pasteCopyHandlerInputsPass}
+        onPaste={pasteCopyHandlerInputsPass}
       />
 
       <div className='footer-pass'>
-        <label className='show-pass-sign'>
+        <label className='show-pass-register'>
           نمایش پسورد
-          <input type='checkbox' name='show-pass-sign' id='show-pass-sign' onChange={changeHandlerShowPass} />
+          <input type='checkbox' name='show-pass-register' id='show-pass-register' onChange={changeHandlerShowPass} />
         </label>
 
         <div className='score-pass'>
@@ -329,17 +384,18 @@ const FormSign = ({ setIsShowFormLogin }) => {
         placeholder='پسورد خود را تکرار کنید'
         onBlur={blurHandlerRptPass}
         onFocus={focusHandlerRptPass}
-        onPaste={pasteHandlerInputsPass}
+        onPaste={pasteCopyHandlerInputsPass}
+        onCopy={pasteCopyHandlerInputsPass}
         onKeyDown={keyDownHandlerInputsCheckLangPersian}
       />
       <span className='confirm-pass' style={{ visibility: 'hidden' }}>
         عدم تطابق پسورد
       </span>
 
-      <button type='button' className='btn-sign' onClick={clickHandlerSignUp}>
-        {isLoading ? <div className='btn-loading' /> : 'ثبت نام'}
+      <button type='button' className='btn-register' onClick={clickHandlerRegister}>
+        {isLoading ? <SmallLoading /> : 'ثبت نام'}
       </button>
     </form>
   );
 };
-export default FormSign;
+export default FormRegister;
