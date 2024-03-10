@@ -1,0 +1,36 @@
+.price {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  font-family: 'Yekan', sans-serif, serif;
+  font-weight: 700;
+  font-size: 18px;
+
+  .off-price {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    padding: 0px 3px;
+
+    .main {
+      font-family: inherit;
+      font-size: 12px;
+      text-decoration: line-through solid black;
+    }
+
+    .off {
+      font-family: inherit;
+    }
+  }
+
+  .main-price {
+    font-family: inherit;
+  }
+
+  .icon {
+    font-size: 25px;
+  }
+}
