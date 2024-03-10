@@ -1,29 +1,52 @@
 import './FormLogin.css';
 import { useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
-import { useChangeUserDataContext } from '../../context/UserDataContext';
-import { ACTION_TYPE } from '../../context/useUserDataReducer';
+import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
+import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import SmallLoading from '../SmallLoading/SmallLoading';
+import axios from 'axios';
+import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 
-const FormLogin = ({ setIsShowForgetPass }) => {
+const FormLogin = ({ setIsShowFormLoginRegister }) => {
   const formLogin = useRef(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isLogin } = useUserDataContext();
   const changeUserData = useChangeUserDataContext();
+  const setNotification = useSetNotificationContext();
+  const cancelAxiosToken = useRef(axios.CancelToken.source());
+  const isRequested = useRef(false);
 
   useEffect(() => {
+    if (isLogin) {
+      navigate('/home');
+      return;
+    }
+
     window.setTimeout(() => {
-      formLogin.current.classList.add('form-login-show');
-    }, 100);
+      formLogin.current?.classList.add('form-login-show');
+    }, 10);
+
+    // Function Clean up
+    return () => {
+      if (isRequested.current) {
+        cancelAxiosToken.current.cancel('closeFormLogin');
+      }
+    };
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Button Login
-  const clickHandlerLogin = () => {
+  const clickHandlerLogin = async () => {
     const inputsFormLogin = [...formLogin.current.elements].slice(0, -1);
     const inputUsername = inputsFormLogin[0];
     const inputPassword = inputsFormLogin[1];
-    const CBRememberMe = inputsFormLogin[2];
+    const CBRememberMe = inputsFormLogin[3];
 
     if (isLoading) {
       return;
@@ -36,41 +59,50 @@ const FormLogin = ({ setIsShowForgetPass }) => {
     }
 
     setIsLoading(() => true);
-    fetch(`https://dbserver.liara.run/users?username=${inputUsername.value}`).then((response) => {
-      if (response.status === 200) {
-        response
-          .json()
-          .then((userData) => {
-            setIsLoading(() => false);
-            if (userData.length) {
-              const passwordUser = userData[0].password;
-              if (inputPassword.value === passwordUser) {
-                if (CBRememberMe.checked) {
-                  window.localStorage.setItem('userData', JSON.stringify(userData[0]));
-                }
+    isRequested.current = true;
+    axios
+      .get(`https://dbserver.liara.run/users?username=${inputUsername.value}`, { cancelToken: cancelAxiosToken.current.token })
+      .then((response) => {
+        setIsLoading(() => false);
+        isRequested.current = false;
 
-                changeUserData(ACTION_TYPE.PUT_ALL, userData[0]);
-                changeUserData(ACTION_TYPE.IS_LOGIN, true);
-                Swal.fire({
-                  icon: 'success',
-                  text: 'ورود با موفقیت انجام شد!',
-                  showConfirmButton: true,
-                }).then(() => {
-                  navigate('/Home');
-                });
-              } else {
-                showDialog('error', 'رمز عبور وارد شده اشتباه می باشد!');
-              }
+        if (response.status === 200) {
+          const userData = response.data[0];
+          if (userData) {
+            const passwordUser = userData.password;
+            if (inputPassword.value === passwordUser) {
+              changeUserData(ACTION_TYPE.PATCH_DATA, { isLogin: true, isRemember: CBRememberMe.checked, ...userData }); // move userData to ContextApi
+              window.sessionStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, ...userData })); // save userData in the localStorage for when refresh page
+              window.localStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, ...userData })); // save userData in the localStorage for when refresh page
+
+              Swal.fire({
+                icon: 'success',
+                text: 'ورود با موفقیت انجام شد!',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 1000,
+              })
+                .then(() => {
+                  navigate('/account/details');
+                })
+                .catch((err) => {});
             } else {
-              showDialog('error', `همچین نام کاربری "${inputUsername.value}" ثبت نشده است`);
+              showDialog('error', 'رمز عبور وارد شده اشتباه می باشد!');
             }
-          })
-          .catch((err) => {
-            setIsLoading(() => false);
-            showDialog('error', `خطا در ارتباط با سرور!\n${err}`);
-          });
-      }
-    });
+          } else {
+            showDialog('error', `همچین نام کاربری "${inputUsername.value}" ثبت نشده است`);
+          }
+        }
+      })
+      .catch((err) => {
+        if (err.message !== 'closeFormLogin') {
+          setIsLoading(() => false);
+          isRequested.current = false;
+          showDialog('error', `خطا در ارتباط با سرور! ${err}`);
+        } else if (axios.isCancel(err)) {
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'ورود به سایت لغو شد!');
+        }
+      });
   };
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler CheckBox Show Password
@@ -87,12 +119,20 @@ const FormLogin = ({ setIsShowForgetPass }) => {
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Forget Password
   const clickHandlerForgetPass = () => {
-    setIsShowForgetPass(() => true);
+    navigate('/login-register/forget-password');
+    setIsShowFormLoginRegister(() => false);
   };
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Inputs Pass & RptPass
   const keyDownHandlerInputPassword = (e) => {
-    const codeAscii = e.key.charCodeAt(0);
+    const keyDown = e.key;
+    const codeAscii = keyDown.charCodeAt(0);
+    if (keyDown === 'Enter') {
+      e.preventDefault();
+      clickHandlerLogin();
+      return;
+    }
+
     if (codeAscii >= 0x0600 && codeAscii <= 0x06ff) {
       showDialog('info', 'لطفا زبان صفحه کلید خود را انگلیسی کنید!');
     }
@@ -116,6 +156,11 @@ const FormLogin = ({ setIsShowForgetPass }) => {
         aria-label='نام کاربری'
         placeholder='نام کاربری خود را وارد کنید'
         onBlur={blurHandlerInputs}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            clickHandlerLogin();
+          }
+        }}
       />
 
       <label className='lbl-pass'>پسورد</label>
@@ -146,7 +191,7 @@ const FormLogin = ({ setIsShowForgetPass }) => {
         مرا به خاطر بسپار!
       </label>
       <button type='button' className='btn-login' onClick={clickHandlerLogin}>
-        {isLoading ? <div className='btn-loading' /> : 'ورود'}
+        {isLoading ? <SmallLoading /> : 'ورود'}
       </button>
     </form>
   );
