@@ -3,15 +3,17 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { showDialog } from '../../utils';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
-const FromForgetPass = ({ setIsShowForgetPass }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const FromForgetPass = ({ setIsShowFormLoginRegister }) => {
+  const navigate = useNavigate();
   const formForgetPass = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.setTimeout(() => {
-      formForgetPass.current.classList.add('form-forget-pass-show');
-    }, 100);
+      formForgetPass.current?.classList.add('form-forget-pass-show');
+    }, 10);
   }, []);
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Button Forget Password
@@ -67,7 +69,8 @@ const FromForgetPass = ({ setIsShowForgetPass }) => {
   const clickHandlerForgetPass = () => {
     formForgetPass.current.classList.remove('form-forget-pass-show');
     window.setTimeout(() => {
-      setIsShowForgetPass(() => false);
+      setIsShowFormLoginRegister(() => true);
+      navigate('/login-register/login');
     }, 200);
   };
 
