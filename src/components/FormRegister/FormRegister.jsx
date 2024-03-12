@@ -88,9 +88,6 @@ const FormRegister = () => {
           { cancelToken: cancelAxiosToken02.current.token }
         )
         .then((response) => {
-          setIsLoading(() => false);
-          isRequested.current = false;
-
           if (response.status === 200) {
             Swal.fire({
               icon: 'success',
@@ -104,9 +101,6 @@ const FormRegister = () => {
           }
         })
         .catch((err) => {
-          setIsLoading(() => false);
-          isRequested.current = false;
-
           if (err.massage.includes('500')) {
             Swal.fire({
               icon: 'success',
@@ -122,6 +116,10 @@ const FormRegister = () => {
           } else if (err !== 'closeFormRegister') {
             showDialog('error', `ثبت نام انجام نشد! \n ${err}`);
           }
+        })
+        .finally(() => {
+          setIsLoading(() => false);
+          isRequested.current = false;
         });
     };
 
