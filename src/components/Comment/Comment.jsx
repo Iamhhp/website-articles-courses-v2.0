@@ -4,7 +4,7 @@ import { PiStudentBold } from 'react-icons/pi';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Comment = ({ user, date, text, replies, teacher }) => {
+const Comment = ({ user, type, date, text, replies }) => {
   const [showBoxComment, setShowBoxComment] = useState(false);
 
   const clickHandlerReply = () => {
@@ -42,17 +42,25 @@ const Comment = ({ user, date, text, replies, teacher }) => {
   useEffect(() => {
     if (showBoxComment) {
       elementComment.current.style.height = `${initialHeight.current}px`;
-      window.setTimeout(() => {
-        elementComment.current.style.height = `${elementComment.current.scrollHeight}px`;
 
-        window.setTimeout(() => {
-          elementComment.current.style.height = 'fit-content';
-        }, 120);
+      window.setTimeout(() => {
+        if (elementComment.current) {
+          elementComment.current.style.height = `${elementComment.current.scrollHeight}px`;
+
+          window.setTimeout(() => {
+            if (elementComment.current) {
+              elementComment.current.style.height = 'fit-content';
+            }
+          }, 120);
+        }
       }, 10);
     } else {
       elementComment.current.style.height = `${elementComment.current.scrollHeight}px`;
+
       window.setTimeout(() => {
-        elementComment.current.style.height = 'fit-content';
+        if (elementComment.current) {
+          elementComment.current.style.height = 'fit-content';
+        }
       }, 50);
     }
   }, [showBoxComment]);
@@ -64,7 +72,7 @@ const Comment = ({ user, date, text, replies, teacher }) => {
           <img src={'https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg'} alt='' />
         </div>
         <div className='container-user'>
-          {user === teacher ? (
+          {type === 'teacher' ? (
             <div className='label-user-teacher'>
               <FaChalkboardTeacher className='icon' /> مدرس
             </div>
@@ -97,7 +105,7 @@ const Comment = ({ user, date, text, replies, teacher }) => {
       )}
 
       {replies?.map((comment) => {
-        return <Comment key={comment.id} {...comment} teacher={teacher} />;
+        return <Comment key={comment.id} {...comment} />;
       })}
     </div>
   );

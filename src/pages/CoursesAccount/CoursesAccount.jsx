@@ -17,6 +17,7 @@ const CoursesAccount = () => {
   const data = { courses: [], isCourseSelected: false, totalPriceCourses: 0 };
 
   const userData = useUserDataContext();
+  const userDataRecovery = useRef({});
   const changeUserData = useChangeUserDataContext();
   const setNotification = useSetNotificationContext();
 
@@ -48,8 +49,6 @@ const CoursesAccount = () => {
     data.isCourseSelected = false;
   }
 
-  console.log(data.isCourseSelected);
-
   if (data.courses.length > 1) {
     data.totalPriceCourses = data.courses?.reduce((a, b) => {
       const priceCourseA = (Number(a.discountPrice || 100) / 100) * a.mainPrice || a;
@@ -62,20 +61,19 @@ const CoursesAccount = () => {
   }
 
   const clickHandlerClearingPrice = () => {
-    // update userData in localStorage for when that requestAxios felid! then recover userData from localStorage
     setIsPosting(() => true);
-    window.sessionStorage.setItem('userData', JSON.stringify(userData));
+
+    userDataRecovery.current = JSON.parse(JSON.stringify(userData));
     changeUserData(ACTION_TYPE.ADD_CARD_BOUGHT, JSON.parse(JSON.stringify(userData.selectedCards)));
     changeUserData(ACTION_TYPE.DEL_ALL_CARD_SELECTED);
   };
 
+  // fetch useData change by move selectedCards move boughtCards
   useEffect(() => {
     if (isPosting) {
       axios
         .patch(`https://dbserver.liara.run/users/${userData.id}`, userData)
         .then((response) => {
-          setIsPosting(() => false);
-
           if (response.status === 200) {
             Swal.fire({
               icon: 'success',
@@ -90,35 +88,31 @@ const CoursesAccount = () => {
               .catch((err) => {});
           } else {
             setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
-
-            // Recovery Data User Login from sessionStorage!
-            const recoveryUserData = JSON.parse(window.sessionStorage.getItem('userData'));
-            changeUserData(ACTION_TYPE.PUT_DATA, recoveryUserData);
+            changeUserData(ACTION_TYPE.PUT_DATA, userDataRecovery.current);
           }
         })
 
         .catch((err) => {
-          setIsPosting(() => false);
-
           if (err.message.includes('500')) {
             Swal.fire({
               icon: 'success',
               text: 'پرداخت باموفقیت انجام شد',
               showConfirmButton: false,
               timerProgressBar: true,
-              timer: 2000,
+              timer: 900,
             })
               .then(() => {
                 navigate('/account/courses/bought');
               })
               .catch((err) => {});
           } else {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا!!!! دوباره سعی کنید.');
-
-            // Recovery Data User Login from sessionStorage!
-            const recoveryUserData = JSON.parse(window.sessionStorage.getItem('userData'));
-            changeUserData(ACTION_TYPE.PUT_DATA, recoveryUserData);
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+            changeUserData(ACTION_TYPE.PUT_DATA, userDataRecovery.current);
           }
+        })
+
+        .finally(() => {
+          setIsPosting(() => false);
         });
     }
   }, [userData]);

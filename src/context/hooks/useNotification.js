@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 
 export const ACTION_TYPE_NOTIFICATION = {
   ADD_MSG: 0,
@@ -33,9 +33,9 @@ const useNotification = () => {
 
   const [stateNotification, dispatch] = useReducer(notificationReducer, initialState);
 
-  const setNotification = (actionType, actionPayLoad) => {
+  const setNotification = useCallback((actionType, actionPayLoad) => {
     dispatch({ type: actionType, payLoad: actionPayLoad });
-  };
+  }, []);
 
   return {
     stateNotification,

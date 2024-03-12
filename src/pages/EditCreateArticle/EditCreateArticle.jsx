@@ -18,7 +18,7 @@ const EditCreateArticle = () => {
 
   // Replacing data in inputs //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    if (editCreate === 'Edit') {
+    if (editCreate === 'edit') {
       form.current.elements[0].value = dataArticle.response.image;
       form.current.elements[1].value = dataArticle.response.title;
       form.current.elements[2].value = dataArticle.response.description;
@@ -37,13 +37,15 @@ const EditCreateArticle = () => {
         icon: 'error',
         text: `لطفا ورودی "${inputEmpty.ariaLabel}" را پرکنید!`,
         showConfirmButton: true,
-      }).then((result) => {
-        if (result.isConfirmed || result.isDismissed) {
-          window.setTimeout(() => {
-            inputEmpty.focus();
-          }, 500);
-        }
-      });
+      })
+        .then((result) => {
+          if (result.isConfirmed || result.isDismissed) {
+            window.setTimeout(() => {
+              inputEmpty?.focus();
+            }, 500);
+          }
+        })
+        .catch((err) => {});
       return;
     }
 
@@ -54,26 +56,30 @@ const EditCreateArticle = () => {
       cancelButtonText: 'خیر!',
       cancelButtonColor: 'red',
     };
-    if (editCreate === 'Edit') {
+    if (editCreate === 'edit') {
       Swal.fire({
         icon: 'info',
         text: 'ویرایش مقاله ثبت شود؟',
         ...propertiesSwal,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          editArticleHandler();
-        }
-      });
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            editArticleHandler();
+          }
+        })
+        .catch((err) => {});
     } else {
       Swal.fire({
         icon: 'info',
         text: 'مقاله ایجاد شود؟',
         ...propertiesSwal,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          createArticleHandler();
-        }
-      });
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            createArticleHandler();
+          }
+        })
+        .catch((err) => {});
     }
   };
 
@@ -108,21 +114,25 @@ const EditCreateArticle = () => {
             text: 'ویرایش باموفقیت انجام شد!\n مسیریابی به سمت صفحه مقالات',
             showConfirmButton: true,
             confirmButtonText: 'برو به مقالات',
-          }).then((result) => {
-            if (result.isConfirmed || result.isDismissed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed || result.isDismissed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         } else {
           Swal.fire({
             icon: 'error',
             text: `ویرایش مقاله انجام نشد!\n ${response.statusText}  ${response.status}`,
             ...propertiesSwal,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         }
       })
       .catch((err) => {
@@ -130,11 +140,13 @@ const EditCreateArticle = () => {
           icon: 'error',
           text: `ویرایش مقاله انجام نشد!\n ${err}`,
           ...propertiesSwal,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate('/Articles');
-          }
-        });
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              navigate('/Articles');
+            }
+          })
+          .catch((err) => {});
       });
   };
 
@@ -172,21 +184,25 @@ const EditCreateArticle = () => {
             text: 'ایجاد مقاله باموفقیت انجام شد!',
             showConfirmButton: true,
             confirmButtonText: 'برو به مقالات',
-          }).then((result) => {
-            if (result.isConfirmed || result.isDismissed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed || result.isDismissed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         } else {
           Swal.fire({
             icon: 'error',
             text: `ایجاد مقاله انجام نشد!\n ${response.statusText}  ${response.status}`,
             ...propertiesSwal,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         }
       })
       .catch((err) => {
@@ -194,19 +210,21 @@ const EditCreateArticle = () => {
           icon: 'error',
           text: `ایجاد مقاله انجام نشد!\n ${err}`,
           ...propertiesSwal,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate('/Articles');
-          }
-        });
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              navigate('/Articles');
+            }
+          })
+          .catch((err) => {});
       });
   };
 
   return (
     <Container className='container-edit-create'>
       {isPending && <Loading className='position-loading' />}
-      {editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && <NoResponse responseState={dataArticle.responseStatus} />}
-      <form ref={form} style={{ display: editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && 'none' }}>
+      {editCreate === 'edit' && dataArticle.responseStatus !== 'dataReceived!' && <NoResponse responseState={dataArticle.responseStatus} />}
+      <form ref={form} style={{ display: editCreate === 'edit' && dataArticle.responseStatus !== 'dataReceived!' && 'none' }}>
         <label htmlFor='image'>عکس</label>
         <div className='container-input'>
           <input
@@ -309,7 +327,7 @@ const EditCreateArticle = () => {
         </div>
 
         <button type='button' onClick={editCreateArticleHandler}>
-          {editCreate === 'Edit' ? 'ویرایش مقاله' : 'ایجاد مقاله'}
+          {editCreate === 'edit' ? 'ویرایش مقاله' : 'ایجاد مقاله'}
         </button>
       </form>
     </Container>

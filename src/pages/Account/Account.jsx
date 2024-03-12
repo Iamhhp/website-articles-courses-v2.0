@@ -6,7 +6,6 @@ import CoursesAccount from '../CoursesAccount/CoursesAccount';
 import { useChangeUserDataContext, useUserDataContext } from '../../context/DataContext';
 import Swal from 'sweetalert2';
 import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
-import { useState } from 'react';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -26,9 +25,9 @@ const Account = () => {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          changeUserData(ACTION_TYPE.LOGOUT, {});
-          window.sessionStorage.removeItem('userData');
+          changeUserData(ACTION_TYPE.LOGOUT);
           window.localStorage.removeItem('userData');
+          window.sessionStorage.removeItem('userData');
           navigate('/home');
         }
       })

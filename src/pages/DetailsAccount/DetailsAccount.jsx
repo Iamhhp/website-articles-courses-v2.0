@@ -3,13 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import zxcvbn from 'zxcvbn';
 import { isEmptyInputs, showDialog } from '../../utils';
-import { useChangeUserDataContext, useUserDataContext } from '../../context/DataContext';
+import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import Loading from '../../components/Loading/Loading';
+import axios from 'axios';
+import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 
 const DetailsAccount = () => {
   const formDetailsAccount = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const setNotification = useSetNotificationContext();
   const changeUserData = useChangeUserDataContext();
   const { id, fName, lName, username, email } = useUserDataContext();
 
@@ -75,37 +78,35 @@ const DetailsAccount = () => {
       userDataNew.password = inputPass.value;
     }
 
-    changeUserData(ACTION_TYPE.PATCH_DATA, { ...userDataNew });
-
     setIsLoading(() => true);
-    fetch(`https://dbserver.liara.run/users/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({ ...userDataNew }),
-    })
+    axios
+      .patch(`https://dbserver.liara.run/users/${id}`, userDataNew)
       .then((response) => {
-        setIsLoading(() => false);
         if (response.status === 200) {
-          showDialog('success', 'تغییر اطلاعات ذخیره شد!');
-          btnSaveChange.disabled = true;
-          btnSaveChange.classList.add('btn-save-chng-disabled');
+          changeUserData(ACTION_TYPE.PATCH_DATA, userDataNew);
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'تغییرات ذخیره شد!');
+
+          btnSaveChange.classList.remove('btn-enabled-Name-side');
           CBEnabledInputsPassword.checked = false;
           changeHandlerCBEnableInputsPassword({ target: CBEnabledInputsPassword });
         } else {
-          // showDialog('error', 'اطلاعات ذخیره نشد!\nعدم ارتباط با سرور');
-
-          showDialog('success', 'تغییر اطلاعات ذخیره شد!');
-          btnSaveChange.disabled = true;
-          btnSaveChange.classList.add('btn-save-chng-disabled');
-          CBEnabledInputsPassword.checked = false;
-          changeHandlerCBEnableInputsPassword({ target: CBEnabledInputsPassword });
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
         }
       })
       .catch((err) => {
+        if (err.message.includes('500')) {
+          changeUserData(ACTION_TYPE.PATCH_DATA, userDataNew);
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'تغییرات ذخیره شد!');
+
+          btnSaveChange.classList.remove('btn-enabled-Name-side');
+          CBEnabledInputsPassword.checked = false;
+          changeHandlerCBEnableInputsPassword({ target: CBEnabledInputsPassword });
+        } else {
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+        }
+      })
+      .finally(() => {
         setIsLoading(() => false);
-        showDialog('error', `اطلاعات ذخیره نشد!\nعدم ارتباط با سرور ${err}`);
       });
   };
 
@@ -260,14 +261,14 @@ const DetailsAccount = () => {
   };
 
   const changeHandlerInputsFNameLName = () => {
-    const bntSaveChange = formDetailsAccount.current.children[3];
+    const btnSaveChange = formDetailsAccount.current.children[3];
     const inputFName = formDetailsAccount.current.children[0].children[0].children[1];
     const inputLName = formDetailsAccount.current.children[0].children[1].children[1];
 
     if (inputFName.value !== fName || inputLName.value !== lName) {
-      bntSaveChange.classList.add('btn-enabled-Name-side');
+      btnSaveChange.classList.add('btn-enabled-Name-side');
     } else if (inputFName.value === fName && inputLName.value === lName) {
-      bntSaveChange.classList.remove('btn-enabled-Name-side');
+      btnSaveChange.classList.remove('btn-enabled-Name-side');
     }
   };
 

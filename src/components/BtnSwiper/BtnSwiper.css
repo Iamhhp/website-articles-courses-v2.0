@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #00a9ff;
+    border: 1px solid #0073e6;
     border-radius: 50%;
     margin-right: 2px;
     overflow: hidden;
@@ -21,13 +21,13 @@
     .icon {
       font-size: 35px;
       color: white;
-      background-color: #00a9ff;
+      background-color: #0073e6;
     }
   }
 
   button:hover {
     .icon {
-      color: #00a9ff;
+      color: #0073e6;
       background-color: white;
     }
   }

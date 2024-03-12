@@ -1,5 +1,5 @@
-import { Col, Container, Row } from 'react-bootstrap';
 import './Course.css';
+import { Col, Container, Row } from 'react-bootstrap';
 import useFetch from '../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { PiStudentBold } from 'react-icons/pi';
@@ -10,42 +10,110 @@ import Comment from '../../components/Comment/Comment';
 import Swal from 'sweetalert2';
 import Loading from '../../components/Loading/Loading';
 import NoResponse from '../../components/NoResponse/NoResponse';
+import RendingPrice from '../../components/RendingPrice/RendingPrice';
+import { useEffect, useRef, useState } from 'react';
+import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
+import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
+import SmallLoading from '../../components/SmallLoading/SmallLoading';
+import axios from 'axios';
+import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import { showDialog } from '../../utils';
 
 const Course = () => {
   const { idCourse } = useParams();
+  const [isPosting, setIsPosting] = useState(false);
+
+  const userData = useUserDataContext();
+  const changeUserData = useChangeUserDataContext();
+  const setNotification = useSetNotificationContext();
+
+  const form = useRef();
   const [
     {
       responseStatus,
-      response: { title, image, description, teacher, descTeacher, imgProfileTeacher, studentCount, progressPercent, comments },
+      response: { id, title, image, description, teacher, descTeacher, imgProfileTeacher, studentCount, progressPercent, mainPrice, discountPrice, comments },
     },
     isPending,
   ] = useFetch(`https://dbserver.liara.run/Courses/${idCourse}`);
 
+  const clickHandlerRegisterCourse = () => {
+    if (isPosting) {
+      return;
+    }
+
+    const dataCourse = {
+      id,
+      title,
+      image,
+      description,
+      mainPrice,
+      discountPrice,
+    };
+
+    // checking course Exit in boughtCards
+    const result = userData.boughtCards.some((card) => card.id === id);
+    if (result) {
+      setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, `"${title}" قبلا خریداری شد!`);
+      return;
+    }
+
+    // checking course Exist in selectedCards
+    const result01 = userData.selectedCards.some((card) => card.id === id);
+    if (result01) {
+      setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, `"${title}" قبلا انتخاب شد!`);
+
+      return;
+    }
+
+    setIsPosting(() => true);
+    changeUserData(ACTION_TYPE.ADD_CARD_SELECTED, dataCourse);
+  };
+
+  // patch course
+  useEffect(() => {
+    if (isPosting) {
+      axios
+        .patch(`https://dbserver.liara.run/users/${userData.id}`, userData)
+        .then((response) => {
+          if (response.status === 200) {
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" به سبد خرید اضافه شد!`);
+          } else {
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+
+            // Recovery Data User Login from sessionStorage!
+            changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+          }
+        })
+        .catch((err) => {
+          if (err.message.includes('500')) {
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" به سبد خرید اضافه شد!`);
+          } else {
+            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطاqq! دوباره سعی کنید.');
+
+            // Recovery Data User Login from sessionStorage!
+            changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+          }
+        })
+        .finally(() => {
+          setIsPosting(() => false);
+        });
+    }
+  }, [userData]);
+
   const clickHandlerSendComment = (e) => {
     const inputComment = e.target.previousElementSibling;
     if (!inputComment.value) {
-      Swal.fire({
-        icon: 'info',
-        text: 'لطفا کادر مربوط را پر کنید!',
-        showConfirmButton: true,
-      }).then(() => {
-        window.setTimeout(() => {
-          inputComment.focus();
-        }, 300);
-      });
+      showDialog('err', 'لطفا ابتدا نظر خود را در کادر مربوطه وارد کنید', inputComment);
       return;
     }
+
     inputComment.value = '';
-    Swal.fire({
-      icon: 'success',
-      text: 'نظر شما با موفقیت ارسال شد بعد از تایید در بخش نظرات ثبت خواهد شد.',
-      showConfirmButton: true,
-    });
+    showDialog('success', 'نظر شما با موفقیت ارسال شد بعد از تایید در بخش نظرات ثبت خواهد شد.');
   };
 
   return (
-    <Container className='container-course'>
-      <div className='title-header'>دوره ها</div>
+    <Container className='container-course' ref={form}>
+      <div className='title-header'>دوره آموزشی</div>
       {isPending ? (
         <Loading />
       ) : responseStatus !== 'dataReceived!' ? (
@@ -54,7 +122,9 @@ const Course = () => {
         <Row>
           <Col className='col-12 col-md-6  col-lg-4'>
             <div className='details-course'>
-              <div className='title'>{title}</div>
+              <div className='title'>
+                {title}-{id}
+              </div>
 
               <div className='intro-teacher'>
                 <div className='img-profile-teacher'>
@@ -80,9 +150,16 @@ const Course = () => {
                     <div className='fill' style={{ width: progressPercent + '%' }} />
                   </div>
                 </div>
+
+                <div className='price-course'>
+                  قیمت دوره :
+                  <RendingPrice {...{ mainPrice, discountPrice }} />
+                </div>
               </div>
 
-              <button className='btn-login'>ثبت نام</button>
+              <button className='btn-login' onClick={clickHandlerRegisterCourse}>
+                {isPosting ? <SmallLoading /> : 'ثبت نام'}
+              </button>
             </div>
           </Col>
 
@@ -273,14 +350,19 @@ const Course = () => {
                 </div>
                 <div className='comments'>
                   {comments?.map((comment) => {
-                    return <Comment key={comment.id} {...comment} teacher={teacher} />;
+                    return <Comment key={comment.id} {...comment} />;
                   })}
                 </div>
               </div>
 
               <div className='box-comment'>
                 <div className='title'>ثبت نظر</div>
-                <textarea className='input-comment' />
+                <textarea
+                  className='input-comment'
+                  onBlur={(e) => {
+                    e.target.value = e.target.value.trim();
+                  }}
+                />
                 <button type='button' className='send-comment' onClick={clickHandlerSendComment}>
                   ارسال نظر
                 </button>

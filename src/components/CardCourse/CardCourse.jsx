@@ -2,11 +2,11 @@ import './CardCourse.css';
 import { Link } from 'react-router-dom';
 import { GiDuration } from 'react-icons/gi';
 import { FaChalkboardTeacher, FaRegQuestionCircle } from 'react-icons/fa';
-import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 import { memo, useEffect } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
+import RendingPrice from '../RendingPrice/RendingPrice';
 
-const CardCourse = ({ id, studentCount, image, title, description, teacher, duration, off, mainPrice }) => {
+const CardCourse = ({ id, studentCount, image, title, description, teacher, duration, discountPrice, mainPrice }) => {
   useEffect(() => {
     console.log('CardCourse reRender!');
   });
@@ -24,7 +24,7 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
           <PiStudentFill className='icon-student' />
         </div>
 
-        {off && <div className='lbl-off'>{off}%</div>}
+        {discountPrice && <div className='lbl-off'>{discountPrice}%</div>}
       </div>
 
       <div className='title'>
@@ -45,34 +45,12 @@ const CardCourse = ({ id, studentCount, image, title, description, teacher, dura
       </div>
 
       <div className='footer'>
-        <Link to={`/Course/${id}`} className='btn-buy'>
-          ادامه دوره
+        <Link to={`/course/${id}`} className='btn-buy'>
+          جزئیات دوره
         </Link>
-        <RendingPrice {...{ off, mainPrice }} />
+        <RendingPrice {...{ discountPrice, mainPrice }} />
       </div>
     </div>
   );
 };
 export default memo(CardCourse);
-
-const RendingPrice = ({ off, mainPrice }) => {
-  const formattingPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
-
-  return (
-    <div className='price'>
-      {off ? (
-        <div className='off-price'>
-          <div className='off'>{formattingPrice((off / 100) * mainPrice)}</div>
-          <div className='main'>{formattingPrice(mainPrice)}</div>
-        </div>
-      ) : (
-        <>
-          <div className='main-price'>{formattingPrice(mainPrice)}</div>
-        </>
-      )}
-      <RiMoneyDollarCircleFill className='icon' />
-    </div>
-  );
-};

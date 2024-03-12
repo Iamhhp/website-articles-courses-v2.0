@@ -14,14 +14,17 @@ const showDialog = (type, text, input) => {
   Swal.fire({
     icon: type,
     text: text,
+    heightAuto: false,
     showConfirmButton: true,
-  }).then((result) => {
-    if (result.isConfirmed || result.isDismissed) {
-      window.setTimeout(() => {
-        input?.focus();
-      }, 500);
-    }
-  });
+  })
+    .then((result) => {
+      if (result.isConfirmed || result.isDismissed) {
+        window.setTimeout(() => {
+          input?.focus();
+        }, 500);
+      }
+    })
+    .catch((err) => {});
 };
 
 export { isEmptyInputs, showDialog };

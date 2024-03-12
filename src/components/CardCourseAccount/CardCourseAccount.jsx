@@ -1,42 +1,47 @@
 import './CardCourseAccount.css';
 import RendingPrice from '../RendingPrice/RendingPrice';
 import { Link } from 'react-router-dom';
-import { useChangeUserDataContext, useUserDataContext } from '../../context/DataContext';
+import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import SmallLoading from '../SmallLoading/SmallLoading';
+import { memo, useEffect, useState } from 'react';
 import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
+import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import SmallLoading from '../SmallLoading/SmallLoading';
 
-const CardCourseAccount = ({ id, title, image, description, mainPrice, discountPrice, isCourseSelected }) => {
+const CardCourseAccount = ({ id, title, image, description, mainPrice, discountPrice, isCourseSelected, setIsRemoveCard }) => {
+  useEffect(() => {
+    console.log('CardCourseAccount reRender!', id);
+  });
+
   const [isPosting, setIsPosting] = useState(false);
   const userData = useUserDataContext();
   const changeUserData = useChangeUserDataContext();
-
-  useEffect(() => {
-    if (isPosting) {
-      window.sessionStorage.setItem('userData', JSON.stringify({ ...userData }));
-      setIsPosting(() => false);
-    }
-  }, [userData]);
+  const setNotification = useSetNotificationContext();
 
   const clickHandlerRemoveCourses = () => {
-    setIsPosting(() => true);
-    const userDataNew = JSON.parse(JSON.stringify({ ...userData }));
-    userDataNew.selectedCards = userDataNew.selectedCards.filter((card) => card.id !== id);
-
+    setIsPosting(() => true); // don't false cause component cardCourseAccount Rerendering!
+    const userNewData = JSON.parse(JSON.stringify(userData));
+    userNewData.selectedCards = userNewData.selectedCards.filter((card) => card.id !== id);
     axios
-      .patch(`https://dbserver.liara.run/users/${userDataNew.id}`, userDataNew)
+      .patch(`https://dbserver.liara.run/users/${userData.id}`, userNewData)
       .then((response) => {
         if (response.status === 200) {
           changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" از سبد خرید حذف شد!`);
+        } else {
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
         }
       })
-
+      .finally(() => {
+        setIsPosting(() => false);
+      })
       .catch((err) => {
         if (err.message.includes('500')) {
           changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" از سبد خرید حذف شد!`);
         } else {
+          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
         }
       });
   };
@@ -68,4 +73,4 @@ const CardCourseAccount = ({ id, title, image, description, mainPrice, discountP
     </div>
   );
 };
-export default CardCourseAccount;
+export default memo(CardCourseAccount);

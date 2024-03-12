@@ -22,7 +22,7 @@ const Notification = ({ id, backgroundColor, msg, i }) => {
                 setNotification(ACTION_TYPE_NOTIFICATION.DEL_NOTI, id);
               }, 500);
             }
-          }, 4000);
+          }, 3000);
         }
       });
     }, 10);

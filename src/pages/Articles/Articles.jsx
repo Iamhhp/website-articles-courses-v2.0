@@ -20,13 +20,16 @@ const Articles = () => {
 
   const containerCardArticles = useRef(null);
   const [reloadAccordion, setReloadAccordion] = useState(false);
-  const [reloadPaginate, setReloadPaginate] = useState(false);
+  const [reloadPaginate, setReloadPaginate] = useState(true); // true for don't show in the first rendering component
 
   const optionSorting = useRef('newest');
   const optionsFiltering = useRef({ writers: [], categories: [] });
 
   useEffect(() => {
-    changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      changeStateDataArticles(ACTION_TYPE.DATA_SEARCH, [...dataFetchArticles.response]);
+    }
   }, [dataFetchArticles]);
 
   // Search Options Accordion ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,12 +46,18 @@ const Articles = () => {
   };
 
   useEffect(() => {
-    setReloadAccordion(() => false);
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      setReloadAccordion(() => false);
+    }
   }, [reloadAccordion]);
 
   // Filtering Data Articles ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    filteringDataArticles();
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      filteringDataArticles();
+    }
   }, [stateDataArticles.search]);
 
   const filteringDataArticles = () => {
@@ -68,7 +77,10 @@ const Articles = () => {
 
   // Sorting Data Articles /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    sortingDataArticles();
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      sortingDataArticles();
+    }
   }, [stateDataArticles.filter]);
 
   const sortingDataArticles = () => {
@@ -110,11 +122,10 @@ const Articles = () => {
 
   // Paginate Data Articles /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    setReloadPaginate(() => false);
-  }, [reloadPaginate]);
-
-  useEffect(() => {
-    changeHandlerPagination({ selected: 0 });
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      changeHandlerPagination({ selected: 0 });
+    }
   }, [stateDataArticles.sort]);
 
   const changeHandlerPagination = ({ selected: pageNum }) => {
@@ -122,13 +133,18 @@ const Articles = () => {
     dataArticles.pagination = stateDataArticles.sort.filter((article, i) => i >= pageNum * 6 && i < (pageNum + 1) * 6);
 
     containerCardArticles.current.classList.add('container-cardArticles-hide');
+
     window.setTimeout(() => {
       changeStateDataArticles(ACTION_TYPE.DATA_PAGINATION, [...dataArticles.pagination]);
+      setReloadPaginate(() => false);
     }, 200);
   };
 
   useEffect(() => {
-    containerCardArticles.current.classList.remove('container-cardArticles-hide');
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      containerCardArticles.current.classList.remove('container-cardArticles-hide');
+    }
   }, [stateDataArticles.pagination]);
 
   // Items Accordions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,6 +247,14 @@ const Articles = () => {
     );
   }, [stateDataArticles.filter]);
 
+  const keyDownHandlerInputSearch = (e) => {
+    const elementBtnSearch = e.target.nextElementSibling.nextElementSibling;
+    const key = e.key;
+    if (key === 'Enter') {
+      searchingDataArticles({ target: elementBtnSearch });
+    }
+  };
+
   return (
     <Container fluid className='articles'>
       <Container fluid className='header-fluid'>
@@ -238,7 +262,7 @@ const Articles = () => {
           <div className='title'>مقالات</div>
 
           <div className='search-box'>
-            <input type='text' id='input-search' />
+            <input type='text' id='input-search' onKeyDown={keyDownHandlerInputSearch} />
             <select id='option-search'>
               <option value='title'>عنوان</option>
               <option value='writer'>نویسنده</option>
@@ -280,6 +304,7 @@ const Articles = () => {
                 ) : !stateDataArticles.pagination.length ? (
                   <b>موردی یافت نشد!</b>
                 ) : (
+                  stateDataArticles.pagination[0] && // for don't show card in the first rendering component
                   stateDataArticles.pagination.map((article) => {
                     return (
                       <Col key={article.id}>

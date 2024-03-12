@@ -11,7 +11,7 @@ const CardArticle = ({ id, image, title, description, writer, readingTime }) => 
         {title}-{id}
       </div>
       <div className='desc'>{description}. </div>{' '}
-      <Link to={`/Article/${id}`} className='btn-continue'>
+      <Link to={`/article/${id}`} className='btn-continue'>
         ادامه مقاله
       </Link>
       <div className='footer'>

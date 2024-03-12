@@ -12,7 +12,7 @@ const useArticlesReducer = () => {
     search: [],
     filter: [],
     sort: [],
-    pagination: [],
+    pagination: [null], // for don't show cardArticles in the first rendering component
   };
 
   const articlesReducer = (state, action) => {
