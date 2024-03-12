@@ -1,5 +1,5 @@
 import './FormLogin.css';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
 import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
@@ -9,7 +9,7 @@ import SmallLoading from '../SmallLoading/SmallLoading';
 import axios from 'axios';
 import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 
-const FormLogin = ({ setIsShowFormLoginRegister }) => {
+const FormLogin = ({ setIsShowFormForgetPass }) => {
   const formLogin = useRef(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,9 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
       navigate('/home');
       return;
     }
+  }, [isLogin]);
 
+  useEffect(() => {
     window.setTimeout(() => {
       formLogin.current?.classList.add('form-login-show');
     }, 10);
@@ -118,7 +120,7 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Forget Password
   const clickHandlerForgetPass = () => {
     navigate('/login-register/forget-password');
-    setIsShowFormLoginRegister(() => false);
+    setIsShowFormForgetPass(() => true);
   };
 
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Inputs Pass & RptPass
@@ -194,4 +196,4 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
     </form>
   );
 };
-export default FormLogin;
+export default memo(FormLogin);
