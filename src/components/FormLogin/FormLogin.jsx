@@ -20,6 +20,10 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
   const isRequested = useRef(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
+  useEffect(() => {
     if (isLogin) {
       navigate('/home');
       return;
@@ -37,12 +41,8 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
     };
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  });
-
   ////////////////////////////////////////////////////////////////////////////////////// Function Handler Button Login
-  const clickHandlerLogin = async () => {
+  const clickHandlerLogin = () => {
     const inputsFormLogin = [...formLogin.current.elements].slice(0, -1);
     const inputUsername = inputsFormLogin[0];
     const inputPassword = inputsFormLogin[1];
@@ -63,24 +63,20 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
     axios
       .get(`https://dbserver.liara.run/users?username=${inputUsername.value}`, { cancelToken: cancelAxiosToken.current.token })
       .then((response) => {
-        setIsLoading(() => false);
-        isRequested.current = false;
-
         if (response.status === 200) {
           const userData = response.data[0];
           if (userData) {
             const passwordUser = userData.password;
             if (inputPassword.value === passwordUser) {
               changeUserData(ACTION_TYPE.PATCH_DATA, { isLogin: true, isRemember: CBRememberMe.checked, ...userData }); // move userData to ContextApi
-              window.sessionStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, ...userData })); // save userData in the localStorage for when refresh page
-              window.localStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, ...userData })); // save userData in the localStorage for when refresh page
+              window.localStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, userId: userData.id })); // save userData in the localStorage for when refresh page
 
               Swal.fire({
                 icon: 'success',
                 text: 'ورود با موفقیت انجام شد!',
                 showConfirmButton: false,
                 timerProgressBar: true,
-                timer: 1000,
+                timer: 900,
               })
                 .then(() => {
                   navigate('/account/details');
@@ -96,12 +92,14 @@ const FormLogin = ({ setIsShowFormLoginRegister }) => {
       })
       .catch((err) => {
         if (err.message !== 'closeFormLogin') {
-          setIsLoading(() => false);
-          isRequested.current = false;
           showDialog('error', `خطا در ارتباط با سرور! ${err}`);
         } else if (axios.isCancel(err)) {
           setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'ورود به سایت لغو شد!');
         }
+      })
+      .finally(() => {
+        setIsLoading(() => false);
+        isRequested.current = false;
       });
   };
 
