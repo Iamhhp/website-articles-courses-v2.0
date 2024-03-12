@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import './Footer.css';
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -21,4 +22,4 @@ const Footer = () => {
     </Container>
   );
 };
-export default Footer;
+export default memo(Footer);

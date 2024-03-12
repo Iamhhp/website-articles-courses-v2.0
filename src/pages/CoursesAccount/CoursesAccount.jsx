@@ -2,7 +2,7 @@ import './CoursesAccount.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import CardCourseAccount from '../../components/CardCourseAccount/CardCourseAccount';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import SmallLoading from '../../components/SmallLoading/SmallLoading';
@@ -143,4 +143,4 @@ const CoursesAccount = () => {
     </div>
   );
 };
-export default CoursesAccount;
+export default memo(CoursesAccount);

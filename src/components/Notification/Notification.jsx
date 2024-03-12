@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import './Notification.css';
 import { useSetNotificationContext } from '../../context/DataContext';
 import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
@@ -38,4 +38,4 @@ const Notification = ({ id, backgroundColor, msg, i }) => {
     </div>
   );
 };
-export default Notification;
+export default memo(Notification);

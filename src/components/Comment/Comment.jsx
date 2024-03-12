@@ -1,7 +1,7 @@
 import { FaChalkboardTeacher } from 'react-icons/fa';
 import './Comment.css';
 import { PiStudentBold } from 'react-icons/pi';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 const Comment = ({ user, type, date, text, replies }) => {
@@ -110,4 +110,4 @@ const Comment = ({ user, type, date, text, replies }) => {
     </div>
   );
 };
-export default Comment;
+export default memo(Comment);

@@ -1,11 +1,11 @@
 import './FromForgetPass.css';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { showDialog } from '../../utils';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-const FromForgetPass = ({ setIsShowFormLoginRegister }) => {
+const FromForgetPass = ({ setIsShowFormForgetPass }) => {
   const navigate = useNavigate();
   const formForgetPass = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +69,7 @@ const FromForgetPass = ({ setIsShowFormLoginRegister }) => {
   const clickHandlerForgetPass = () => {
     formForgetPass.current.classList.remove('form-forget-pass-show');
     window.setTimeout(() => {
-      setIsShowFormLoginRegister(() => true);
+      setIsShowFormForgetPass(() => false);
       navigate('/login-register/login');
     }, 200);
   };
@@ -91,4 +91,4 @@ const FromForgetPass = ({ setIsShowFormLoginRegister }) => {
     </div>
   );
 };
-export default FromForgetPass;
+export default memo(FromForgetPass);

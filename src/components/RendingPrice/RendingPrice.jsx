@@ -1,5 +1,6 @@
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 import './RendingPrice.css';
+import { memo } from 'react';
 
 const RendingPrice = ({ discountPrice, mainPrice }) => {
   const formattingPrice = (price) => {
@@ -22,4 +23,4 @@ const RendingPrice = ({ discountPrice, mainPrice }) => {
     </div>
   );
 };
-export default RendingPrice;
+export default memo(RendingPrice);

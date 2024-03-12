@@ -1,5 +1,5 @@
 import './DetailsAccount.css';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import zxcvbn from 'zxcvbn';
 import { isEmptyInputs, showDialog } from '../../utils';
@@ -375,4 +375,4 @@ const DetailsAccount = () => {
     </>
   );
 };
-export default DetailsAccount;
+export default memo(DetailsAccount);

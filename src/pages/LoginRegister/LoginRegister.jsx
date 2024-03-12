@@ -6,11 +6,12 @@ import FormRegister from '../../components/FormRegister/FormRegister';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 
 const LoginRegister = () => {
-  const pathRoute = window.location.pathname;
   const navigate = useNavigate();
-  const [isShowFormLoginRegister, setIsShowFormLoginRegister] = useState(true);
+  const pathRoute = window.location.pathname;
+  const [isShowFormForgetPass, setIsShowFormForgetPass] = useState(false);
+
   useEffect(() => {
-    if (pathRoute === '/login-register') {
+    if (pathRoute === '/login-register' || pathRoute === '/login-register/' || pathRoute === '/login-register/forget-password') {
       navigate('login');
     }
   }, []);
@@ -18,10 +19,10 @@ const LoginRegister = () => {
   return (
     <div className='container-user-login'>
       <Routes>
-        <Route path='forget-password' element={<FromForgetPass setIsShowFormLoginRegister={setIsShowFormLoginRegister} />} />
+        <Route path='forget-password' element={<FromForgetPass setIsShowFormForgetPass={setIsShowFormForgetPass} />} />
       </Routes>
 
-      {isShowFormLoginRegister && (
+      {!isShowFormForgetPass && (
         <div className='container-form-login-register'>
           <div className='btns-switch-login'>
             <NavLink to={'login'} className='login' tabIndex={-1}>
@@ -36,7 +37,7 @@ const LoginRegister = () => {
 
           <div className='forms'>
             <Routes>
-              <Route path='login' element={<FormLogin setIsShowFormLoginRegister={setIsShowFormLoginRegister} />} />
+              <Route path='login' element={<FormLogin setIsShowFormForgetPass={setIsShowFormForgetPass} />} />
               <Route path='register' element={<FormRegister />} />
             </Routes>
           </div>

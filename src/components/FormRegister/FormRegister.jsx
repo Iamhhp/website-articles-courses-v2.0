@@ -1,5 +1,5 @@
 import './FormRegister.css';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
 import axios from 'axios';
 import zxcvbn from 'zxcvbn';
@@ -396,4 +396,4 @@ const FormRegister = () => {
     </form>
   );
 };
-export default FormRegister;
+export default memo(FormRegister);
