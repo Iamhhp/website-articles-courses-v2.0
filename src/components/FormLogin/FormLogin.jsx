@@ -1,21 +1,23 @@
 import './FormLogin.css';
 import { memo, useEffect, useRef, useState } from 'react';
 import { isEmptyInputs, showDialog } from '../../utils';
-import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import SmallLoading from '../SmallLoading/SmallLoading';
 import axios from 'axios';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import { useDispatch, useSelector } from 'react-redux';
+import { putUserData, updateStatus } from '../../context/Redux/userSlice';
+import { addNotificationErr } from '../../context/Redux/notificationDataSlice';
 
 const FormLogin = ({ setIsShowFormForgetPass }) => {
   const formLogin = useRef(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { isLogin } = useUserDataContext();
-  const changeUserData = useChangeUserDataContext();
-  const setNotification = useSetNotificationContext();
+  const {
+    status: { isLogin },
+  } = useSelector((state) => state.user);
+  const setUserData = useDispatch();
+  const setNotification = useDispatch();
   const cancelAxiosToken = useRef(axios.CancelToken.source());
   const isRequested = useRef(false);
 
@@ -70,8 +72,9 @@ const FormLogin = ({ setIsShowFormForgetPass }) => {
           if (userData) {
             const passwordUser = userData.password;
             if (inputPassword.value === passwordUser) {
-              changeUserData(ACTION_TYPE.PATCH_DATA, { isLogin: true, isRemember: CBRememberMe.checked, ...userData }); // move userData to ContextApi
-              window.localStorage.setItem('userData', JSON.stringify({ isLogin: true, isRemember: CBRememberMe.checked, userId: userData.id })); // save userData in the localStorage for when refresh page
+              setUserData(putUserData(userData)); // move userData to ContextApi
+              setUserData(updateStatus({ isLogin: true, isRemember: CBRememberMe.checked }));
+              window.localStorage.setItem('userData', JSON.stringify({ isRemember: CBRememberMe.checked, userId: userData.id })); // save userData in the localStorage for when refresh page
 
               Swal.fire({
                 icon: 'success',
@@ -81,7 +84,7 @@ const FormLogin = ({ setIsShowFormForgetPass }) => {
                 timer: 900,
               })
                 .then(() => {
-                  navigate('/account/details');
+                  navigate('/Home');
                 })
                 .catch((err) => {});
             } else {
@@ -96,7 +99,7 @@ const FormLogin = ({ setIsShowFormForgetPass }) => {
         if (err.message !== 'closeFormLogin') {
           showDialog('error', `خطا در ارتباط با سرور! ${err}`);
         } else if (axios.isCancel(err)) {
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'ورود به سایت لغو شد!');
+          setNotification(addNotificationErr('ورود به سایت لغو شد!'));
         }
       })
       .finally(() => {

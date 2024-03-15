@@ -1,12 +1,12 @@
 import { memo, useEffect, useRef } from 'react';
 import './Notification.css';
-import { useSetNotificationContext } from '../../context/DataContext';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import { useDispatch } from 'react-redux';
+import { deleteNotification } from '../../context/Redux/notificationDataSlice';
 
 const Notification = ({ id, backgroundColor, msg, i }) => {
   const timer = { id: 0 };
-  const notification = useRef();
-  const setNotification = useSetNotificationContext();
+  const notification = useRef(null);
+  const setNotification = useDispatch();
 
   useEffect(() => {
     window.setTimeout(() => {
@@ -19,7 +19,7 @@ const Notification = ({ id, backgroundColor, msg, i }) => {
               notification.current.style.top = '';
 
               window.setTimeout(() => {
-                setNotification(ACTION_TYPE_NOTIFICATION.DEL_NOTI, id);
+                setNotification(deleteNotification(id));
               }, 500);
             }
           }, 3000);

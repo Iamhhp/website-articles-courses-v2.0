@@ -7,51 +7,58 @@ import { memo, useEffect, useRef, useState } from 'react';
 import persianDate from 'persian-date';
 import OffCanVas from '../OffCanVas/OffCanVas';
 import { AiOutlineMenuFold } from 'react-icons/ai';
-import { useChangeUserDataContext, useNotificationContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import Notification from '../Notification/Notification';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { putUserData, updateStatus } from '../../context/Redux/userSlice';
+import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
 
 const Header = () => {
   useEffect(() => {
     console.log('Header reRender!');
   });
 
-  const userData = useUserDataContext();
-  const changeUserData = useChangeUserDataContext();
-  const notification = useNotificationContext();
-  const setNotification = useSetNotificationContext();
+  const {
+    status: { isLogin },
+    info: { selectedCards },
+  } = useSelector((state) => state.user);
+  const setUserData = useDispatch();
+  const notification = useSelector((state) => state.notificationData);
+  const setNotification = useDispatch();
 
   const elementDate = useRef(null);
   const [isShowMenu, setIsShowMenu] = useState(false);
 
-  // // move userData to Context-API ////////////////////////////////////////////////////////////////
-  const autoLoginUser = async (userData) => {
-    const response = await axios.get(`https://dbserver.liara.run/users/${userData.userId}`);
+  // move userData to Context-API ////////////////////////////////////////////////////////////////
+  const autoLoginUser = async (userDataStorage) => {
+    const response = await axios.get(`https://dbserver.liara.run/users/${userDataStorage.userId}`);
     if (response.status === 200) {
       const userDataApi = response.data;
       if (userDataApi) {
-        changeUserData(ACTION_TYPE.PUT_DATA, { isLogin: true, isRemember: userData.isRemember, ...userDataApi });
-        window.localStorage.setItem('userData', JSON.stringify({ isRemember: userData.isRemember, userId: userDataApi.id }));
+        setUserData(putUserData(userDataApi));
+        setUserData(updateStatus({ isLogin: true, isRemember: userDataStorage }));
+        // maybe isRemember false and Browser Refresh so data localStorage move sessionStorage and localStorage Cleared!
+        window.localStorage.setItem('userData', JSON.stringify({ isRemember: userDataStorage.isRemember, userId: userDataApi.id }));
 
-        setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'ورود خودکار کاربر! شما وارد سایت شدید!');
+        setNotification(addNotificationMsg('ورود خودکار کاربر! شما وارد سایت شدید!'));
       } else {
-        setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'خطا در ورود خودکار کاربر! دوباره وارد شوید');
+        setNotification(addNotificationErr('خطا در ورود خودکار کاربر! دوباره وارد شوید'));
       }
     } else {
-      setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'خطا در ورود خودکار کاربر! دوباره وارد شوید');
+      setNotification(addNotificationErr('خطا در ورود خودکار کاربر! دوباره وارد شوید'));
     }
   };
 
-  const userDataStorage = JSON.parse(window.localStorage.getItem('userData')) || JSON.parse(window.sessionStorage.getItem('userData'));
-  if (userDataStorage) {
-    if (!userData.isLogin && userDataStorage.userId !== -1) {
-      autoLoginUser(userDataStorage).catch((err) => {
-        setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'خطا در ورود خودکار کاربر! دوباره وارد شوید');
-      });
+  useEffect(() => {
+    const userDataStorage = JSON.parse(window.localStorage.getItem('userData')) || JSON.parse(window.sessionStorage.getItem('userData'));
+    if (userDataStorage) {
+      if (!isLogin && userDataStorage.userId !== -1) {
+        autoLoginUser(userDataStorage).catch((err) => {
+          setNotification(addNotificationErr('خطا در ورود خودکار کاربر! دوباره وارد شوید'));
+        });
+      }
     }
-  }
+  }, [isLogin]);
 
   // Run Code First Rendering WebSite
   useEffect(() => {
@@ -64,6 +71,9 @@ const Header = () => {
           window.sessionStorage.setItem('userData', JSON.stringify(userDataLocal)); // for when Browser Refreshing and login again
           window.localStorage.removeItem('userData');
         }
+      } else {
+        // when in other tab logged out and localStorage in all tab cleared but sessionStorage in here tab not clear!
+        window.sessionStorage.removeItem('userData');
       }
     };
     window.addEventListener('beforeunload', beforeUnloadBrowser);
@@ -80,7 +90,7 @@ const Header = () => {
     const timerId01 = window.setInterval(updateTime, 1000);
 
     // ADD Notification WellCome ////////////////////////////////////////////////////////////////////
-    setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'به وب سایت آموزشی و پژوهشی خوش آمدید!');
+    setNotification(addNotificationMsg('به وب سایت آموزشی و پژوهشی خوش آمدید!'));
 
     // Function Cleanup //////////////////////////////////////////////////////////////////////////////
     return () => {
@@ -152,13 +162,13 @@ const Header = () => {
 
           <Col className='sec-l col-auto'>
             <Link to={'/account/details'} className='btn-login'>
-              {userData.isLogin ? 'حساب کاربری' : 'ورود'}
+              {isLogin ? 'حساب کاربری' : 'ورود'}
             </Link>
 
             <Link to={'/account/courses/selected'} className='btn-basket'>
               <SlBasket className='icon' />
 
-              {userData.selectedCards.length !== 0 && <span className='number-courses'>{userData.selectedCards.length}</span>}
+              {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
             </Link>
           </Col>
         </Row>

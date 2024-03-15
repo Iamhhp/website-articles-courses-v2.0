@@ -7,25 +7,24 @@ import { GiProgression } from 'react-icons/gi';
 import Accordion from '../../components/Accordion/Accordion';
 import { FaRegCommentAlt, FaRegFileVideo } from 'react-icons/fa';
 import Comment from '../../components/Comment/Comment';
-import Swal from 'sweetalert2';
 import Loading from '../../components/Loading/Loading';
 import NoResponse from '../../components/NoResponse/NoResponse';
 import RendingPrice from '../../components/RendingPrice/RendingPrice';
 import { useEffect, useRef, useState } from 'react';
-import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import SmallLoading from '../../components/SmallLoading/SmallLoading';
 import axios from 'axios';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 import { showDialog } from '../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
+import { addSelectedCard, deleteSelectedCard } from '../../context/Redux/userSlice';
 
 const Course = () => {
   const { idCourse } = useParams();
   const [isPosting, setIsPosting] = useState(false);
 
-  const userData = useUserDataContext();
-  const changeUserData = useChangeUserDataContext();
-  const setNotification = useSetNotificationContext();
+  const { info: userData } = useSelector((state) => state.user);
+  const setUserData = useDispatch();
+  const setNotification = useDispatch();
 
   const form = useRef();
   const [
@@ -53,20 +52,20 @@ const Course = () => {
     // checking course Exit in boughtCards
     const result = userData.boughtCards.some((card) => card.id === id);
     if (result) {
-      setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, `"${title}" قبلا خریداری شد!`);
+      setNotification(addNotificationErr(`"${title}" قبلا خریداری شد!`));
       return;
     }
 
     // checking course Exist in selectedCards
     const result01 = userData.selectedCards.some((card) => card.id === id);
     if (result01) {
-      setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, `"${title}" قبلا انتخاب شد!`);
+      setNotification(addNotificationErr(`"${title}" قبلا انتخاب شد!`));
 
       return;
     }
 
     setIsPosting(() => true);
-    changeUserData(ACTION_TYPE.ADD_CARD_SELECTED, dataCourse);
+    setUserData(addSelectedCard(dataCourse));
   };
 
   // patch course
@@ -76,22 +75,22 @@ const Course = () => {
         .patch(`https://dbserver.liara.run/users/${userData.id}`, userData)
         .then((response) => {
           if (response.status === 200) {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" به سبد خرید اضافه شد!`);
+            setNotification(addNotificationMsg(`"${title}" به سبد خرید اضافه شد!`));
           } else {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+            setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
 
             // Recovery Data User Login from sessionStorage!
-            changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+            setUserData(deleteSelectedCard(id));
           }
         })
         .catch((err) => {
           if (err.message.includes('500')) {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" به سبد خرید اضافه شد!`);
+            setNotification(addNotificationMsg(`"${title}" به سبد خرید اضافه شد!`));
           } else {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطاqq! دوباره سعی کنید.');
+            setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
 
             // Recovery Data User Login from sessionStorage!
-            changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
+            setUserData(deleteSelectedCard(id));
           }
         })
         .finally(() => {

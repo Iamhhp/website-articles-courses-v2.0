@@ -1,9 +1,11 @@
-import { Navigate } from 'react-router-dom';
 import './PrivateRoute.css';
-import { useUserDataContext } from '../../context/DataContext';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({ children }) => {
-  const { isLogin } = useUserDataContext();
+  const {
+    status: { isLogin },
+  } = useSelector((state) => state.user);
   return <>{isLogin ? children : <Navigate to={'/login-register/login'} />}</>;
 };
 export default PrivateRoute;

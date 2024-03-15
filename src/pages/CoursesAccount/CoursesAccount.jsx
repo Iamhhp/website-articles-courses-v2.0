@@ -1,13 +1,13 @@
 import './CoursesAccount.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import CardCourseAccount from '../../components/CardCourseAccount/CardCourseAccount';
 import { memo, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import SmallLoading from '../../components/SmallLoading/SmallLoading';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { addBoughtCard, deleteAllSelectedCard, putUserData } from '../../context/Redux/userSlice';
+import { addNotificationErr } from '../../context/Redux/notificationDataSlice';
 
 const CoursesAccount = () => {
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ const CoursesAccount = () => {
   const [isPosting, setIsPosting] = useState(false);
   const data = { courses: [], isCourseSelected: false, totalPriceCourses: 0 };
 
-  const userData = useUserDataContext();
   const userDataRecovery = useRef({});
-  const changeUserData = useChangeUserDataContext();
-  const setNotification = useSetNotificationContext();
+  const setUserData = useDispatch();
+  const { info: userData } = useSelector((state) => state.user);
+  const setNotification = useDispatch();
 
   useEffect(() => {
     containerCoursesAccount.current.style.transition = 'none';
@@ -64,8 +64,8 @@ const CoursesAccount = () => {
     setIsPosting(() => true);
 
     userDataRecovery.current = JSON.parse(JSON.stringify(userData));
-    changeUserData(ACTION_TYPE.ADD_CARD_BOUGHT, JSON.parse(JSON.stringify(userData.selectedCards)));
-    changeUserData(ACTION_TYPE.DEL_ALL_CARD_SELECTED);
+    setUserData(addBoughtCard(userDataRecovery.current.selectedCards));
+    setUserData(deleteAllSelectedCard());
   };
 
   // fetch useData change by move selectedCards move boughtCards
@@ -87,8 +87,8 @@ const CoursesAccount = () => {
               })
               .catch((err) => {});
           } else {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
-            changeUserData(ACTION_TYPE.PUT_DATA, userDataRecovery.current);
+            setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
+            setUserData(putUserData(userDataRecovery.current));
           }
         })
 
@@ -106,8 +106,8 @@ const CoursesAccount = () => {
               })
               .catch((err) => {});
           } else {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
-            changeUserData(ACTION_TYPE.PUT_DATA, userDataRecovery.current);
+            setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
+            setUserData(putUserData(userDataRecovery.current));
           }
         })
 

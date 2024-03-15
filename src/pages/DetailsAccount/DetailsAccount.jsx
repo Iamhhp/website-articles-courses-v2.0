@@ -3,18 +3,19 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import zxcvbn from 'zxcvbn';
 import { isEmptyInputs, showDialog } from '../../utils';
-import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
 import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
+import { patchUserData } from '../../context/Redux/userSlice';
 
 const DetailsAccount = () => {
   const formDetailsAccount = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const setNotification = useSetNotificationContext();
-  const changeUserData = useChangeUserDataContext();
-  const { id, fName, lName, username, email } = useUserDataContext();
+
+  const setNotification = useDispatch();
+  const setUserData = useDispatch();
+  const { info: userData } = useSelector((state) => state.user);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,13 +28,13 @@ const DetailsAccount = () => {
   }, []);
 
   useEffect(() => {
-    // if (formDetailsAccount.current) {
-    formDetailsAccount.current.elements[0].value = fName;
-    formDetailsAccount.current.elements[1].value = lName;
-    formDetailsAccount.current.elements[2].value = username;
-    formDetailsAccount.current.elements[3].value = email;
-    // }
-  }, [formDetailsAccount.current]);
+    if (formDetailsAccount.current) {
+      formDetailsAccount.current.elements[0].value = userData.fName;
+      formDetailsAccount.current.elements[1].value = userData.lName;
+      formDetailsAccount.current.elements[2].value = userData.username;
+      formDetailsAccount.current.elements[3].value = userData.email;
+    }
+  }, [userData]);
 
   //////////////////////////////////////////////////////////////////////////////////////// Function Handler Inputs Password
   const clickHandlerSaveChange = (e) => {
@@ -45,7 +46,6 @@ const DetailsAccount = () => {
     const inputRptPass = formDetailsAccount.current.elements[7];
     const inputs = { i: [inputFName, inputLName, inputPass, inputRptPass] };
     const checkPass = zxcvbn(inputPass.value);
-    const userDataNew = {};
 
     const isEnableBtnSaveChange = btnSaveChange.classList.contains('btn-enabled-Pass-side') || btnSaveChange.classList.contains('btn-enabled-Name-side');
     if (!isEnableBtnSaveChange) {
@@ -72,37 +72,36 @@ const DetailsAccount = () => {
       return;
     }
 
-    userDataNew.fName = inputFName.value;
-    userDataNew.lName = inputLName.value;
+    const dataPatch = { fName: inputFName.value, lName: inputLName.value };
     if (CBEnabledInputsPassword.checked) {
-      userDataNew.password = inputPass.value;
+      dataPatch.password = inputPass.value;
     }
 
     setIsLoading(() => true);
     axios
-      .patch(`https://dbserver.liara.run/users/${id}`, userDataNew)
+      .patch(`https://dbserver.liara.run/users/${userData.id}`, dataPatch)
       .then((response) => {
         if (response.status === 200) {
-          changeUserData(ACTION_TYPE.PATCH_DATA, userDataNew);
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'تغییرات ذخیره شد!');
+          setUserData(patchUserData(dataPatch));
+          setNotification(addNotificationMsg('تغییرات ذخیره شد!'));
 
           btnSaveChange.classList.remove('btn-enabled-Name-side');
           CBEnabledInputsPassword.checked = false;
           changeHandlerCBEnableInputsPassword({ target: CBEnabledInputsPassword });
         } else {
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+          setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
         }
       })
       .catch((err) => {
         if (err.message.includes('500')) {
-          changeUserData(ACTION_TYPE.PATCH_DATA, userDataNew);
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, 'تغییرات ذخیره شد!');
+          setUserData(patchUserData(dataPatch));
+          setNotification(addNotificationMsg('تغییرات ذخیره شد!'));
 
           btnSaveChange.classList.remove('btn-enabled-Name-side');
           CBEnabledInputsPassword.checked = false;
           changeHandlerCBEnableInputsPassword({ target: CBEnabledInputsPassword });
         } else {
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+          setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
         }
       })
       .finally(() => {
@@ -192,66 +191,38 @@ const DetailsAccount = () => {
 
   const changeHandlerCBEnableInputsPassword = (e) => {
     const CBEnableInputsPassword = e.target;
+    const containerChangePassword = formDetailsAccount.current.elements[5].parentElement.parentElement;
     const inputPassword = formDetailsAccount.current.elements[5];
-    const lblInputPass = inputPassword.previousSibling;
-
     const inputRptPassword = formDetailsAccount.current.elements[7];
-    const lblInputRptPassword = inputRptPassword.previousSibling;
-
     const CBShowPass = formDetailsAccount.current.elements[6];
-    const lblCBShowPass = CBShowPass.parentElement;
-
-    const boxesScore = [...lblCBShowPass.nextElementSibling.children];
-    const containerInputsPass = inputPassword.parentElement.parentElement;
-
+    const boxesScore = [...CBShowPass.parentElement.nextElementSibling.children];
     const btnSaveChange = formDetailsAccount.current.elements[8];
 
     if (CBEnableInputsPassword.checked) {
+      containerChangePassword.classList.add('container-pass-enabled');
       btnSaveChange.classList.add('btn-enabled-Pass-side');
 
       inputPassword.disabled = false;
-      inputPassword.style.borderColor = '';
-      lblInputPass.style.color = 'black';
-
       inputRptPassword.disabled = false;
-      inputRptPassword.style.borderColor = '';
-      lblInputRptPassword.style.color = 'black';
-
       CBShowPass.disabled = false;
-      CBShowPass.style.borderColor = '';
-      lblCBShowPass.style.color = 'black';
-
-      boxesScore.forEach((box) => {
-        box.style.borderColor = 'black';
-      });
-      containerInputsPass.style.borderColor = 'black';
     } else {
+      containerChangePassword.classList.remove('container-pass-enabled');
       btnSaveChange.classList.remove('btn-enabled-Pass-side');
 
       inputPassword.value = '';
       inputPassword.disabled = true;
-      inputPassword.style.borderColor = '';
-      lblInputPass.style.color = '';
 
       inputRptPassword.value = '';
       blurHandlerInputRptPassword({ target: inputRptPassword });
-
       inputRptPassword.disabled = true;
-      inputRptPassword.style.borderColor = '';
-      lblInputRptPassword.style.color = '';
 
       CBShowPass.checked = false;
       changeHandlerShowPass({ target: CBShowPass });
-
       CBShowPass.disabled = true;
-      CBShowPass.style.color = '';
-      lblCBShowPass.style.color = '';
 
       boxesScore.forEach((box) => {
-        box.style.borderColor = '';
-        box.style.backgroundColor = '';
+        box.style.backgroundColor = 'white';
       });
-      containerInputsPass.style.borderColor = '';
     }
   };
 
@@ -265,9 +236,9 @@ const DetailsAccount = () => {
     const inputFName = formDetailsAccount.current.children[0].children[0].children[1];
     const inputLName = formDetailsAccount.current.children[0].children[1].children[1];
 
-    if (inputFName.value !== fName || inputLName.value !== lName) {
+    if (inputFName.value !== userData.fName || inputLName.value !== userData.lName) {
       btnSaveChange.classList.add('btn-enabled-Name-side');
-    } else if (inputFName.value === fName && inputLName.value === lName) {
+    } else if (inputFName.value === userData.fName && inputLName.value === userData.lName) {
       btnSaveChange.classList.remove('btn-enabled-Name-side');
     }
   };
@@ -311,7 +282,7 @@ const DetailsAccount = () => {
           فعال سازی تغییر رمز
         </label>
 
-        <Row className='container-pass row-cols-1 row-cols-lg-2'>
+        <Row className='container-pass-disabled  row-cols-1 row-cols-lg-2'>
           <Col>
             <label htmlFor=''>پسورد</label>
             <input
@@ -320,7 +291,6 @@ const DetailsAccount = () => {
               name='password'
               id='password'
               aria-label='پسورد'
-              disabled
               autoComplete='new-password'
               onBlur={blurHandlerInputs}
               onChange={changeHandlerInputPassword}
@@ -353,7 +323,6 @@ const DetailsAccount = () => {
               name='rpt-password'
               id='rpt-password'
               aria-label='تکرار پسورد'
-              disabled
               autoComplete='new-password'
               onBlur={blurHandlerInputRptPassword}
               onFocus={focusHandlerInputRptPassword}

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import useUserDataReducer from './hooks/useUserDataReducer';
-import useNotification from './hooks/useNotification';
+import useUserDataReducer from './hooks/useUserDataReducer1';
+import useNotification from './hooks/useNotificationReducer';
 
 const UserDataContext = createContext();
 const ChangeUserDataContext = createContext();

@@ -1,23 +1,23 @@
 import './CardCourseAccount.css';
 import RendingPrice from '../RendingPrice/RendingPrice';
 import { Link } from 'react-router-dom';
-import { useChangeUserDataContext, useSetNotificationContext, useUserDataContext } from '../../context/DataContext';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 import axios from 'axios';
 import { memo, useEffect, useState } from 'react';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
-import { ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
 import SmallLoading from '../SmallLoading/SmallLoading';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSelectedCard } from '../../context/Redux/userSlice';
+import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
 
-const CardCourseAccount = ({ id, title, image, description, mainPrice, discountPrice, isCourseSelected, setIsRemoveCard }) => {
+const CardCourseAccount = ({ id, title, image, description, mainPrice, discountPrice, isCourseSelected }) => {
   useEffect(() => {
     console.log('CardCourseAccount reRender!', id);
   });
 
   const [isPosting, setIsPosting] = useState(false);
-  const userData = useUserDataContext();
-  const changeUserData = useChangeUserDataContext();
-  const setNotification = useSetNotificationContext();
+  const { info: userData } = useSelector((state) => state.user);
+  const setUserData = useDispatch();
+  const setNotification = useDispatch();
 
   const clickHandlerRemoveCourses = () => {
     setIsPosting(() => true); // don't false cause component cardCourseAccount Rerendering!
@@ -27,10 +27,10 @@ const CardCourseAccount = ({ id, title, image, description, mainPrice, discountP
       .patch(`https://dbserver.liara.run/users/${userData.id}`, userNewData)
       .then((response) => {
         if (response.status === 200) {
-          changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" از سبد خرید حذف شد!`);
+          setUserData(deleteSelectedCard(id));
+          setNotification(addNotificationMsg(`"${title}" از سبد خرید حذف شد!`));
         } else {
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+          setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
         }
       })
       .finally(() => {
@@ -38,10 +38,10 @@ const CardCourseAccount = ({ id, title, image, description, mainPrice, discountP
       })
       .catch((err) => {
         if (err.message.includes('500')) {
-          changeUserData(ACTION_TYPE.DEL_CARD_SELECTED, id);
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_MSG, `"${title}" از سبد خرید حذف شد!`);
+          setUserData(deleteSelectedCard(id));
+          setNotification(addNotificationMsg(`"${title}" از سبد خرید حذف شد!`));
         } else {
-          setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'خطا! دوباره سعی کنید.');
+          setNotification(addNotificationErr('خطا! دوباره سعی کنید.'));
         }
       });
   };

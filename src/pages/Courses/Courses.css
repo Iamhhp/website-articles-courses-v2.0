@@ -78,6 +78,7 @@
     .items-accordion {
       li {
         label {
+          width: 97%;
           margin-right: 3px;
           cursor: pointer;
           padding-bottom: 2px;

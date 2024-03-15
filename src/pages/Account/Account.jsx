@@ -3,14 +3,16 @@ import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import DetailsAccount from '../DetailsAccount/DetailsAccount';
 import CoursesAccount from '../CoursesAccount/CoursesAccount';
-import { useChangeUserDataContext, useUserDataContext } from '../../context/DataContext';
 import Swal from 'sweetalert2';
-import { ACTION_TYPE } from '../../context/hooks/useUserDataReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../../context/Redux/userSlice';
 
 const Account = () => {
   const navigate = useNavigate();
-  const changeUserData = useChangeUserDataContext();
-  const { boughtCards, selectedCards } = useUserDataContext();
+  const setUserData = useDispatch();
+  const {
+    info: { boughtCards, selectedCards },
+  } = useSelector((state) => state.user);
 
   const clickHandlerExitAccount = () => {
     Swal.fire({
@@ -25,7 +27,7 @@ const Account = () => {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          changeUserData(ACTION_TYPE.LOGOUT);
+          setUserData(logOut());
           window.localStorage.removeItem('userData');
           window.sessionStorage.removeItem('userData');
           navigate('/home');
@@ -35,7 +37,7 @@ const Account = () => {
   };
 
   return (
-    <Container className='container-account'>
+    <Container className='container-account' fluid='md'>
       <Row>
         <Col className='col-12 col-lg-4 col-xl-3'>
           <div className='sec-r'>
@@ -44,8 +46,8 @@ const Account = () => {
             </div>
             <div className='name-user'>حسن پور</div>
             <ul className='items-menu-account'>
-              <Row className='row-cols-3 row-cols-lg-1 '>
-                <Col>
+              <Row>
+                <Col className='col-sm- col-md- col-lg-12'>
                   <li>
                     <NavLink tabIndex='-1' to='/account/courses/selected'>
                       سبد خرید
@@ -54,7 +56,7 @@ const Account = () => {
                   </li>
                 </Col>
 
-                <Col>
+                <Col className='col-sm- col-md- col-lg-12'>
                   <li>
                     <NavLink tabIndex='-1' to='/account/courses/bought'>
                       دوره های خریداری شده
@@ -63,7 +65,7 @@ const Account = () => {
                   </li>
                 </Col>
 
-                <Col>
+                <Col className='col-sm- col-md- col-lg-12'>
                   <li>
                     <NavLink tabIndex='-1' to='/account/details'>
                       اطلاعات حساب کاربری
@@ -71,7 +73,7 @@ const Account = () => {
                   </li>
                 </Col>
 
-                <Col>
+                <Col className='col-sm- col-md- col-lg-12'>
                   <li>
                     <button type='button' className='btn-exit' tabIndex='-1' onClick={clickHandlerExitAccount}>
                       خروج از سایت

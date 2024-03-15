@@ -59,7 +59,7 @@
   }
 
   /* row */
-  .container-pass {
+  .container-pass-disabled {
     padding: 10px 0px 5px;
     margin: 0px;
     margin-top: 5px;
@@ -87,7 +87,7 @@
         font-family: 'Yekan', sans-serif, serif;
         font-weight: 700;
         font-size: 14px;
-        cursor: pointer;
+        cursor: default;
         user-select: none;
 
         input[type='checkbox'] {
@@ -138,6 +138,28 @@
       .input-rpt-pass-shake {
         border: 1px solid red !important;
         box-shadow: 1px 1px 1px 0px red;
+      }
+    }
+  }
+
+  .container-pass-enabled {
+    border-color: black;
+
+    .col {
+      label {
+        color: black;
+      }
+    }
+
+    .container-boxesScore-showPass {
+      .show-pass-sign {
+        cursor: pointer;
+      }
+
+      .score-pass {
+        div[class^='score'] {
+          border-color: black;
+        }
       }
     }
   }

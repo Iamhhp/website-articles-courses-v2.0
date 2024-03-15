@@ -6,8 +6,8 @@ import zxcvbn from 'zxcvbn';
 import Swal from 'sweetalert2';
 import SmallLoading from '../SmallLoading/SmallLoading';
 import { useNavigate } from 'react-router-dom';
-import { useSetNotificationContext } from '../../context/DataContext';
-import { ACTION_TYPE_NOTI, ACTION_TYPE_NOTIFICATION } from '../../context/hooks/useNotification';
+import { useDispatch } from 'react-redux';
+import { addNotificationErr } from '../../context/Redux/notificationDataSlice';
 
 const FormRegister = () => {
   const formRegister = useRef(null);
@@ -16,7 +16,7 @@ const FormRegister = () => {
   const cancelAxiosToken01 = useRef(axios.CancelToken.source());
   const cancelAxiosToken02 = useRef(axios.CancelToken.source());
   const isRequested = useRef(false);
-  const setNotification = useSetNotificationContext();
+  const setNotification = useDispatch();
 
   useEffect(() => {
     window.setTimeout(() => {
@@ -112,7 +112,7 @@ const FormRegister = () => {
               })
               .catch((err) => {});
           } else if (axios.isCancel(err)) {
-            setNotification(ACTION_TYPE_NOTIFICATION.ADD_ERR, 'ساخت حساب کاربری لغو شد!');
+            setNotification(addNotificationErr('ساخت حساب کاربری لغو شد!'));
           } else if (err !== 'closeFormRegister') {
             showDialog('error', `ثبت نام انجام نشد! \n ${err}`);
           }
