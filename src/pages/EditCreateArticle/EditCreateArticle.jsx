@@ -8,6 +8,7 @@ import useFetch from '../../hooks/useFetch';
 import Swal from 'sweetalert2';
 import Loading from '../../components/Loading/Loading';
 import NoResponse from '../../components/NoResponse/NoResponse';
+import { isEmptyInputs } from '../../utils';
 
 const EditCreateArticle = () => {
   const { editCreate, idArticle } = useParams();
@@ -15,21 +16,9 @@ const EditCreateArticle = () => {
   const [dataArticle, isPending] = useFetch(`https://dbserver.liara.run/articles/${idArticle}`);
   const navigate = useNavigate();
 
-  const isEmptyInputs = () => {
-    const listInputs = [...form.current.elements].slice(0, -1);
-
-    for (let l = 0; l < listInputs.length; l++) {
-      if (!listInputs[l].value) {
-        return { isEmpty: true, inputEmpty: listInputs[l] };
-      }
-    }
-
-    return { isEmpty: false, inputEmpty: '' };
-  };
-
   // Replacing data in inputs //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    if (editCreate === 'Edit') {
+    if (editCreate === 'edit') {
       form.current.elements[0].value = dataArticle.response.image;
       form.current.elements[1].value = dataArticle.response.title;
       form.current.elements[2].value = dataArticle.response.description;
@@ -41,57 +30,69 @@ const EditCreateArticle = () => {
 
   // ClickHandler Button Submit ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   const editCreateArticleHandler = () => {
-    const { isEmpty, inputEmpty } = isEmptyInputs();
+    const listInputs = [...form.current.elements].slice(0, -1);
+    const { isEmpty, inputEmpty } = isEmptyInputs(listInputs);
     if (isEmpty) {
       Swal.fire({
         icon: 'error',
-        text: 'لطفا تمامی ورودی ها را پرکنید!',
+        text: `لطفا ورودی "${inputEmpty.ariaLabel}" را پرکنید!`,
         showConfirmButton: true,
-      }).then((result) => {
-        if (result.isConfirmed || result.isDismissed) {
-          window.setTimeout(() => {
-            inputEmpty.focus();
-          }, 500);
-        }
-      });
-    }
-    if (isEmpty) {
+      })
+        .then((result) => {
+          if (result.isConfirmed || result.isDismissed) {
+            window.setTimeout(() => {
+              inputEmpty?.focus();
+            }, 500);
+          }
+        })
+        .catch((err) => {});
       return;
     }
 
-    if (editCreate === 'Edit') {
+    const propertiesSwal = {
+      showConfirmButton: true,
+      confirmButtonText: 'بله!',
+      showCancelButton: true,
+      cancelButtonText: 'خیر!',
+      cancelButtonColor: 'red',
+    };
+    if (editCreate === 'edit') {
       Swal.fire({
         icon: 'info',
         text: 'ویرایش مقاله ثبت شود؟',
-        showConfirmButton: true,
-        confirmButtonText: 'بله!',
-        showCancelButton: true,
-        cancelButtonText: 'خیر!',
-        cancelButtonColor: 'red',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          editArticleHandler();
-        }
-      });
+        ...propertiesSwal,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            editArticleHandler();
+          }
+        })
+        .catch((err) => {});
     } else {
       Swal.fire({
         icon: 'info',
         text: 'مقاله ایجاد شود؟',
-        showConfirmButton: true,
-        confirmButtonText: 'بله!',
-        showCancelButton: true,
-        cancelButtonText: 'خیر!',
-        cancelButtonColor: 'red',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          createArticleHandler();
-        }
-      });
+        ...propertiesSwal,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            createArticleHandler();
+          }
+        })
+        .catch((err) => {});
     }
   };
 
   // Edit Article ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const editArticleHandler = () => {
+    const propertiesSwal = {
+      showConfirmButton: true,
+      confirmButtonText: 'برو به مقالات!',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      cancelButtonText: 'دوباره سعی کن!',
+    };
+
     fetch(`https://dbserver.liara.run/articles/${idArticle}`, {
       method: 'PATCH',
       headers: {
@@ -113,41 +114,39 @@ const EditCreateArticle = () => {
             text: 'ویرایش باموفقیت انجام شد!\n مسیریابی به سمت صفحه مقالات',
             showConfirmButton: true,
             confirmButtonText: 'برو به مقالات',
-          }).then((result) => {
-            if (result.isConfirmed || result.isDismissed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed || result.isDismissed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         } else {
           Swal.fire({
             icon: 'error',
             text: `ویرایش مقاله انجام نشد!\n ${response.statusText}  ${response.status}`,
-            showConfirmButton: true,
-            confirmButtonText: 'برو به مقالات!',
-            showCancelButton: true,
-            cancelButtonColor: 'red',
-            cancelButtonText: 'دوباره سعی کن!',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate('/Articles');
-            }
-          });
+            ...propertiesSwal,
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         }
       })
       .catch((err) => {
         Swal.fire({
           icon: 'error',
           text: `ویرایش مقاله انجام نشد!\n ${err}`,
-          showConfirmButton: true,
-          confirmButtonText: 'برو به مقالات!',
-          showCancelButton: true,
-          cancelButtonColor: 'red',
-          cancelButtonText: 'دوباره سعی کن!',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate('/Articles');
-          }
-        });
+          ...propertiesSwal,
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              navigate('/Articles');
+            }
+          })
+          .catch((err) => {});
       });
   };
 
@@ -156,6 +155,14 @@ const EditCreateArticle = () => {
   };
   // Create Article ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const createArticleHandler = () => {
+    const propertiesSwal = {
+      showConfirmButton: true,
+      confirmButtonText: 'برو به مقالات!',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      cancelButtonText: 'دوباره سعی کن!',
+    };
+
     fetch('https://dbserver.liara.run/articles', {
       method: 'POST',
       headers: {
@@ -177,54 +184,52 @@ const EditCreateArticle = () => {
             text: 'ایجاد مقاله باموفقیت انجام شد!',
             showConfirmButton: true,
             confirmButtonText: 'برو به مقالات',
-          }).then((result) => {
-            if (result.isConfirmed || result.isDismissed) {
-              navigate('/Articles');
-            }
-          });
+          })
+            .then((result) => {
+              if (result.isConfirmed || result.isDismissed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         } else {
           Swal.fire({
             icon: 'error',
             text: `ایجاد مقاله انجام نشد!\n ${response.statusText}  ${response.status}`,
-            showConfirmButton: true,
-            confirmButtonText: 'برو به مقالات!',
-            showCancelButton: true,
-            cancelButtonColor: 'red',
-            cancelButtonText: 'دوباره سعی کن!',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate('/Articles');
-            }
-          });
+            ...propertiesSwal,
+          })
+            .then((result) => {
+              if (result.isConfirmed) {
+                navigate('/Articles');
+              }
+            })
+            .catch((err) => {});
         }
       })
       .catch((err) => {
         Swal.fire({
           icon: 'error',
           text: `ایجاد مقاله انجام نشد!\n ${err}`,
-          showConfirmButton: true,
-          confirmButtonText: 'برو به مقالات!',
-          showCancelButton: true,
-          cancelButtonText: 'دوباره سعی کن!',
-          timer: 1500,
-          timerProgressBar: true,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate('/Articles');
-          }
-        });
+          ...propertiesSwal,
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              navigate('/Articles');
+            }
+          })
+          .catch((err) => {});
       });
   };
 
   return (
     <Container className='container-edit-create'>
       {isPending && <Loading className='position-loading' />}
-      {editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && <NoResponse responseState={dataArticle.responseStatus} />}
-      <form ref={form} style={{ display: editCreate === 'Edit' && dataArticle.responseStatus !== 'dataReceived!' && 'none' }}>
+      {editCreate === 'edit' && dataArticle.responseStatus !== 'dataReceived!' && <NoResponse responseState={dataArticle.responseStatus} />}
+      <form ref={form} style={{ display: editCreate === 'edit' && dataArticle.responseStatus !== 'dataReceived!' && 'none' }}>
         <label htmlFor='image'>عکس</label>
         <div className='container-input'>
           <input
             type='text'
+            aria-label='عکس'
             id='image'
             onBlur={(e) => {
               e.target.value = e.target.value.trim();
@@ -242,6 +247,7 @@ const EditCreateArticle = () => {
         <div className='container-input'>
           <input
             type='text'
+            aria-label='عنوان'
             id='title'
             onBlur={(e) => {
               e.target.value = e.target.value.trim();
@@ -257,7 +263,7 @@ const EditCreateArticle = () => {
 
         <label htmlFor='description'>توضیحات</label>
         <div className='container-input'>
-          <textarea type='text' name='' id='description' />
+          <textarea type='text' aria-label='توضیحات' id='description' />
           <LuRefreshCw
             className='icon'
             onClick={(e) => {
@@ -270,6 +276,7 @@ const EditCreateArticle = () => {
         <div className='container-input'>
           <input
             type='text'
+            aria-label='نویسنده'
             id='writer'
             onBlur={(e) => {
               e.target.value = e.target.value.trim();
@@ -287,6 +294,7 @@ const EditCreateArticle = () => {
         <div className='container-input'>
           <input
             type='text'
+            aria-label='موضوع'
             id='category'
             onBlur={(e) => {
               e.target.value = e.target.value.trim();
@@ -304,6 +312,7 @@ const EditCreateArticle = () => {
         <div className='container-input'>
           <input
             type='text'
+            aria-label='زمان مطالعه'
             id='readingTime'
             onBlur={(e) => {
               e.target.value = e.target.value.trim();
@@ -318,7 +327,7 @@ const EditCreateArticle = () => {
         </div>
 
         <button type='button' onClick={editCreateArticleHandler}>
-          {editCreate === 'Edit' ? 'ویرایش مقاله' : 'ایجاد مقاله'}
+          {editCreate === 'edit' ? 'ویرایش مقاله' : 'ایجاد مقاله'}
         </button>
       </form>
     </Container>

@@ -1,0 +1,23 @@
+.container-not-found {
+  .title {
+    width: fit-content;
+    margin: auto;
+    padding-top: 70px;
+
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    font-size: 150px;
+    text-align: center;
+  }
+
+  .desc {
+    width: fit-content;
+    margin: auto;
+
+    font-family: 'Yekan', sans-serif, serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    color: gray;
+  }
+}

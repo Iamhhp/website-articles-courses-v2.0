@@ -9,7 +9,7 @@ const OffCanVas = ({ itemsMenu, title, stateShowMenu }) => {
   const elementContainerMenu = useRef(null);
   useEffect(() => {
     window.setTimeout(() => {
-      elementContainerMenu.current.classList.remove('container-OffCanVas-hide');
+      elementContainerMenu.current?.classList.remove('container-OffCanVas-hide');
     }, 50);
   }, [stateShowMenu.isShowMenu]);
 

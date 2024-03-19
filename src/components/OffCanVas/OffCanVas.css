@@ -5,7 +5,7 @@
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 2;
+  z-index: 3;
 
   background-color: rgba(0, 0, 0, 0.4);
 
@@ -17,7 +17,7 @@
     overflow-y: auto;
 
     transition: all 0.5s;
-    background-color: #00a9ff;
+    background-color: #0073e6;
   }
 
   .title {

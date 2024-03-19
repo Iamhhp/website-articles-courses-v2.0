@@ -1,6 +1,7 @@
 import { useSwiper } from 'swiper/react';
 import './BtnSwiper.css';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
+import { memo } from 'react';
 
 const BtnSwiper = () => {
   const swiper = useSwiper();
@@ -26,4 +27,4 @@ const BtnSwiper = () => {
     </div>
   );
 };
-export default BtnSwiper;
+export default memo(BtnSwiper);

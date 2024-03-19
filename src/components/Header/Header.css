@@ -25,9 +25,9 @@
   font-size: 18px;
   color: white;
 
-  padding: 5px 0px;
+  padding: 10px 0px 15px;
   border-bottom: 1px solid white;
-  background-color: #00a9ff;
+  background-color: #0073e6;
 
   position: relative;
 
@@ -127,7 +127,7 @@
     ul li.drop-down-menu a.main-menu {
       position: relative;
       z-index: 1;
-      background-color: #00a9ff;
+      background-color: #0073e6;
     }
 
     ul li.drop-down-menu a.main-menu .icon {
@@ -155,7 +155,7 @@
 
       transition: all 0.5s;
       transition-delay: 0.2s;
-      background-color: #00a9ff;
+      background-color: #0073e6;
     }
 
     ul li.drop-down-menu .sub-menu a {
@@ -184,16 +184,16 @@
     align-items: center;
 
     font-size: 15px;
-    padding: 7px 2px;
+    padding: 7px 4px;
 
     position: absolute;
-    top: 8px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
 
     border: 1px solid white;
     border-radius: 5px;
-    background-color: #00a9ff;
+    background-color: #0073e6;
 
     box-shadow: 0px 0px 3px 1px white;
 
@@ -219,6 +219,7 @@
     align-items: center;
     direction: ltr;
 
+    a,
     button {
       all: unset;
       border: 1px solid black;
@@ -231,21 +232,42 @@
     }
 
     .btn-login {
-      color: green;
-    }
-
-    .btn-login:hover {
       color: white;
       background-color: green;
     }
 
+    .btn-login:hover {
+      color: white;
+      box-shadow: 0px 0px 3px 1px green;
+    }
+
     .btn-basket {
-      color: orangered;
+      color: white;
+      position: relative;
+      background-color: orangered;
+
+      .number-courses {
+        width: 20px;
+        height: 20px;
+
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+
+        font-family: 'Yekan', sans-serif, serif;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 18px;
+
+        background-color: red;
+      }
     }
 
     .btn-basket:hover {
       color: white;
-      background-color: orangered;
+      box-shadow: 0px 0px 3px 1px orangered;
     }
   }
 }

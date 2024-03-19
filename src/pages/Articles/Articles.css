@@ -4,7 +4,7 @@
   .header-fluid {
     width: 100%;
     position: sticky;
-    top: 50px;
+    top: 65px;
     left: 0px;
     z-index: 1;
 
@@ -71,16 +71,23 @@
     }
   }
 
-  .items-accordion {
-    li {
-      label {
-        width: 97%;
-        margin-right: 3px;
-        cursor: pointer;
-      }
+  .container-accordions {
+    position: sticky;
+    top: 167px;
 
-      input {
-        cursor: pointer;
+    padding-bottom: 20px;
+
+    .items-accordion {
+      li {
+        label {
+          width: 97%;
+          margin-right: 3px;
+          cursor: pointer;
+        }
+
+        input {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -99,13 +106,6 @@
 
   .container-cardArticles-hide {
     transform: translateX(-1100px);
-  }
-
-  .container-accordions {
-    position: sticky;
-    top: 152px;
-
-    padding-bottom: 20px;
   }
 
   .container-paginate {

@@ -1,5 +1,5 @@
-import { Col, Container, Row } from 'react-bootstrap';
 import './Courses.css';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import Accordion from '../../components/Accordion/Accordion';
@@ -21,13 +21,16 @@ const Courses = () => {
   const [dataFetchCourse, isPending] = useFetch('https://dbserver.liara.run/courses');
 
   const [reloadAccordion, setReloadAccordion] = useState(false);
-  const [reloadPaginate, setReloadPaginate] = useState(false);
+  const [reloadPaginate, setReloadPaginate] = useState(true); // true for don't show in the first rendering component
 
   const optionSorting = useRef('newest');
   const optionsFiltering = useRef({ teachers: [], categories: [], stateCourse: [] });
 
   useEffect(() => {
-    changeStateDataCourses(ACTION_TYPE.DATA_SEARCH, [...dataFetchCourse.response]);
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      changeStateDataCourses(ACTION_TYPE.DATA_SEARCH, [...dataFetchCourse.response]);
+    }
   }, [dataFetchCourse]);
 
   // Filtering Data Courses //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,12 +47,18 @@ const Courses = () => {
   };
 
   useEffect(() => {
-    setReloadAccordion(() => false);
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      setReloadAccordion(() => false);
+    }
   }, [reloadAccordion]);
 
   // Filtering Data Courses //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    filteringDataCourses();
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      filteringDataCourses();
+    }
   }, [stateDataCourses.search]);
 
   const filteringDataCourses = () => {
@@ -73,7 +82,10 @@ const Courses = () => {
 
   // Sorting Data Courses //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    sortingDataCourses();
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      sortingDataCourses();
+    }
   }, [stateDataCourses.filter]);
 
   const sortingDataCourses = () => {
@@ -131,11 +143,10 @@ const Courses = () => {
 
   // Pagination Data Courses //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    setReloadPaginate(() => false);
-  }, [reloadPaginate]);
-
-  useEffect(() => {
-    changeHandlerPagination({ selected: 0 });
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      changeHandlerPagination({ selected: 0 });
+    }
   }, [stateDataCourses.sort]);
 
   const containerCardCourses = useRef(null);
@@ -144,13 +155,18 @@ const Courses = () => {
     dataCourses.pagination = stateDataCourses.sort.filter((course, i) => i >= pageNum * 6 && i < (pageNum + 1) * 6);
 
     containerCardCourses.current.classList.add('container-cardCourses-hide');
+
     window.setTimeout(() => {
       changeStateDataCourses(ACTION_TYPE.DATA_PAGINATION, [...dataCourses.pagination]);
+      setReloadPaginate(() => false);
     }, 200);
   };
 
   useEffect(() => {
-    containerCardCourses.current.classList.remove('container-cardCourses-hide');
+    // for stop call function in first rendering and stop over animation
+    if (!isPending) {
+      containerCardCourses.current.classList.remove('container-cardCourses-hide');
+    }
   }, [stateDataCourses.pagination]);
 
   // Items Accordion Menu ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,6 +310,14 @@ const Courses = () => {
     );
   }, [stateDataCourses.filter]);
 
+  const keyDownHandlerInputSearch = (e) => {
+    const btnSearch = e.target.nextElementSibling.nextElementSibling;
+    const key = e.key;
+    if (key === 'Enter') {
+      searchingDataCourses({ target: btnSearch });
+    }
+  };
+
   return (
     <Container fluid className='courses'>
       <Container fluid className='header-fluid'>
@@ -301,7 +325,7 @@ const Courses = () => {
           <div className='title'>دوره ها</div>
 
           <div className='search-box'>
-            <input type='text' id='input-search' />
+            <input type='text' id='input-search' onKeyDown={keyDownHandlerInputSearch} />
             <select id='option-search'>
               <option value='title'>عنوان</option>
               <option value='teacher'>مدرس</option>
@@ -347,6 +371,7 @@ const Courses = () => {
                 ) : !stateDataCourses.pagination.length ? (
                   <b>موردی یافت نشد!</b>
                 ) : (
+                  stateDataCourses.pagination[0] && // for don't show cardCourses in the first rendering component
                   stateDataCourses.pagination.map((course) => {
                     return (
                       <Col key={course.id}>

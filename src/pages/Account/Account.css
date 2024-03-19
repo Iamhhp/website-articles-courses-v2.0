@@ -1,0 +1,116 @@
+@media screen and (max-width: 992px) {
+  .container-account {
+    .sec-r {
+      border-radius: 10px 10px 0px 0px !important;
+    }
+  }
+}
+
+.container-account {
+  padding: 0px;
+  margin: auto;
+  margin-top: 41px;
+  margin-bottom: 41px;
+
+  /* overflow: hidden; */
+  .sec-r {
+    height: fit-content;
+
+    /* overflow: hidden; => position sticky is not work */
+    position: sticky;
+    top: 107px;
+    /* margin-bottom: 40px; */
+
+    color: white;
+    padding: 10px 0px;
+    border-radius: 0px 10px 10px 0px;
+    background-color: #0073e6;
+
+    .img {
+      width: fit-content;
+
+      margin: auto;
+      overflow: hidden;
+      border: 2px dashed whitesmoke;
+      border-radius: 50%;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .name-user {
+      width: 100%;
+      text-align: center;
+      border-bottom: 2px dashed whitesmoke;
+      padding: 1px 0px 7px;
+    }
+
+    ul.items-menu-account {
+      width: 100%;
+      margin: 0px;
+      padding: 5px;
+
+      li {
+        padding: 5px;
+        border-radius: 5px;
+        list-style-type: none;
+
+        &:hover {
+          background-color: #003b77;
+        }
+
+        a {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+
+          font-family: 'Yekan', sans-serif, serif;
+          font-size: 16px;
+          font-weight: 700;
+          text-decoration: none;
+          color: white;
+
+          padding: 8px;
+          border-radius: 5px;
+
+          .number-courses {
+            width: 25px;
+            height: 25px;
+
+            font-family: inherit;
+            font-weight: 700;
+            text-align: center;
+          }
+        }
+
+        a.active {
+          background-color: #004d99;
+        }
+
+        button.btn-exit {
+          all: unset;
+          width: 100%;
+          box-sizing: border-box;
+
+          font-family: 'Yekan', sans-serif, serif;
+          font-size: 16px;
+          font-weight: 700;
+
+          cursor: pointer;
+          padding: 8px;
+
+          &:active {
+            border-radius: 5px;
+            background-color: #004d99;
+          }
+        }
+      }
+    }
+  }
+
+  .sec-l {
+    overflow: hidden;
+  }
+}

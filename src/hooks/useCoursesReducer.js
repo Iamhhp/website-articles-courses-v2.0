@@ -12,7 +12,7 @@ const useCoursesReducer = () => {
     search: [],
     filter: [],
     sort: [],
-    pagination: [],
+    pagination: [null], // for don't show cardCourses in the first rendering component
   };
 
   const coursesReducer = (state, action) => {

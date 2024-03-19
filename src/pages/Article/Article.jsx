@@ -35,47 +35,67 @@ const Article = () => {
       showCancelButton: true,
       cancelButtonColor: 'green',
       cancelButtonText: 'خیر!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .delete(`https://dbserver.liara.run/articles/${idArticle}`)
-          .then((response) => {
-            if (response.status === 200) {
-              Swal.fire({
-                icon: 'success',
-                text: 'مقاله با موفقیت حذف شد!',
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: true,
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                text: 'مقاله حذف نشد!\n' + response.statusText,
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: true,
-              });
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              icon: 'error',
-              text: err,
-              timer: 2000,
-              timerProgressBar: true,
-              showConfirmButton: true,
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(`https://dbserver.liara.run/articles/${idArticle}`)
+            .then((response) => {
+              if (response.status === 200) {
+                Swal.fire({
+                  icon: 'success',
+                  text: 'مقاله با موفقیت حذف شد!',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: true,
+                })
+                  .then(() => {
+                    navigate('/articles');
+                  })
+                  .catch((err) => {});
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  text: 'مقاله حذف نشد! \n ' + response.statusText,
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: true,
+                }).catch((err) => {});
+              }
+            })
+            .catch((err) => {
+              if (err.message.includes('500')) {
+                Swal.fire({
+                  icon: 'success',
+                  text: 'مقاله با موفقیت حذف شد!',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: true,
+                })
+                  .then(() => {
+                    navigate('/articles');
+                  })
+                  .catch((err) => {});
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  text: err,
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: true,
+                }).catch((err) => {});
+              }
             });
-          });
-      } else {
-        Swal.fire({
-          icon: 'info',
-          text: 'حذف مقاله لغو شد!',
-          timer: 2000,
-          timerProgressBar: true,
-        });
-      }
-    });
+        } else {
+          Swal.fire({
+            icon: 'info',
+            text: 'حذف مقاله لغو شد!',
+            timer: 2000,
+            timerProgressBar: true,
+          }).catch((err) => {});
+        }
+      })
+      .catch((err) => {});
   };
 
   const clickHandlerBtnEdit = () => {
@@ -88,29 +108,33 @@ const Article = () => {
       showCancelButton: true,
       cancelButtonColor: 'red',
       cancelButtonText: 'خیر',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          icon: 'info',
-          text: 'در حال انتقال به صفحه ویرایش مقاله!',
-          showConfirmButton: true,
-          timer: 2000,
-          timerProgressBar: true,
-        }).then((result) => {
-          if (result.isDismissed || result.isConfirmed) {
-            navigate(`/Article/Edit/${idArticle}`);
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: 'info',
-          text: 'ویرایش مقاله لغو شد!',
-          showConfirmButton: true,
-          timer: 2000,
-          timerProgressBar: true,
-        });
-      }
-    });
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'info',
+            text: 'در حال انتقال به صفحه ویرایش مقاله!',
+            showConfirmButton: true,
+            timer: 2000,
+            timerProgressBar: true,
+          })
+            .then((result) => {
+              if (result.isDismissed || result.isConfirmed) {
+                navigate(`/article/edit/${idArticle}`);
+              }
+            })
+            .catch((err) => {});
+        } else {
+          Swal.fire({
+            icon: 'info',
+            text: 'ویرایش مقاله لغو شد!',
+            showConfirmButton: true,
+            timer: 2000,
+            timerProgressBar: true,
+          }).catch((err) => {});
+        }
+      })
+      .catch((err) => {});
   };
 
   return (
