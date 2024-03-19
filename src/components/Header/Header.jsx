@@ -7,6 +7,7 @@ import { memo, useEffect, useRef, useState } from 'react';
 import persianDate from 'persian-date';
 import OffCanVas from '../OffCanVas/OffCanVas';
 import { AiOutlineMenuFold } from 'react-icons/ai';
+import { IoCaretUpOutline } from 'react-icons/io5';
 import Notification from '../Notification/Notification';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -160,16 +161,19 @@ const Header = () => {
             </div>
           </Col>
 
-          <Col className='sec-l col-auto'>
-            <Link to={'/account/details'} className='btn-login'>
-              {isLogin ? 'حساب کاربری' : 'ورود'}
-            </Link>
+          <Col className='col-auto'>
+            <div className='sec-l'>
+              <Link to={'/account/details'} className={'btn-login'} style={!isLogin ? { width: '20px' } : { width: '' }} tabIndex={-1}>
+                {isLogin ? 'حساب کاربری' : 'ورود'}
+                <IoCaretUpOutline className='icon-drop-down' />
+              </Link>
 
-            <Link to={'/account/courses/selected'} className='btn-basket'>
-              <SlBasket className='icon' />
+              <Link to={'/account/courses/selected'} className='btn-basket' tabIndex={-1}>
+                <SlBasket className='icon' />
 
-              {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
-            </Link>
+                {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
+              </Link>
+            </div>
           </Col>
         </Row>
       </Container>

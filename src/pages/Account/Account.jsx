@@ -37,63 +37,65 @@ const Account = () => {
   };
 
   return (
-    <Container className='container-account' fluid='md'>
-      <Row>
-        <Col className='col-12 col-lg-4 col-xl-3'>
-          <div className='sec-r'>
-            <div className='img'>
-              <img src='https://secure.gravatar.com/avatar/957e7f28ff111d0eb26e0fe51d9650d5?s=80&d=mm&r=g' alt='' />
+    <Container fluid='md'>
+      <div className='container-account'>
+        <Row>
+          <Col className='col-12 col-lg-4 col-xl-3'>
+            <div className='sec-r'>
+              <div className='img'>
+                <img src='https://secure.gravatar.com/avatar/957e7f28ff111d0eb26e0fe51d9650d5?s=80&d=mm&r=g' alt='' />
+              </div>
+              <div className='name-user'>حسن پور</div>
+              <ul className='items-menu-account'>
+                <Row className='row-cols-1 row-cols-sm-2 row-cols-lg-1'>
+                  <Col>
+                    <li>
+                      <NavLink tabIndex='-1' to='/account/courses/selected'>
+                        سبد خرید
+                        {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
+                      </NavLink>
+                    </li>
+                  </Col>
+
+                  <Col>
+                    <li>
+                      <NavLink tabIndex='-1' to='/account/courses/bought'>
+                        دوره های خریداری شده
+                        {boughtCards.length !== 0 && <span className='number-courses'>{boughtCards.length}</span>}
+                      </NavLink>
+                    </li>
+                  </Col>
+
+                  <Col>
+                    <li>
+                      <NavLink tabIndex='-1' to='/account/details'>
+                        اطلاعات حساب کاربری
+                      </NavLink>
+                    </li>
+                  </Col>
+
+                  <Col>
+                    <li>
+                      <button type='button' className='btn-exit' tabIndex='-1' onClick={clickHandlerExitAccount}>
+                        خروج از سایت
+                      </button>
+                    </li>
+                  </Col>
+                </Row>
+              </ul>
             </div>
-            <div className='name-user'>حسن پور</div>
-            <ul className='items-menu-account'>
-              <Row>
-                <Col className='col-sm- col-md- col-lg-12'>
-                  <li>
-                    <NavLink tabIndex='-1' to='/account/courses/selected'>
-                      سبد خرید
-                      {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
-                    </NavLink>
-                  </li>
-                </Col>
+          </Col>
 
-                <Col className='col-sm- col-md- col-lg-12'>
-                  <li>
-                    <NavLink tabIndex='-1' to='/account/courses/bought'>
-                      دوره های خریداری شده
-                      {boughtCards.length !== 0 && <span className='number-courses'>{boughtCards.length}</span>}
-                    </NavLink>
-                  </li>
-                </Col>
-
-                <Col className='col-sm- col-md- col-lg-12'>
-                  <li>
-                    <NavLink tabIndex='-1' to='/account/details'>
-                      اطلاعات حساب کاربری
-                    </NavLink>
-                  </li>
-                </Col>
-
-                <Col className='col-sm- col-md- col-lg-12'>
-                  <li>
-                    <button type='button' className='btn-exit' tabIndex='-1' onClick={clickHandlerExitAccount}>
-                      خروج از سایت
-                    </button>
-                  </li>
-                </Col>
-              </Row>
-            </ul>
-          </div>
-        </Col>
-
-        <Col className='col-12 col-lg-8 col-xl-9'>
-          <div className='sec-l'>
-            <Routes>
-              <Route path='Details' element={<DetailsAccount />} />
-              <Route path='Courses/:subRoute' element={<CoursesAccount />} />
-            </Routes>
-          </div>
-        </Col>
-      </Row>
+          <Col className='col-12 col-lg-8 col-xl-9'>
+            <div className='sec-l'>
+              <Routes>
+                <Route path='Details' element={<DetailsAccount />} />
+                <Route path='Courses/:subRoute' element={<CoursesAccount />} />
+              </Routes>
+            </div>
+          </Col>
+        </Row>
+      </div>
     </Container>
   );
 };

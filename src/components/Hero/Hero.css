@@ -1,6 +1,7 @@
 .container-hero {
   padding-top: 20px;
   background-color: #0073e6;
+  overflow: hidden;
 
   .sec-r img {
     width: 100%;
@@ -12,8 +13,6 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-
-    overflow: hidden;
 
     .title-hero {
       font-family: 'Lalezar', sans-serif, serif;

@@ -1,3 +1,4 @@
+/* ///////////////////////////////////////////////////// sec-l => ICON OffCanVas Menu */
 @media screen and (max-width: 900px) {
   .row-header {
     .sec-r ul {
@@ -10,264 +11,340 @@
   }
 }
 
+/* //////////////////////////////////////////// sec-m => lbl-wevSite  */
+@media screen and (max-width: 460px) {
+  .sec-m {
+    display: none !important;
+  }
+}
+
+/* //////////////////////////////////////////// sec-r => drop-down Menu button Login  */
+@media screen and (max-width: 576px) {
+  .row-header {
+    .sec-l {
+      border-radius: 5px;
+
+      .btn-login {
+        width: 75px !important;
+        text-align: right !important;
+        margin: 0px !important;
+
+        .icon-drop-down {
+          left: 8% !important;
+        }
+      }
+
+      .btn-basket {
+        width: 10px;
+        text-align: left !important;
+        position: absolute !important;
+        transform: translateX(0%) !important;
+
+        .number-courses {
+          top: 50%;
+          transform: translate(-70%, -50%) !important;
+        }
+      }
+
+      &:hover {
+        .icon-drop-down {
+          rotate: 180deg;
+        }
+
+        .btn-basket {
+          width: 75px !important;
+          transform: translateY(110%) !important;
+        }
+      }
+    }
+  }
+}
+
 .container-header {
   position: sticky;
   top: 0px;
   z-index: 2;
-}
 
-.row-header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  .row-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 
-  font-family: 'Lalezar', sans-serif, serif;
-  font-size: 18px;
-  color: white;
+    font-family: 'Lalezar', sans-serif, serif;
+    font-size: 18px;
+    color: white;
 
-  padding: 10px 0px 15px;
-  border-bottom: 1px solid white;
-  background-color: #0073e6;
+    padding: 10px 0px 15px;
+    border-bottom: 1px solid white;
+    background-color: #0073e6;
 
-  position: relative;
+    position: relative;
 
-  .sec-r {
-    .icon-OffCanVas {
-      display: none;
-      font-size: 30px;
-      margin-top: 3px;
+    .sec-r {
+      .icon-OffCanVas {
+        display: none;
+        font-size: 37px;
+      }
+
+      ul {
+        display: flex;
+        height: 100%;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      ul li {
+        list-style-type: none;
+      }
+
+      ul li > a {
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        padding: 5px 15px;
+
+        position: relative;
+        transition: all 0.5s;
+      }
+
+      ul li:hover > a {
+        color: orangered;
+      }
+
+      /* pseudo-element-after => underLine-01 */
+      ul li > a::after {
+        content: '';
+        display: inline-block;
+        width: 0px;
+        height: 2px;
+
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        transition: all 0.5s ease-in-out;
+        background-color: orangered;
+      }
+
+      ul li > a.active::after {
+        width: 100%;
+        background-color: white;
+      }
+
+      ul li:hover > a::after {
+        width: 100%;
+        transition-delay: 0.3s;
+        background-color: orangered;
+      }
+
+      /* pseudo-element-before => underLine-02 */
+      ul li > a::before {
+        content: '';
+        display: inline-block;
+        width: 0px;
+        height: 2px;
+
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        transition: all 0.5s ease-in-out;
+        background-color: orangered;
+      }
+
+      ul li > a.active::before {
+        width: 100%;
+        background-color: white;
+      }
+
+      ul li:hover > a::before {
+        width: 100%;
+        background-color: orangered;
+      }
+
+      /* DropDown Menu Articles in NavBar /////////////////////////////////////////////////////////////////////////////////// */
+      ul li.drop-down-menu {
+        position: relative;
+      }
+
+      ul li.drop-down-menu a.main-menu {
+        position: relative;
+        z-index: 1;
+        background-color: #0073e6;
+      }
+
+      ul li.drop-down-menu a.main-menu .icon {
+        margin-right: 5px;
+        transition: all 0.3s;
+      }
+
+      ul li.drop-down-menu:hover a.main-menu .icon {
+        transform: rotate(180deg);
+        color: orangered;
+      }
+
+      ul li.drop-down-menu .sub-menu {
+        width: 100%;
+        padding: 5px;
+
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 0;
+        opacity: 0;
+
+        border: 1px solid black;
+        border-radius: 3px;
+
+        transition: all 0.5s;
+        transition-delay: 0.2s;
+        background-color: #0073e6;
+      }
+
+      ul li.drop-down-menu .sub-menu a {
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        color: white;
+      }
+
+      ul li.drop-down-menu:hover .sub-menu {
+        top: 55px;
+        opacity: 1;
+
+        a:hover {
+          color: orangered;
+        }
+      }
+      /* End Drop Down Menu /////////////////////////////////////////////////////////////////////////// */
     }
 
-    ul {
+    .sec-m {
       display: flex;
-      height: 100%;
+      width: fit-content;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 15px;
+      padding: 7px 4px;
+
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      border: 1px solid white;
+      border-radius: 5px;
+      background-color: #0073e6;
+
+      box-shadow: 0px 0px 3px 1px white;
+
+      .date {
+        display: flex;
+        flex-flow: row-reverse nowrap;
+
+        .time {
+          width: 60px;
+          text-align: left;
+        }
+
+        .day {
+          padding-right: 4px;
+        }
+      }
+    }
+
+    .sec-l {
+      display: flex;
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: center;
-      margin: 0px;
-      padding: 0px;
-    }
-
-    ul li {
-      list-style-type: none;
-    }
-
-    ul li > a {
-      display: inline-block;
-      text-decoration: none;
-      color: white;
-      padding: 5px 15px;
+      direction: ltr;
 
       position: relative;
-      transition: all 0.5s;
-    }
 
-    ul li:hover > a {
-      color: orangered;
-    }
+      a,
+      button {
+        all: unset;
+        font-size: 14px;
 
-    /* pseudo-element-after => underLine-01 */
-    ul li > a::after {
-      content: '';
-      display: inline-block;
-      width: 0px;
-      height: 2px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
 
-      position: absolute;
-      bottom: 0px;
-      left: 50%;
-      transform: translateX(-50%);
-
-      transition: all 0.5s ease-in-out;
-      background-color: orangered;
-    }
-
-    ul li > a.active::after {
-      width: 100%;
-      background-color: white;
-    }
-
-    ul li:hover > a::after {
-      width: 100%;
-      transition-delay: 0.3s;
-      background-color: orangered;
-    }
-
-    /* pseudo-element-before => underLine-02 */
-    ul li > a::before {
-      content: '';
-      display: inline-block;
-      width: 0px;
-      height: 2px;
-
-      position: absolute;
-      bottom: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-
-      transition: all 0.5s ease-in-out;
-      background-color: orangered;
-    }
-
-    ul li > a.active::before {
-      width: 100%;
-      background-color: white;
-    }
-
-    ul li:hover > a::before {
-      width: 100%;
-      background-color: orangered;
-    }
-
-    /* DropDown Menu /////////////////////////////////////////////////////////////////////////////////// */
-    ul li.drop-down-menu {
-      position: relative;
-    }
-
-    ul li.drop-down-menu a.main-menu {
-      position: relative;
-      z-index: 1;
-      background-color: #0073e6;
-    }
-
-    ul li.drop-down-menu a.main-menu .icon {
-      margin-right: 5px;
-      transition: all 0.3s;
-    }
-
-    ul li.drop-down-menu:hover a.main-menu .icon {
-      transform: rotate(180deg);
-      color: orangered;
-    }
-
-    ul li.drop-down-menu .sub-menu {
-      width: 100%;
-      padding: 5px;
-
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      z-index: 0;
-      opacity: 0;
-
-      border: 1px solid black;
-      border-radius: 3px;
-
-      transition: all 0.5s;
-      transition-delay: 0.2s;
-      background-color: #0073e6;
-    }
-
-    ul li.drop-down-menu .sub-menu a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      color: white;
-    }
-
-    ul li.drop-down-menu:hover .sub-menu {
-      top: 55px;
-      opacity: 1;
-
-      a:hover {
-        color: orangered;
-      }
-    }
-    /* End Drop Down Menu /////////////////////////////////////////////////////////////////////////// */
-  }
-
-  .sec-m {
-    display: flex;
-    width: fit-content;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 15px;
-    padding: 7px 4px;
-
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    border: 1px solid white;
-    border-radius: 5px;
-    background-color: #0073e6;
-
-    box-shadow: 0px 0px 3px 1px white;
-
-    .date {
-      display: flex;
-      flex-flow: row-reverse nowrap;
-
-      .time {
-        width: 60px;
-        text-align: left;
+        transition: all 0.3s;
       }
 
-      .day {
-        padding-right: 4px;
+      .btn-login {
+        width: 65px;
+        text-align: center;
+
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+        color: white;
+        background-color: green;
+
+        .icon-drop-down {
+          position: absolute;
+          top: 26%;
+          left: -110%;
+          transition: all 0.5s cubic-bezier(0.68, -0.3, 0.265, 1.3);
+        }
       }
-    }
-  }
 
-  .sec-l {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    direction: ltr;
+      .btn-login:hover {
+        color: white;
+        box-shadow: 0px 0px 3px 1px green;
+      }
 
-    a,
-    button {
-      all: unset;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 5px 10px;
-      margin-right: 10px;
-      cursor: pointer;
-
-      transition: all 0.3s;
-    }
-
-    .btn-login {
-      color: white;
-      background-color: green;
-    }
-
-    .btn-login:hover {
-      color: white;
-      box-shadow: 0px 0px 3px 1px green;
-    }
-
-    .btn-basket {
-      color: white;
-      position: relative;
-      background-color: orangered;
-
-      .number-courses {
-        width: 20px;
-        height: 20px;
+      .btn-basket {
+        width: 10px;
+        color: white;
 
         position: absolute;
-        bottom: -10px;
-        right: -10px;
+        z-index: 1;
+        right: 0px;
 
-        font-family: 'Yekan', sans-serif, serif;
-        font-size: 14px;
-        font-weight: 700;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 18px;
+        transform: translateX(115%);
+        background-color: orangered;
+        transition:
+          width 0.5s cubic-bezier(0.68, -0.7, 0.265, 1.7),
+          transform 0.5s cubic-bezier(1, 0, 0, 1);
 
-        background-color: red;
+        .number-courses {
+          width: 20px;
+          height: 20px;
+
+          position: absolute;
+          bottom: -10px;
+          right: -10px;
+
+          font-family: 'Yekan', sans-serif, serif;
+          font-size: 14px;
+          font-weight: 700;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 18px;
+
+          transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          background-color: red;
+        }
       }
-    }
 
-    .btn-basket:hover {
-      color: white;
-      box-shadow: 0px 0px 3px 1px orangered;
+      .btn-basket:hover {
+        color: white;
+        box-shadow: 0px 0px 3px 1px orangered;
+      }
     }
   }
 }

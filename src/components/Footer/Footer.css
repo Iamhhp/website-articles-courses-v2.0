@@ -1,5 +1,7 @@
 .container-footer {
   margin: 0px;
+  position: sticky;
+  top: 1000px;
   background-color: #0073e6;
 
   .sec-r {

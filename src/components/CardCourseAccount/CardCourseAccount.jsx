@@ -8,6 +8,7 @@ import SmallLoading from '../SmallLoading/SmallLoading';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSelectedCard } from '../../context/Redux/userSlice';
 import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
+import { Col, Row } from 'react-bootstrap';
 
 const CardCourseAccount = ({ id, title, image, description, mainPrice, discountPrice, isCourseSelected }) => {
   useEffect(() => {
@@ -48,28 +49,34 @@ const CardCourseAccount = ({ id, title, image, description, mainPrice, discountP
 
   return (
     <div className='card-course-account'>
-      <div className='img'>
-        <img src={image} alt='' />
-      </div>
+      <Row>
+        <Col className='col-12 col-sm-6 col-lg-5 col-xl-4'>
+          <div className='img'>
+            <img src={image} alt='' />
+          </div>
+        </Col>
 
-      <div className='body'>
-        <h3 className='title'>
-          {title}-{id}
-          {isCourseSelected && (isPosting ? <SmallLoading /> : <IoMdRemoveCircleOutline className='remove-course' onClick={clickHandlerRemoveCourses} />)}
-        </h3>
-        <p className='description'>{description}</p>
-        <div className='footer-card'>
-          <Link to={`/course/${id}`} className='details-course'>
-            جزئیات دوره
-          </Link>
+        <Col className='col-12 col-sm-6 col-lg-7 col-xl-8'>
+          <div className='body'>
+            <h3 className='title'>
+              {title}-{id}
+              {isCourseSelected && (isPosting ? <SmallLoading /> : <IoMdRemoveCircleOutline className='remove-course' onClick={clickHandlerRemoveCourses} />)}
+            </h3>
+            <p className='description'>{description}</p>
+            <div className='footer-card'>
+              <Link to={`/course/${id}`} className='details-course'>
+                جزئیات دوره
+              </Link>
 
-          {isCourseSelected && (
-            <div className='price'>
-              <RendingPrice {...{ discountPrice, mainPrice }} />
+              {isCourseSelected && (
+                <div className='price'>
+                  <RendingPrice {...{ discountPrice, mainPrice }} />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

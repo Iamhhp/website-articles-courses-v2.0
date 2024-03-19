@@ -258,7 +258,7 @@ const Articles = () => {
   return (
     <Container fluid className='articles'>
       <Container fluid className='header-fluid'>
-        <Container className='header'>
+        <Container className='header' fluid='xl'>
           <div className='title'>مقالات</div>
 
           <div className='search-box'>
@@ -276,7 +276,7 @@ const Articles = () => {
         </Container>
       </Container>
 
-      <Container>
+      <Container fluid='xl'>
         <Row>
           <Col className='col-12 col-sm-4 col-md-3 col-lg-2'>
             <div className='container-accordions'>
@@ -296,7 +296,7 @@ const Articles = () => {
 
           <Col className='col-12 col-sm-8 col-md-9 col-lg-10' style={{ overflow: 'hidden' }}>
             <div className='container-cardArticle' ref={containerCardArticles}>
-              <Row className='row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3'>
+              <Row className='row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4'>
                 {isPending ? (
                   <Loading />
                 ) : dataFetchArticles.responseStatus !== 'dataReceived!' ? (

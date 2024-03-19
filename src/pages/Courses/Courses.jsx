@@ -321,7 +321,7 @@ const Courses = () => {
   return (
     <Container fluid className='courses'>
       <Container fluid className='header-fluid'>
-        <Container className='header'>
+        <Container className='header' fluid='xl'>
           <div className='title'>دوره ها</div>
 
           <div className='search-box'>
@@ -339,7 +339,7 @@ const Courses = () => {
         </Container>
       </Container>
 
-      <Container>
+      <Container fluid='xl'>
         <Row>
           <Col className='col-12 col-sm-4 col-md-3 col-lg-2'>
             <div className='container-accordions'>
@@ -363,7 +363,7 @@ const Courses = () => {
 
           <Col className='col-12 col-sm-8 col-md-9 col-lg-10' style={{ overflow: 'hidden' }}>
             <div className='container-cardCourses' ref={containerCardCourses}>
-              <Row className='row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3'>
+              <Row className='row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4'>
                 {isPending ? (
                   <Loading />
                 ) : dataFetchCourse.responseStatus !== 'dataReceived!' ? (

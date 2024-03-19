@@ -1,6 +1,7 @@
 @media screen and (max-width: 992px) {
   .container-account {
     .sec-r {
+      margin-bottom: 10px;
       border-radius: 10px 10px 0px 0px !important;
     }
   }
@@ -8,7 +9,7 @@
 
 .container-account {
   padding: 0px;
-  margin: auto;
+  /* margin: auto; */
   margin-top: 41px;
   margin-bottom: 41px;
 
@@ -50,60 +51,64 @@
       width: 100%;
       margin: 0px;
       padding: 5px;
+      list-style-type: none;
 
-      li {
-        padding: 5px;
-        border-radius: 5px;
-        list-style-type: none;
+      .row {
+        /* margin: 0px; */
 
-        &:hover {
-          background-color: #003b77;
-        }
-
-        a {
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-          align-items: center;
-
-          font-family: 'Yekan', sans-serif, serif;
-          font-size: 16px;
-          font-weight: 700;
-          text-decoration: none;
-          color: white;
-
-          padding: 8px;
+        li {
+          padding: 5px;
           border-radius: 5px;
 
-          .number-courses {
-            width: 25px;
-            height: 25px;
-
-            font-family: inherit;
-            font-weight: 700;
-            text-align: center;
+          &:hover {
+            background-color: #003b77;
           }
-        }
 
-        a.active {
-          background-color: #004d99;
-        }
+          a {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
 
-        button.btn-exit {
-          all: unset;
-          width: 100%;
-          box-sizing: border-box;
+            font-family: 'Yekan', sans-serif, serif;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
 
-          font-family: 'Yekan', sans-serif, serif;
-          font-size: 16px;
-          font-weight: 700;
-
-          cursor: pointer;
-          padding: 8px;
-
-          &:active {
+            padding: 8px;
             border-radius: 5px;
+
+            .number-courses {
+              width: 25px;
+              height: 25px;
+
+              font-family: inherit;
+              font-weight: 700;
+              text-align: center;
+            }
+          }
+
+          a.active {
             background-color: #004d99;
+          }
+
+          button.btn-exit {
+            all: unset;
+            width: 100%;
+            box-sizing: border-box;
+
+            font-family: 'Yekan', sans-serif, serif;
+            font-size: 18px;
+            font-weight: 700;
+
+            cursor: pointer;
+            padding: 8px;
+
+            &:active {
+              border-radius: 5px;
+              background-color: #004d99;
+            }
           }
         }
       }
@@ -112,5 +117,6 @@
 
   .sec-l {
     overflow: hidden;
+    height: 100%;
   }
 }
