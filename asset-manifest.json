@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/website-articles-courses-v2.0/static/css/main.5b4a8cca.css",
-    "main.js": "/website-articles-courses-v2.0/static/js/main.0a78a073.js",
+    "main.css": "/website-articles-courses-v2.0/static/css/main.cc30fc4b.css",
+    "main.js": "/website-articles-courses-v2.0/static/js/main.aa378456.js",
     "static/media/Lalezar.ttf": "/website-articles-courses-v2.0/static/media/Lalezar.241ca811c53de4ed36a4.ttf",
     "static/media/Yekan.ttf": "/website-articles-courses-v2.0/static/media/Yekan.012789e6e9f8b9a4929f.ttf",
     "static/media/hero.svg": "/website-articles-courses-v2.0/static/media/hero.24d8171c233edfbedf66e8db29c49c04.svg",
     "index.html": "/website-articles-courses-v2.0/index.html",
-    "main.5b4a8cca.css.map": "/website-articles-courses-v2.0/static/css/main.5b4a8cca.css.map",
-    "main.0a78a073.js.map": "/website-articles-courses-v2.0/static/js/main.0a78a073.js.map"
+    "main.cc30fc4b.css.map": "/website-articles-courses-v2.0/static/css/main.cc30fc4b.css.map",
+    "main.aa378456.js.map": "/website-articles-courses-v2.0/static/js/main.aa378456.js.map"
   },
   "entrypoints": [
-    "static/css/main.5b4a8cca.css",
-    "static/js/main.0a78a073.js"
+    "static/css/main.cc30fc4b.css",
+    "static/js/main.aa378456.js"
   ]
 }
