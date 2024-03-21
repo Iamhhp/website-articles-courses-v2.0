@@ -2,9 +2,9 @@ import { memo } from 'react';
 import './Footer.css';
 import { Col, Container, Row } from 'react-bootstrap';
 
-const Footer = () => {
+const Footer = ({themeMode}) => {
   return (
-    <Container fluid className='container-footer'>
+    <Container fluid className='container-footer' theme-mode={themeMode} >
       <Row>
         <Col className='sec-r col-12 col-sm-6'>
           <div>

@@ -11,9 +11,9 @@
   background-color: white;
 
   overflow: hidden;
-  border: 1px solid #0073e6;
+  border: 1px solid var(--theme-mode);
   border-radius: 10px;
-  box-shadow: 0px 0px 5px 1px #0073e6;
+  box-shadow: 0px 0px 5px 1px var(--theme-mode);
 
   .container-form-login-register {
     .btns-switch-login {

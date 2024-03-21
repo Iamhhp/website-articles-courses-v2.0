@@ -25,8 +25,15 @@ const EditCreateArticle = () => {
       form.current.elements[3].value = dataArticle.response.writer;
       form.current.elements[4].value = dataArticle.response.category;
       form.current.elements[5].value = dataArticle.response.readingTime;
+    } else {
+      form.current.elements[0].value = '';
+      form.current.elements[1].value = '';
+      form.current.elements[2].value = '';
+      form.current.elements[3].value = '';
+      form.current.elements[4].value = '';
+      form.current.elements[5].value = '';
     }
-  }, [isPending]);
+  }, [isPending, editCreate]);
 
   // ClickHandler Button Submit ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   const editCreateArticleHandler = () => {
@@ -235,12 +242,15 @@ const EditCreateArticle = () => {
               e.target.value = e.target.value.trim();
             }}
           />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('image');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('image');
+              }}
+            />
+          )}
         </div>
 
         <label htmlFor='title'>عنوان</label>
@@ -253,23 +263,29 @@ const EditCreateArticle = () => {
               e.target.value = e.target.value.trim();
             }}
           />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('title');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('title');
+              }}
+            />
+          )}
         </div>
 
         <label htmlFor='description'>توضیحات</label>
         <div className='container-input'>
           <textarea type='text' aria-label='توضیحات' id='description' />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('description');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('description');
+              }}
+            />
+          )}
         </div>
 
         <label htmlFor='writer'>نویسنده</label>
@@ -282,12 +298,15 @@ const EditCreateArticle = () => {
               e.target.value = e.target.value.trim();
             }}
           />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('writer');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('writer');
+              }}
+            />
+          )}
         </div>
 
         <label htmlFor='category'>موضوع</label>
@@ -300,12 +319,15 @@ const EditCreateArticle = () => {
               e.target.value = e.target.value.trim();
             }}
           />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('category');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('category');
+              }}
+            />
+          )}
         </div>
 
         <label htmlFor='readingTime'>زمان مطالعه</label>
@@ -318,12 +340,15 @@ const EditCreateArticle = () => {
               e.target.value = e.target.value.trim();
             }}
           />
-          <LuRefreshCw
-            className='icon'
-            onClick={(e) => {
-              reloadHandler('readingTime');
-            }}
-          />
+
+          {editCreate === 'edit' && (
+            <LuRefreshCw
+              className='icon'
+              onClick={(e) => {
+                reloadHandler('readingTime');
+              }}
+            />
+          )}
         </div>
 
         <button type='button' onClick={editCreateArticleHandler}>

@@ -6,9 +6,9 @@
   align-items: stretch;
   flex-shrink: 0;
 
-  border: 1px solid #0073e6;
+  border: 1px solid var(--theme-mode);
   border-radius: 10px;
-  box-shadow: 0px 0px 3px 1px #0073e6;
+  box-shadow: 0px 0px 3px 1px var(--theme-mode);
 
   margin: 0px 10px 15px 0px;
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);

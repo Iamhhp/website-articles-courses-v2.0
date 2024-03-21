@@ -17,7 +17,7 @@
     overflow-y: auto;
 
     transition: all 0.5s;
-    background-color: #0073e6;
+    background-color: var(--theme-mode);
   }
 
   .title {

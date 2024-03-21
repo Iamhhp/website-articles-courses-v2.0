@@ -1,6 +1,6 @@
 @media screen and (max-width: 992px) {
   .container-coursesAccount {
-    border: 2px solid #0073e6 !important;
+    border: 2px solid var(--theme-mode) !important;
     border-top: none !important;
     border-radius: 0px 0px 10px 10px !important;
   }
@@ -14,7 +14,7 @@
   align-items: stretch;
 
   padding: 15px 15px 0px 15px;
-  border: 2px solid #0073e6;
+  border: 2px solid var(--theme-mode);
   border-right: none;
   border-radius: 10px 0px 0px 10px;
 
@@ -36,7 +36,7 @@
     align-items: center;
 
     padding: 10px 0px 10px 20px;
-    border-top: 2px solid #0073e6;
+    border-top: 2px solid var(--theme-mode);
 
     position: sticky;
     top: 0px;
@@ -51,13 +51,13 @@
       color: black;
       padding: 5px 15px;
       border-radius: 5px;
-      border: 1px solid #0073e6;
-      box-shadow: 0px 0px 2px 1px #0073e6;
-      background-color: #0073e6;
+      border: 1px solid var(--theme-mode);
+      box-shadow: 0px 0px 2px 1px var(--theme-mode);
+      background-color: var(--theme-mode);
 
       &:hover {
         color: white;
-        box-shadow: 0px 0px 5px 2px #0073e6;
+        box-shadow: 0px 0px 5px 2px var(--theme-mode);
       }
     }
   }

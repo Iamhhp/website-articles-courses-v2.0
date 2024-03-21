@@ -22,7 +22,7 @@
 
   /* Toggle btn is Active */
   input[type='checkbox']:checked + .slider {
-    background-color: #0073e6;
+    background-color: var(--theme-mode);
   }
 
   .slider::after {

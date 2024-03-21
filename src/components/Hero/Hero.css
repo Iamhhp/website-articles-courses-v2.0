@@ -1,6 +1,6 @@
 .container-hero {
   padding-top: 20px;
-  background-color: #0073e6;
+  background-color: var(--theme-mode);
   overflow: hidden;
 
   .sec-r img {
@@ -61,4 +61,8 @@
       color: orangered;
     }
   }
+}
+
+.wave-hero {
+  fill: var(--theme-mode);
 }

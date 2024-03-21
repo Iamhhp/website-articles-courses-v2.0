@@ -2,12 +2,13 @@
   margin: 0px;
   position: sticky;
   top: 1000px;
-  background-color: #0073e6;
+  background-color: var(--theme-mode);
 
   .sec-r {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: white;
 
     h4 {
       font-family: 'Yekan', sans-serif, serif;

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { putUserData, updateStatus } from '../../context/Redux/userSlice';
 import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
 
-const Header = () => {
+const Header = ({ themeMode }) => {
   useEffect(() => {
     console.log('Header reRender!');
   });
@@ -140,44 +140,42 @@ const Header = () => {
   };
 
   return (
-    <>
+    <Container fluid className='container-header' theme-mode={themeMode}>
       {isShowMenu && <OffCanVas title={'منو اصلی'} itemsMenu={itemsHeaderMenu} stateShowMenu={{ isShowMenu, setIsShowMenu }} />}
 
-      <Container fluid className='container-header'>
-        {notification.map((noti, i) => (
-          <Notification key={noti.id} {...{ ...noti, i }} />
-        ))}
+      {notification.map((noti, i) => (
+        <Notification key={noti.id} {...{ ...noti, i }} />
+      ))}
 
-        <Row className='row-header'>
-          <Col className='sec-r col-auto'>
-            {itemsHeaderMenu} <AiOutlineMenuFold className='icon-OffCanVas' onClick={iconOffMenuClickHandler} />
-          </Col>
+      <Row className='row-header'>
+        <Col className='sec-r col-auto'>
+          {itemsHeaderMenu} <AiOutlineMenuFold className='icon-OffCanVas' onClick={iconOffMenuClickHandler} />
+        </Col>
 
-          <Col className='sec-m col-auto'>
-            <div className='lbl-website'>وب سایت سایت آموزشی پژوهشی</div>
-            <div className='date' ref={elementDate}>
-              <div className='day'>شنبه</div>
-              <div className='time'>17:22:22</div>
-            </div>
-          </Col>
+        <Col className='sec-m col-auto'>
+          <div className='lbl-website'>وب سایت سایت آموزشی پژوهشی</div>
+          <div className='date' ref={elementDate}>
+            <div className='day'>شنبه</div>
+            <div className='time'>17:22:22</div>
+          </div>
+        </Col>
 
-          <Col className='col-auto'>
-            <div className='sec-l'>
-              <Link to={'/account/details'} className={'btn-login'} style={!isLogin ? { width: '20px' } : { width: '' }} tabIndex={-1}>
-                {isLogin ? 'حساب کاربری' : 'ورود'}
-                <IoCaretUpOutline className='icon-drop-down' />
-              </Link>
+        <Col className='col-auto'>
+          <div className='sec-l'>
+            <Link to={'/account/details'} className={'btn-login'} style={!isLogin ? { width: '20px' } : { width: '' }} tabIndex={-1}>
+              {isLogin ? 'حساب کاربری' : 'ورود'}
+              <IoCaretUpOutline className='icon-drop-down' />
+            </Link>
 
-              <Link to={'/account/courses/selected'} className='btn-basket' tabIndex={-1}>
-                <SlBasket className='icon' />
+            <Link to={'/account/courses/selected'} className='btn-basket' tabIndex={-1}>
+              <SlBasket className='icon' />
 
-                {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
-              </Link>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </>
+              {selectedCards.length !== 0 && <span className='number-courses'>{selectedCards.length}</span>}
+            </Link>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 export default memo(Header);
