@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/website-articles-courses-v2.0/static/css/main.d6d6e315.css",
+    "main.js": "/website-articles-courses-v2.0/static/js/main.15d7942b.js",
+    "static/media/Lalezar.ttf": "/website-articles-courses-v2.0/static/media/Lalezar.241ca811c53de4ed36a4.ttf",
+    "static/media/Yekan.ttf": "/website-articles-courses-v2.0/static/media/Yekan.012789e6e9f8b9a4929f.ttf",
+    "static/media/hero.svg": "/website-articles-courses-v2.0/static/media/hero.24d8171c233edfbedf66e8db29c49c04.svg",
+    "index.html": "/website-articles-courses-v2.0/index.html",
+    "main.d6d6e315.css.map": "/website-articles-courses-v2.0/static/css/main.d6d6e315.css.map",
+    "main.15d7942b.js.map": "/website-articles-courses-v2.0/static/js/main.15d7942b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d6d6e315.css",
+    "static/js/main.15d7942b.js"
+  ]
+}
