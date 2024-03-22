@@ -101,7 +101,7 @@ const FormRegister = () => {
           }
         })
         .catch((err) => {
-          if (err.massage.includes('500')) {
+          if (err.message.includes('500')) {
             Swal.fire({
               icon: 'success',
               text: 'ثبت نام انجام شد. \n اکنون می توانید وارد شوید',
