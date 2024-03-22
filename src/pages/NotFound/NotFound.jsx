@@ -9,8 +9,8 @@ const NotFound = () => {
 
   useEffect(() => {
     console.log(typeof pathUrl, pathUrl);
-    if (pathUrl === '/website-articles-courses/') {
-      navigate('/Home');
+    if (pathUrl === '/website-articles-courses-v2.0/') {
+      navigate('/home');
     }
   }, []);
 
