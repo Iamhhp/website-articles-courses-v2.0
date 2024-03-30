@@ -158,6 +158,7 @@ const FormLogin = ({ setIsShowFormForgetPass }) => {
         autoComplete='username'
         aria-label='نام کاربری'
         placeholder='نام کاربری خود را وارد کنید'
+        defaultValue={'iamhhp'}
         onBlur={blurHandlerInputs}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -175,6 +176,7 @@ const FormLogin = ({ setIsShowFormForgetPass }) => {
         aria-label='پسورد'
         autoComplete='current-password'
         placeholder='پسورد خود را وارد کنید'
+        defaultValue={'☺ImWaitingYourCall'}
         onBlur={blurHandlerInputs}
         onKeyDown={keyDownHandlerInputPassword}
       />

@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { putUserData, updateStatus } from '../../context/Redux/userSlice';
 import { addNotificationErr, addNotificationMsg } from '../../context/Redux/notificationDataSlice';
+import platform from 'platform';
 
 const Header = ({ themeMode }) => {
   useEffect(() => {
@@ -92,6 +93,9 @@ const Header = ({ themeMode }) => {
 
     // ADD Notification WellCome ////////////////////////////////////////////////////////////////////
     setNotification(addNotificationMsg('به وب سایت آموزشی و پژوهشی خوش آمدید!'));
+
+    // ADD Information Visitor ////////////////////////////////////////////////////////////////////
+    axios.post('https://dbserver.liara.run/users', { visitor: platform.description, date: new persianDate(new Date()).toLocale('en').format('YYYY-MM-DD_dddd_HH:mm:ss') }).catch(() => {});
 
     // Function Cleanup //////////////////////////////////////////////////////////////////////////////
     return () => {
